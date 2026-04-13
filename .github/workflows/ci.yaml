@@ -20,7 +20,7 @@ jobs:
       - name: Run tests
         run: |
           cd djangotutorial
-          python -m venv .venv
+          uv venv
           source .venv/bin/activate
           uv pip install -r pyproject.toml --all-extras
           ruff check
