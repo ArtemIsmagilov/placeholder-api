@@ -1,0 +1,9 @@
+data.json
+db.sqlite3
+.venv/
+venv/
+__pycache__/
+.coverage
+htmlcov/
+placeholder_api.egg-info/
+.ruff_cache/
