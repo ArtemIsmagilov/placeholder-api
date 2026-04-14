@@ -50,3 +50,49 @@ class PlaceholderApiTestCase(TestCase):
                 },
             )
         )
+
+    def test_comments_detail(self):
+        response = self.client.get("/placeholder_api/comments_detail/1")
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(
+            jsonschema.validate(
+                response.json(),
+                {
+                    "type": "object",
+                    "properties": {
+                        "id": {"type": "number"},
+                        "name": {"type": "string"},
+                        "email": {"type": "string"},
+                        "body": {"type": "string"},
+                        "post": {"type": "number"},
+                    },
+                    "required": ["id", "name", "email", "body", "post"],
+                },
+            )
+        )
+
+    def test_comments_search(self):
+        response = self.client.get(
+            "/placeholder_api/comments_search", query_params={"q": "ex"}
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["count"], 237)
+        self.assertIsNone(
+            jsonschema.validate(
+                response.json()["results"],
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {"type": "number"},
+                            "name": {"type": "string"},
+                            "email": {"type": "string"},
+                            "body": {"type": "string"},
+                            "post": {"type": "number"},
+                        },
+                        "required": ["id", "name", "email", "body", "post"],
+                    },
+                },
+            )
+        )

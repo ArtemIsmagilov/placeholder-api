@@ -22,6 +22,14 @@ from placeholder_api import views
 
 
 urlpatterns = [
-    path("placeholder_api/comments_list", views.comments_list, name="comments_list"),
     path("admin/", admin.site.urls),
+    path("placeholder_api/comments_list", views.comments_list, name="comments_list"),
+    path(
+        "placeholder_api/comments_detail/<int:pk>",
+        views.comments_detail,
+        name="comments_detail",
+    ),
+    path(
+        "placeholder_api/comments_search", views.comments_search, name="comments_search"
+    ),
 ]
