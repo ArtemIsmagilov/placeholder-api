@@ -96,3 +96,37 @@ class PlaceholderApiTestCase(TestCase):
                 },
             )
         )
+
+    def test_comments_create(self):
+        response = self.client.post(
+            "/placeholder_api/comments_create",
+            {
+                "name": "new name",
+                "email": "new@email.com",
+                "body": "new body",
+                "post": 1,
+            },
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 201)
+
+    def test_comments_update(self):
+        response = self.client.put(
+            "/placeholder_api/comments_update/1",
+            {
+                "name": "new name",
+                "email": "new@email.com",
+                "body": "new body",
+                "post": 1,
+            },
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_comments_partial_update(self):
+        response = self.client.patch(
+            "/placeholder_api/comments_partial_update/1",
+            {"name": "new name"},
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 200)

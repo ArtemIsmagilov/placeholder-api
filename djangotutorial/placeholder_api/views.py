@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework import serializers
 from rest_framework.decorators import api_view
 from rest_framework.pagination import PageNumberPagination
+from rest_framework import status
 
 from .models import Comment
 
@@ -67,3 +68,52 @@ def comments_search(request: Request) -> Response:
     page = paginator.paginate_queryset(queryset, request)
     cs = CommentOutputSerializer(page, many=True)
     return paginator.get_paginated_response(cs.data)
+
+
+@api_view(["POST"])
+def comments_create(request: Request) -> Response:
+    class CommentInputSerializer(serializers.Serializer):
+        name = serializers.CharField()
+        email = serializers.EmailField()
+        body = serializers.CharField()
+        post = serializers.IntegerField()
+
+    c = CommentInputSerializer(data=request.data)
+    c.is_valid(raise_exception=True)
+    body = c.validated_data
+    body["post_id"] = body.pop("post")
+    Comment.objects.create(**body)
+    return Response(status=status.HTTP_201_CREATED)
+
+
+@api_view(["PUT"])
+def comments_update(request: Request, pk: int) -> Response:
+    class CommentInputSerializer(serializers.Serializer):
+        name = serializers.CharField()
+        email = serializers.EmailField()
+        body = serializers.CharField()
+        post = serializers.IntegerField()
+
+    c = CommentInputSerializer(data=request.data)
+    c.is_valid(raise_exception=True)
+    body = c.validated_data
+    body["post_id"] = body.pop("post")
+    Comment.objects.filter(pk=pk).update(**body)
+    return Response(status=status.HTTP_200_OK)
+
+
+@api_view(["PATCH"])
+def comments_partial_update(request: Request, pk: int) -> Response:
+    class CommentInputSerializer(serializers.Serializer):
+        name = serializers.CharField(required=False)
+        email = serializers.EmailField(required=False)
+        body = serializers.CharField(required=False)
+        post = serializers.IntegerField(required=False)
+
+    c = CommentInputSerializer(data=request.data)
+    c.is_valid(raise_exception=True)
+    body = c.validated_data
+    if body.get("post") is not None:
+        body["post_id"] = body.pop("post")
+    Comment.objects.filter(pk=pk).update(**body)
+    return Response(status=status.HTTP_200_OK)

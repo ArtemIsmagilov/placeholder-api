@@ -32,4 +32,17 @@ urlpatterns = [
     path(
         "placeholder_api/comments_search", views.comments_search, name="comments_search"
     ),
+    path(
+        "placeholder_api/comments_create", views.comments_create, name="comments_create"
+    ),
+    path(
+        "placeholder_api/comments_update/<int:pk>",
+        views.comments_update,
+        name="comments_update",
+    ),
+    path(
+        "placeholder_api/comments_partial_update/<int:pk>",
+        views.comments_partial_update,
+        name="comments_partial_update",
+    ),
 ]
