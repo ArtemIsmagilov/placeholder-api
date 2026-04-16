@@ -17,11 +17,29 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
 
 from placeholder_api import views
 
 
 urlpatterns = [
+    # YOUR PATTERNS
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    # Optional UI:
+    path(
+        "api/schema/swagger-ui/",
+        SpectacularSwaggerView.as_view(url_name="schema"),
+        name="swagger-ui",
+    ),
+    path(
+        "api/schema/redoc/",
+        SpectacularRedocView.as_view(url_name="schema"),
+        name="redoc",
+    ),
     path("admin/", admin.site.urls),
     path("placeholder_api/comments_list", views.comments_list, name="comments_list"),
     path(

@@ -2,54 +2,81 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework import serializers
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.pagination import PageNumberPagination
-from rest_framework import status
+from drf_spectacular.utils import extend_schema
 
 from .models import Comment, User, Todo, Album, Photo, Post
+from .serializers.comments_serializers import (
+    CommentSearchOutputSerializer,
+    CommentiListOutputSerializer,
+    CommentDetailOutputSerializer,
+    CommentCreateInputSerializer,
+    CommentUpdateInputSerializer,
+    CommentPartialUpdateInputSerializer,
+)
+from .serializers.users_serializers import (
+    UserSearchOutputSerializer,
+    UserListOutputSerializer,
+    UserDetailOutputSerializer,
+    UserCreateInputSerializer,
+    UserUpdateInputSerializer,
+    UserPartialUpdateInputSerializer,
+)
+from .serializers.todos_serializers import (
+    TodoSearchOutputSerializer,
+    TodoListOutputSerializer,
+    TodoDetailOutputSerializer,
+    TodoCreateInputSerializer,
+    TodoUpdateInputSerializer,
+    TodoPartialUpdateInputSerializer,
+)
+from .serializers.albums_serializers import (
+    AlbumSearchOutputSerializer,
+    AlbumListOutputSerializer,
+    AlbumDetailOutputSerializer,
+    AlbumCreateInputSerializer,
+    AlbumUpdateInputSerializer,
+    AlbumPartialUpdateInputSerializer,
+)
+from .serializers.photos_serializers import (
+    PhotoSearchOutputSerializer,
+    PhotoListOutputSerializer,
+    PhotoDetailOutputSerializer,
+    PhotoCreateInputSerializer,
+    PhotoUpdateInputSerializer,
+    PhotoPartialUpdateInputSerializer,
+)
+from .serializers.posts_serializers import (
+    PostSearchOutputSerializer,
+    PostListOutputSerializer,
+    PostDetailOutputSerializer,
+    PostCreateInputSerializer,
+    PostUpdateInputSerializer,
+    PostPartialUpdateInputSerializer,
+)
 
 
 @api_view(["GET"])
 def comments_list(request: Request) -> Response:
-    class CommentOutputSerializer(serializers.Serializer):
-        id = serializers.IntegerField()
-        name = serializers.CharField()
-        email = serializers.EmailField()
-        body = serializers.CharField()
-        post = serializers.IntegerField(source="post_id")
-
     class Pagination(PageNumberPagination):
         page_size = 10
 
     paginator = Pagination()
-    page = paginator.paginate_queryset(Comment.objects.order_by("id").all(), request)
-    cs = CommentOutputSerializer(page, many=True)
+    page = paginator.paginate_queryset(Comment.objects.order_by("id"), request)
+    cs = CommentiListOutputSerializer(page, many=True)
     return paginator.get_paginated_response(cs.data)
 
 
 @api_view(["GET"])
 def comments_detail(request: Request, pk: int) -> Response:
-    class CommentOutputSerializer(serializers.Serializer):
-        id = serializers.IntegerField()
-        name = serializers.CharField()
-        email = serializers.EmailField()
-        body = serializers.CharField()
-        post = serializers.IntegerField(source="post_id")
-
-    c = CommentOutputSerializer(get_object_or_404(Comment, pk=pk))
+    c = CommentDetailOutputSerializer(get_object_or_404(Comment, pk=pk))
     return Response(c.data)
 
 
 @api_view(["GET"])
 def comments_search(request: Request) -> Response:
-    class CommentOutputSerializer(serializers.Serializer):
-        id = serializers.IntegerField()
-        name = serializers.CharField()
-        email = serializers.EmailField()
-        body = serializers.CharField()
-        post = serializers.IntegerField(source="post_id")
-
     class Pagination(PageNumberPagination):
         page_size = 10
 
@@ -66,19 +93,17 @@ def comments_search(request: Request) -> Response:
 
     paginator = Pagination()
     page = paginator.paginate_queryset(queryset, request)
-    cs = CommentOutputSerializer(page, many=True)
+    cs = CommentSearchOutputSerializer(page, many=True)
     return paginator.get_paginated_response(cs.data)
 
 
+@extend_schema(
+    request=CommentCreateInputSerializer,
+    responses={status.HTTP_201_CREATED: None},
+)
 @api_view(["POST"])
 def comments_create(request: Request) -> Response:
-    class CommentInputSerializer(serializers.Serializer):
-        name = serializers.CharField()
-        email = serializers.EmailField()
-        body = serializers.CharField()
-        post = serializers.IntegerField()
-
-    c = CommentInputSerializer(data=request.data)
+    c = CommentCreateInputSerializer(data=request.data)
     c.is_valid(raise_exception=True)
     body = c.validated_data
     body["post_id"] = body.pop("post")
@@ -86,15 +111,12 @@ def comments_create(request: Request) -> Response:
     return Response(status=status.HTTP_201_CREATED)
 
 
+@extend_schema(
+    request=CommentUpdateInputSerializer,
+)
 @api_view(["PUT"])
 def comments_update(request: Request, pk: int) -> Response:
-    class CommentInputSerializer(serializers.Serializer):
-        name = serializers.CharField()
-        email = serializers.EmailField()
-        body = serializers.CharField()
-        post = serializers.IntegerField()
-
-    c = CommentInputSerializer(data=request.data)
+    c = CommentUpdateInputSerializer(data=request.data)
     c.is_valid(raise_exception=True)
     body = c.validated_data
     body["post_id"] = body.pop("post")
@@ -102,15 +124,12 @@ def comments_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    request=CommentPartialUpdateInputSerializer,
+)
 @api_view(["PATCH"])
 def comments_partial_update(request: Request, pk: int) -> Response:
-    class CommentInputSerializer(serializers.Serializer):
-        name = serializers.CharField(required=False)
-        email = serializers.EmailField(required=False)
-        body = serializers.CharField(required=False)
-        post = serializers.IntegerField(required=False)
-
-    c = CommentInputSerializer(data=request.data)
+    c = CommentPartialUpdateInputSerializer(data=request.data)
     c.is_valid(raise_exception=True)
     body = c.validated_data
     if body.get("post") is not None:
@@ -121,53 +140,23 @@ def comments_partial_update(request: Request, pk: int) -> Response:
 
 @api_view(["GET"])
 def users_list(request: Request) -> Response:
-    class UserOutputSerializer(serializers.Serializer):
-        id = serializers.IntegerField()
-        name = serializers.CharField()
-        username = serializers.CharField()
-        email = serializers.EmailField()
-        address = serializers.CharField()
-        phone = serializers.CharField()
-        website = serializers.CharField()
-        company = serializers.CharField()
-
     class Pagination(PageNumberPagination):
         page_size = 10
 
     paginator = Pagination()
     page = paginator.paginate_queryset(User.objects.order_by("id").all(), request)
-    us = UserOutputSerializer(page, many=True)
+    us = UserListOutputSerializer(page, many=True)
     return paginator.get_paginated_response(us.data)
 
 
 @api_view(["GET"])
 def users_detail(request: Request, pk: int) -> Response:
-    class UserOutputSerializer(serializers.Serializer):
-        id = serializers.IntegerField()
-        name = serializers.CharField()
-        username = serializers.CharField()
-        email = serializers.EmailField()
-        address = serializers.CharField()
-        phone = serializers.CharField()
-        website = serializers.CharField()
-        company = serializers.CharField()
-
-    u = UserOutputSerializer(get_object_or_404(User, pk=pk))
+    u = UserDetailOutputSerializer(get_object_or_404(User, pk=pk))
     return Response(u.data)
 
 
 @api_view(["GET"])
 def users_search(request: Request) -> Response:
-    class UserOutputSerializer(serializers.Serializer):
-        id = serializers.IntegerField()
-        name = serializers.CharField()
-        username = serializers.CharField()
-        email = serializers.EmailField()
-        address = serializers.CharField()
-        phone = serializers.CharField()
-        website = serializers.CharField()
-        company = serializers.CharField()
-
     class Pagination(PageNumberPagination):
         page_size = 10
 
@@ -187,56 +176,39 @@ def users_search(request: Request) -> Response:
 
     paginator = Pagination()
     page = paginator.paginate_queryset(queryset, request)
-    us = UserOutputSerializer(page, many=True)
+    us = UserSearchOutputSerializer(page, many=True)
     return paginator.get_paginated_response(us.data)
 
 
+@extend_schema(
+    request=UserCreateInputSerializer,
+    responses={status.HTTP_201_CREATED: None},
+)
 @api_view(["POST"])
 def users_create(request: Request) -> Response:
-    class UserInputSerializer(serializers.Serializer):
-        name = serializers.CharField()
-        username = serializers.CharField()
-        email = serializers.EmailField()
-        address = serializers.CharField()
-        phone = serializers.CharField()
-        website = serializers.CharField()
-        company = serializers.CharField()
-
-    u = UserInputSerializer(data=request.data)
+    u = UserCreateInputSerializer(data=request.data)
     u.is_valid(raise_exception=True)
     User.objects.create(**u.validated_data)
     return Response(status=status.HTTP_201_CREATED)
 
 
+@extend_schema(
+    request=UserUpdateInputSerializer,
+)
 @api_view(["PUT"])
 def users_update(request: Request, pk: int) -> Response:
-    class UserInputSerializer(serializers.Serializer):
-        name = serializers.CharField()
-        username = serializers.CharField()
-        email = serializers.EmailField()
-        address = serializers.CharField()
-        phone = serializers.CharField()
-        website = serializers.CharField()
-        company = serializers.CharField()
-
-    u = UserInputSerializer(data=request.data)
+    u = UserUpdateInputSerializer(data=request.data)
     u.is_valid(raise_exception=True)
     User.objects.filter(pk=pk).update(**u.validated_data)
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    request=UserPartialUpdateInputSerializer,
+)
 @api_view(["PATCH"])
 def users_partial_update(request: Request, pk: int) -> Response:
-    class UserInputSerializer(serializers.Serializer):
-        name = serializers.CharField(required=False)
-        username = serializers.CharField(required=False)
-        email = serializers.EmailField(required=False)
-        address = serializers.CharField(required=False)
-        phone = serializers.CharField(required=False)
-        website = serializers.CharField(required=False)
-        company = serializers.CharField(required=False)
-
-    u = UserInputSerializer(data=request.data)
+    u = UserPartialUpdateInputSerializer(data=request.data)
     u.is_valid(raise_exception=True)
     User.objects.filter(pk=pk).update(**u.validated_data)
     return Response(status=status.HTTP_200_OK)
@@ -244,41 +216,23 @@ def users_partial_update(request: Request, pk: int) -> Response:
 
 @api_view(["GET"])
 def todos_list(request: Request) -> Response:
-    class TodoOutputSerializer(serializers.Serializer):
-        id = serializers.IntegerField()
-        title = serializers.CharField()
-        completed = serializers.BooleanField()
-        user = serializers.IntegerField(source="user_id")
-
     class Pagination(PageNumberPagination):
         page_size = 10
 
     paginator = Pagination()
     page = paginator.paginate_queryset(Todo.objects.order_by("id").all(), request)
-    ts = TodoOutputSerializer(page, many=True)
+    ts = TodoListOutputSerializer(page, many=True)
     return paginator.get_paginated_response(ts.data)
 
 
 @api_view(["GET"])
 def todos_detail(request: Request, pk: int) -> Response:
-    class TodoOutputSerializer(serializers.Serializer):
-        id = serializers.IntegerField()
-        title = serializers.CharField()
-        completed = serializers.BooleanField()
-        user = serializers.IntegerField(source="user_id")
-
-    t = TodoOutputSerializer(get_object_or_404(Todo, pk=pk))
+    t = TodoDetailOutputSerializer(get_object_or_404(Todo, pk=pk))
     return Response(t.data)
 
 
 @api_view(["GET"])
 def todos_search(request: Request) -> Response:
-    class TodoOutputSerializer(serializers.Serializer):
-        id = serializers.IntegerField()
-        title = serializers.CharField()
-        completed = serializers.BooleanField()
-        user = serializers.IntegerField(source="user_id")
-
     class Pagination(PageNumberPagination):
         page_size = 10
 
@@ -294,18 +248,17 @@ def todos_search(request: Request) -> Response:
 
     paginator = Pagination()
     page = paginator.paginate_queryset(queryset, request)
-    ts = TodoOutputSerializer(page, many=True)
+    ts = TodoSearchOutputSerializer(page, many=True)
     return paginator.get_paginated_response(ts.data)
 
 
+@extend_schema(
+    request=TodoCreateInputSerializer,
+    responses={status.HTTP_201_CREATED: None},
+)
 @api_view(["POST"])
 def todos_create(request: Request) -> Response:
-    class TodoInputSerializer(serializers.Serializer):
-        title = serializers.CharField()
-        completed = serializers.BooleanField()
-        user = serializers.IntegerField()
-
-    t = TodoInputSerializer(data=request.data)
+    t = TodoCreateInputSerializer(data=request.data)
     t.is_valid(raise_exception=True)
     body = t.validated_data
     body["user_id"] = body.pop("user")
@@ -313,14 +266,12 @@ def todos_create(request: Request) -> Response:
     return Response(status=status.HTTP_201_CREATED)
 
 
+@extend_schema(
+    request=TodoUpdateInputSerializer,
+)
 @api_view(["PUT"])
 def todos_update(request: Request, pk: int) -> Response:
-    class TodoInputSerializer(serializers.Serializer):
-        title = serializers.CharField()
-        completed = serializers.BooleanField()
-        user = serializers.IntegerField()
-
-    t = TodoInputSerializer(data=request.data)
+    t = TodoUpdateInputSerializer(data=request.data)
     t.is_valid(raise_exception=True)
     body = t.validated_data
     body["user_id"] = body.pop("user")
@@ -328,14 +279,12 @@ def todos_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    request=TodoPartialUpdateInputSerializer,
+)
 @api_view(["PATCH"])
 def todos_partial_update(request: Request, pk: int) -> Response:
-    class TodoInputSerializer(serializers.Serializer):
-        title = serializers.CharField(required=False)
-        completed = serializers.BooleanField(required=False)
-        user = serializers.IntegerField(required=False)
-
-    t = TodoInputSerializer(data=request.data)
+    t = TodoPartialUpdateInputSerializer(data=request.data)
     t.is_valid(raise_exception=True)
     body = t.validated_data
     if body.get("user") is not None:
@@ -346,38 +295,23 @@ def todos_partial_update(request: Request, pk: int) -> Response:
 
 @api_view(["GET"])
 def albums_list(request: Request) -> Response:
-    class AlbumOutputSerializer(serializers.Serializer):
-        id = serializers.IntegerField()
-        title = serializers.CharField()
-        user = serializers.IntegerField(source="user_id")
-
     class Pagination(PageNumberPagination):
         page_size = 10
 
     paginator = Pagination()
     page = paginator.paginate_queryset(Album.objects.order_by("id").all(), request)
-    as_ = AlbumOutputSerializer(page, many=True)
+    as_ = AlbumListOutputSerializer(page, many=True)
     return paginator.get_paginated_response(as_.data)
 
 
 @api_view(["GET"])
 def albums_detail(request: Request, pk: int) -> Response:
-    class AlbumOutputSerializer(serializers.Serializer):
-        id = serializers.IntegerField()
-        title = serializers.CharField()
-        user = serializers.IntegerField(source="user_id")
-
-    a = AlbumOutputSerializer(get_object_or_404(Album, pk=pk))
+    a = AlbumDetailOutputSerializer(get_object_or_404(Album, pk=pk))
     return Response(a.data)
 
 
 @api_view(["GET"])
 def albums_search(request: Request) -> Response:
-    class AlbumOutputSerializer(serializers.Serializer):
-        id = serializers.IntegerField()
-        title = serializers.CharField()
-        user = serializers.IntegerField(source="user_id")
-
     class Pagination(PageNumberPagination):
         page_size = 10
 
@@ -390,17 +324,17 @@ def albums_search(request: Request) -> Response:
 
     paginator = Pagination()
     page = paginator.paginate_queryset(queryset, request)
-    as_ = AlbumOutputSerializer(page, many=True)
+    as_ = AlbumSearchOutputSerializer(page, many=True)
     return paginator.get_paginated_response(as_.data)
 
 
+@extend_schema(
+    request=AlbumCreateInputSerializer,
+    responses={status.HTTP_201_CREATED: None},
+)
 @api_view(["POST"])
 def albums_create(request: Request) -> Response:
-    class AlbumInputSerializer(serializers.Serializer):
-        title = serializers.CharField()
-        user = serializers.IntegerField()
-
-    a = AlbumInputSerializer(data=request.data)
+    a = AlbumCreateInputSerializer(data=request.data)
     a.is_valid(raise_exception=True)
     body = a.validated_data
     body["user_id"] = body.pop("user")
@@ -408,13 +342,12 @@ def albums_create(request: Request) -> Response:
     return Response(status=status.HTTP_201_CREATED)
 
 
+@extend_schema(
+    request=AlbumUpdateInputSerializer,
+)
 @api_view(["PUT"])
 def albums_update(request: Request, pk: int) -> Response:
-    class AlbumInputSerializer(serializers.Serializer):
-        title = serializers.CharField()
-        user = serializers.IntegerField()
-
-    a = AlbumInputSerializer(data=request.data)
+    a = AlbumUpdateInputSerializer(data=request.data)
     a.is_valid(raise_exception=True)
     body = a.validated_data
     body["user_id"] = body.pop("user")
@@ -422,13 +355,12 @@ def albums_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    request=AlbumPartialUpdateInputSerializer,
+)
 @api_view(["PATCH"])
 def albums_partial_update(request: Request, pk: int) -> Response:
-    class AlbumInputSerializer(serializers.Serializer):
-        title = serializers.CharField(required=False)
-        user = serializers.IntegerField(required=False)
-
-    a = AlbumInputSerializer(data=request.data)
+    a = AlbumPartialUpdateInputSerializer(data=request.data)
     a.is_valid(raise_exception=True)
     body = a.validated_data
     if body.get("user") is not None:
@@ -439,44 +371,23 @@ def albums_partial_update(request: Request, pk: int) -> Response:
 
 @api_view(["GET"])
 def photos_list(request: Request) -> Response:
-    class PhotoOutputSerializer(serializers.Serializer):
-        id = serializers.IntegerField()
-        title = serializers.CharField()
-        url = serializers.URLField()
-        thumbnail_url = serializers.URLField()
-        album = serializers.IntegerField(source="album_id")
-
     class Pagination(PageNumberPagination):
         page_size = 10
 
     paginator = Pagination()
     page = paginator.paginate_queryset(Photo.objects.order_by("id").all(), request)
-    ps = PhotoOutputSerializer(page, many=True)
+    ps = PhotoListOutputSerializer(page, many=True)
     return paginator.get_paginated_response(ps.data)
 
 
 @api_view(["GET"])
 def photos_detail(request: Request, pk: int) -> Response:
-    class PhotoOutputSerializer(serializers.Serializer):
-        id = serializers.IntegerField()
-        title = serializers.CharField()
-        url = serializers.URLField()
-        thumbnail_url = serializers.URLField()
-        album = serializers.IntegerField(source="album_id")
-
-    p = PhotoOutputSerializer(get_object_or_404(Photo, pk=pk))
+    p = PhotoDetailOutputSerializer(get_object_or_404(Photo, pk=pk))
     return Response(p.data)
 
 
 @api_view(["GET"])
 def photos_search(request: Request) -> Response:
-    class PhotoOutputSerializer(serializers.Serializer):
-        id = serializers.IntegerField()
-        title = serializers.CharField()
-        url = serializers.URLField()
-        thumbnail_url = serializers.URLField()
-        album = serializers.IntegerField(source="album_id")
-
     class Pagination(PageNumberPagination):
         page_size = 10
 
@@ -493,19 +404,17 @@ def photos_search(request: Request) -> Response:
 
     paginator = Pagination()
     page = paginator.paginate_queryset(queryset, request)
-    ps = PhotoOutputSerializer(page, many=True)
+    ps = PhotoSearchOutputSerializer(page, many=True)
     return paginator.get_paginated_response(ps.data)
 
 
+@extend_schema(
+    request=PhotoCreateInputSerializer,
+    responses={status.HTTP_201_CREATED: None},
+)
 @api_view(["POST"])
 def photos_create(request: Request) -> Response:
-    class PhotoInputSerializer(serializers.Serializer):
-        title = serializers.CharField()
-        url = serializers.URLField()
-        thumbnail_url = serializers.URLField()
-        album = serializers.IntegerField()
-
-    p = PhotoInputSerializer(data=request.data)
+    p = PhotoCreateInputSerializer(data=request.data)
     p.is_valid(raise_exception=True)
     body = p.validated_data
     body["album_id"] = body.pop("album")
@@ -513,15 +422,12 @@ def photos_create(request: Request) -> Response:
     return Response(status=status.HTTP_201_CREATED)
 
 
+@extend_schema(
+    request=PhotoUpdateInputSerializer,
+)
 @api_view(["PUT"])
 def photos_update(request: Request, pk: int) -> Response:
-    class PhotoInputSerializer(serializers.Serializer):
-        title = serializers.CharField()
-        url = serializers.URLField()
-        thumbnail_url = serializers.URLField()
-        album = serializers.IntegerField()
-
-    p = PhotoInputSerializer(data=request.data)
+    p = PhotoUpdateInputSerializer(data=request.data)
     p.is_valid(raise_exception=True)
     body = p.validated_data
     body["album_id"] = body.pop("album")
@@ -529,15 +435,12 @@ def photos_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    request=PhotoPartialUpdateInputSerializer,
+)
 @api_view(["PATCH"])
 def photos_partial_update(request: Request, pk: int) -> Response:
-    class PhotoInputSerializer(serializers.Serializer):
-        title = serializers.CharField(required=False)
-        url = serializers.URLField(required=False)
-        thumbnail_url = serializers.URLField(required=False)
-        album = serializers.IntegerField(required=False)
-
-    p = PhotoInputSerializer(data=request.data)
+    p = PhotoPartialUpdateInputSerializer(data=request.data)
     p.is_valid(raise_exception=True)
     body = p.validated_data
     if body.get("album") is not None:
@@ -548,41 +451,23 @@ def photos_partial_update(request: Request, pk: int) -> Response:
 
 @api_view(["GET"])
 def posts_list(request: Request) -> Response:
-    class PostOutputSerializer(serializers.Serializer):
-        id = serializers.IntegerField()
-        title = serializers.CharField()
-        body = serializers.CharField()
-        user = serializers.IntegerField(source="user_id")
-
     class Pagination(PageNumberPagination):
         page_size = 10
 
     paginator = Pagination()
     page = paginator.paginate_queryset(Post.objects.order_by("id").all(), request)
-    ps = PostOutputSerializer(page, many=True)
+    ps = PostListOutputSerializer(page, many=True)
     return paginator.get_paginated_response(ps.data)
 
 
 @api_view(["GET"])
 def posts_detail(request: Request, pk: int) -> Response:
-    class PostOutputSerializer(serializers.Serializer):
-        id = serializers.IntegerField()
-        title = serializers.CharField()
-        body = serializers.CharField()
-        user = serializers.IntegerField(source="user_id")
-
-    p = PostOutputSerializer(get_object_or_404(Post, pk=pk))
+    p = PostDetailOutputSerializer(get_object_or_404(Post, pk=pk))
     return Response(p.data)
 
 
 @api_view(["GET"])
 def posts_search(request: Request) -> Response:
-    class PostOutputSerializer(serializers.Serializer):
-        id = serializers.IntegerField()
-        title = serializers.CharField()
-        body = serializers.CharField()
-        user = serializers.IntegerField(source="user_id")
-
     class Pagination(PageNumberPagination):
         page_size = 10
 
@@ -598,18 +483,17 @@ def posts_search(request: Request) -> Response:
 
     paginator = Pagination()
     page = paginator.paginate_queryset(queryset, request)
-    ps = PostOutputSerializer(page, many=True)
+    ps = PostSearchOutputSerializer(page, many=True)
     return paginator.get_paginated_response(ps.data)
 
 
+@extend_schema(
+    request=PostCreateInputSerializer,
+    responses={status.HTTP_201_CREATED: None},
+)
 @api_view(["POST"])
 def posts_create(request: Request) -> Response:
-    class PostInputSerializer(serializers.Serializer):
-        title = serializers.CharField()
-        body = serializers.CharField()
-        user = serializers.IntegerField()
-
-    p = PostInputSerializer(data=request.data)
+    p = PostCreateInputSerializer(data=request.data)
     p.is_valid(raise_exception=True)
     body = p.validated_data
     body["user_id"] = body.pop("user")
@@ -617,14 +501,12 @@ def posts_create(request: Request) -> Response:
     return Response(status=status.HTTP_201_CREATED)
 
 
+@extend_schema(
+    request=PostUpdateInputSerializer,
+)
 @api_view(["PUT"])
 def posts_update(request: Request, pk: int) -> Response:
-    class PostInputSerializer(serializers.Serializer):
-        title = serializers.CharField()
-        body = serializers.CharField()
-        user = serializers.IntegerField()
-
-    p = PostInputSerializer(data=request.data)
+    p = PostUpdateInputSerializer(data=request.data)
     p.is_valid(raise_exception=True)
     body = p.validated_data
     body["user_id"] = body.pop("user")
@@ -632,14 +514,12 @@ def posts_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    request=PostPartialUpdateInputSerializer,
+)
 @api_view(["PATCH"])
 def posts_partial_update(request: Request, pk: int) -> Response:
-    class PostInputSerializer(serializers.Serializer):
-        title = serializers.CharField(required=False)
-        body = serializers.CharField(required=False)
-        user = serializers.IntegerField(required=False)
-
-    p = PostInputSerializer(data=request.data)
+    p = PostPartialUpdateInputSerializer(data=request.data)
     p.is_valid(raise_exception=True)
     body = p.validated_data
     if body.get("user") is not None:
