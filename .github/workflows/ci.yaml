@@ -40,8 +40,5 @@ jobs:
           cd djangotutorial
           docker compose up -d
           sleep 3
-          curl http://127.0.0.1:8000/placeholder_api/comments_list
-          exit 0
-
           sudo apt install wrk
           wrk -c 100 -t 4 -d 30 http://127.0.0.1:8000/placeholder_api/comments_list
