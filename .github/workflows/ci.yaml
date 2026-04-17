@@ -27,3 +27,16 @@ jobs:
           uv run python manage.py test --parallel
           uv run coverage run --source='.' manage.py test
           uv run coverage report
+
+  workflow-telemetry-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Collect Workflow Telemetry
+        uses: catchpoint/workflow-telemetry-action@v2
+      - name: Checkout Source
+        uses: actions/checkout@v6
+      - name: Run wrk
+        run: |
+          docker compose up -d
+          apt install wrk
+          wrk -c 100 -t 4 -d 30 http://127.0.0.1:8000/placeholder_api/comments_list
