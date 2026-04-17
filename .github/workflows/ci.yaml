@@ -38,7 +38,7 @@ jobs:
       - name: Run wrk
         run: |
           cd djangotutorial
-          docker compose up -d
+          docker compose up
           until curl -s --fail http://127.0.0.1:8000/placeholder_api/comments_list; do
             echo "Ждём запуска сервиса..."
             sleep 2
