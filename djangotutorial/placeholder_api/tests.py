@@ -276,6 +276,37 @@ class PlaceholderApiTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["count"], 1)
+        self.assertIsNone(
+            jsonschema.validate(
+                response.json()["results"],
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {"type": "number"},
+                            "name": {"type": "string"},
+                            "username": {"type": "string"},
+                            "email": {"type": "string"},
+                            "address": {"type": "string"},
+                            "phone": {"type": "string"},
+                            "website": {"type": "string"},
+                            "company": {"type": "string"},
+                        },
+                        "required": [
+                            "id",
+                            "name",
+                            "username",
+                            "email",
+                            "address",
+                            "phone",
+                            "website",
+                            "company",
+                        ],
+                    },
+                },
+            )
+        )
 
     def test_users_create(self):
         response = self.client.post(
@@ -363,6 +394,25 @@ class PlaceholderApiTestCase(TestCase):
             "/placeholder_api/todos_search", query_params={"q": "dolor"}
         )
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["count"], 36)
+        self.assertIsNone(
+            jsonschema.validate(
+                response.json()["results"],
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {"type": "number"},
+                            "title": {"type": "string"},
+                            "completed": {"type": "boolean"},
+                            "user": {"type": "number"},
+                        },
+                        "required": ["id", "title", "completed", "user"],
+                    },
+                },
+            )
+        )
 
     def test_todos_create(self):
         response = self.client.post(
@@ -460,6 +510,24 @@ class PlaceholderApiTestCase(TestCase):
             "/placeholder_api/albums_search", query_params={"q": "qu"}
         )
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["count"], 66)
+        self.assertIsNone(
+            jsonschema.validate(
+                response.json()["results"],
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {"type": "number"},
+                            "title": {"type": "string"},
+                            "user": {"type": "number"},
+                        },
+                        "required": ["id", "title", "user"],
+                    },
+                },
+            )
+        )
 
     def test_albums_create(self):
         response = self.client.post(
@@ -560,6 +628,26 @@ class PlaceholderApiTestCase(TestCase):
             "/placeholder_api/photos_search", query_params={"q": "lorem"}
         )
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["count"], 355)
+        self.assertIsNone(
+            jsonschema.validate(
+                response.json()["results"],
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {"type": "number"},
+                            "title": {"type": "string"},
+                            "url": {"type": "string"},
+                            "thumbnail_url": {"type": "string"},
+                            "album": {"type": "number"},
+                        },
+                        "required": ["id", "title", "url", "thumbnail_url", "album"],
+                    },
+                },
+            )
+        )
 
     def test_photos_create(self):
         response = self.client.post(
@@ -670,6 +758,25 @@ class PlaceholderApiTestCase(TestCase):
             "/placeholder_api/posts_search", query_params={"q": "sunt"}
         )
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["count"], 23)
+        self.assertIsNone(
+            jsonschema.validate(
+                response.json()["results"],
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {"type": "number"},
+                            "title": {"type": "string"},
+                            "body": {"type": "string"},
+                            "user": {"type": "number"},
+                        },
+                        "required": ["id", "title", "body", "user"],
+                    },
+                },
+            )
+        )
 
     def test_posts_create(self):
         response = self.client.post(
