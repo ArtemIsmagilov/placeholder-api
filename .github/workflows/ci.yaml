@@ -37,6 +37,7 @@ jobs:
         uses: actions/checkout@v6
       - name: Run wrk
         run: |
+          cd djangotutorial
           docker compose up -d
           apt install wrk
           wrk -c 100 -t 4 -d 30 http://127.0.0.1:8000/placeholder_api/comments_list
