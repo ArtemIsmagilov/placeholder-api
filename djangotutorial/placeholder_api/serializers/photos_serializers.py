@@ -44,3 +44,19 @@ class PhotoPartialUpdateInputSerializer(serializers.Serializer):
     url = serializers.URLField(required=False)
     thumbnail_url = serializers.URLField(required=False)
     album = serializers.IntegerField(required=False)
+
+
+class PhotoFilterOutputSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    title = serializers.CharField()
+    url = serializers.URLField()
+    thumbnail_url = serializers.URLField()
+    album = serializers.IntegerField(source="album_id")
+
+
+class PhotoFilterInputSerializer(serializers.Serializer):
+    id = serializers.IntegerField(required=False)
+    title = serializers.CharField(required=False)
+    url = serializers.URLField(required=False)
+    thumbnail_url = serializers.URLField(required=False)
+    album = serializers.IntegerField(required=False)

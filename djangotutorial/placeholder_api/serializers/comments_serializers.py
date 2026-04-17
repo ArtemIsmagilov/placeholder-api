@@ -44,3 +44,19 @@ class CommentPartialUpdateInputSerializer(serializers.Serializer):
     email = serializers.EmailField(required=False)
     body = serializers.CharField(required=False)
     post = serializers.IntegerField(required=False)
+
+
+class CommentFilterOutputSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+    email = serializers.EmailField()
+    body = serializers.CharField()
+    post = serializers.IntegerField(source="post_id")
+
+
+class CommentFilterInputSerializer(serializers.Serializer):
+    id = serializers.IntegerField(required=False)
+    name = serializers.CharField(required=False)
+    email = serializers.EmailField(required=False)
+    body = serializers.CharField(required=False)
+    post = serializers.IntegerField(required=False)

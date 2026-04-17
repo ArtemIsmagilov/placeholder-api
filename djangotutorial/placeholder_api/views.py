@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import serializers
-from drf_spectacular.utils import extend_schema, inline_serializer
+from drf_spectacular.utils import extend_schema, inline_serializer, OpenApiParameter
 
 
 from .models import Comment, User, Todo, Album, Photo, Post
@@ -17,6 +17,8 @@ from .serializers.comments_serializers import (
     CommentCreateInputSerializer,
     CommentUpdateInputSerializer,
     CommentPartialUpdateInputSerializer,
+    CommentFilterOutputSerializer,
+    CommentFilterInputSerializer,
 )
 from .serializers.users_serializers import (
     UserSearchOutputSerializer,
@@ -25,6 +27,8 @@ from .serializers.users_serializers import (
     UserCreateInputSerializer,
     UserUpdateInputSerializer,
     UserPartialUpdateInputSerializer,
+    UserFilterOutputSerializer,
+    UserFilterInputSerializer,
 )
 from .serializers.todos_serializers import (
     TodoSearchOutputSerializer,
@@ -33,6 +37,8 @@ from .serializers.todos_serializers import (
     TodoCreateInputSerializer,
     TodoUpdateInputSerializer,
     TodoPartialUpdateInputSerializer,
+    TodoFilterOutputSerializer,
+    TodoFilterInputSerializer,
 )
 from .serializers.albums_serializers import (
     AlbumSearchOutputSerializer,
@@ -41,6 +47,8 @@ from .serializers.albums_serializers import (
     AlbumCreateInputSerializer,
     AlbumUpdateInputSerializer,
     AlbumPartialUpdateInputSerializer,
+    AlbumFilterOutputSerializer,
+    AlbumFilterInputSerializer,
 )
 from .serializers.photos_serializers import (
     PhotoSearchOutputSerializer,
@@ -49,6 +57,8 @@ from .serializers.photos_serializers import (
     PhotoCreateInputSerializer,
     PhotoUpdateInputSerializer,
     PhotoPartialUpdateInputSerializer,
+    PhotoFilterOutputSerializer,
+    PhotoFilterInputSerializer,
 )
 from .serializers.posts_serializers import (
     PostSearchOutputSerializer,
@@ -57,6 +67,8 @@ from .serializers.posts_serializers import (
     PostCreateInputSerializer,
     PostUpdateInputSerializer,
     PostPartialUpdateInputSerializer,
+    PostFilterOutputSerializer,
+    PostFilterInputSerializer,
 )
 
 
@@ -179,6 +191,74 @@ def comments_partial_update(request: Request, pk: int) -> Response:
 
 @extend_schema(
     responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlineCommentFilterSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": CommentFilterOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(
+            name="id", description="Filter by id", required=False, type=int
+        ),
+        OpenApiParameter(
+            name="name", description="Filter by name", required=False, type=str
+        ),
+        OpenApiParameter(
+            "email", description="Filter by email", required=False, type=str
+        ),
+        OpenApiParameter(
+            "body", description="Filter by body", required=False, type=str
+        ),
+        OpenApiParameter(
+            "post", description="Filter by post", required=False, type=int
+        ),
+    ],
+)
+@api_view(["GET"])
+def comments_filter(request: Request) -> Response:
+    class Pagination(PageNumberPagination):
+        page_size = 10
+
+    query_params = CommentFilterInputSerializer(data=request.query_params)
+    query_params.is_valid(raise_exception=True)
+    validated_data = query_params.validated_data
+
+    queryset = Comment.objects.order_by("id")
+    if (q := validated_data.get("id")) is not None:
+        queryset = queryset.filter(id=q)
+    if (q := validated_data.get("name")) is not None:
+        queryset = queryset.filter(name=q)
+    if (q := validated_data.get("email")) is not None:
+        queryset = queryset.filter(email=q)
+    if (q := validated_data.get("body")) is not None:
+        queryset = queryset.filter(body=q)
+    if (q := validated_data.get("post")) is not None:
+        queryset = queryset.filter(post=q)
+
+    paginator = Pagination()
+    page = paginator.paginate_queryset(queryset, request)
+    cs = CommentFilterOutputSerializer(page, many=True)
+    return paginator.get_paginated_response(cs.data)
+
+
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: None,
+    },
+)
+@api_view(["DELETE"])
+def comments_delete(request: Request, pk: int) -> Response:
+    Comment.objects.filter(pk=pk).delete()
+    return Response(status=status.HTTP_200_OK)
+
+
+@extend_schema(
+    responses={
         200: inline_serializer(
             "InlineUserListSerializer",
             {
@@ -283,6 +363,69 @@ def users_partial_update(request: Request, pk: int) -> Response:
     u = UserPartialUpdateInputSerializer(data=request.data)
     u.is_valid(raise_exception=True)
     User.objects.filter(pk=pk).update(**u.validated_data)
+    return Response(status=status.HTTP_200_OK)
+
+
+@extend_schema(
+    responses={
+        200: inline_serializer(
+            "InlineUserFilterSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": UserFilterOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="id", description="Filter by id", required=False, type=int),
+        OpenApiParameter(name="name", description="Filter by name", required=False, type=str),
+        OpenApiParameter(name="username", description="Filter by username", required=False, type=str),
+        OpenApiParameter(name="email", description="Filter by email", required=False, type=str),
+        OpenApiParameter(name="address", description="Filter by address", required=False, type=str),
+        OpenApiParameter(name="phone", description="Filter by phone", required=False, type=str),
+        OpenApiParameter(name="website", description="Filter by website", required=False, type=str),
+        OpenApiParameter(name="company", description="Filter by company", required=False, type=str),
+    ],
+)
+@api_view(["GET"])
+def users_filter(request: Request) -> Response:
+    class Pagination(PageNumberPagination):
+        page_size = 10
+
+    query_params = UserFilterInputSerializer(data=request.query_params)
+    query_params.is_valid(raise_exception=True)
+    validated_data = query_params.validated_data
+
+    queryset = User.objects.order_by("id")
+    if (q := validated_data.get("id")) is not None:
+        queryset = queryset.filter(id=q)
+    if (q := validated_data.get("name")) is not None:
+        queryset = queryset.filter(name=q)
+    if (q := validated_data.get("username")) is not None:
+        queryset = queryset.filter(username=q)
+    if (q := validated_data.get("email")) is not None:
+        queryset = queryset.filter(email=q)
+    if (q := validated_data.get("address")) is not None:
+        queryset = queryset.filter(address=q)
+    if (q := validated_data.get("phone")) is not None:
+        queryset = queryset.filter(phone=q)
+    if (q := validated_data.get("website")) is not None:
+        queryset = queryset.filter(website=q)
+    if (q := validated_data.get("company")) is not None:
+        queryset = queryset.filter(company=q)
+
+    paginator = Pagination()
+    page = paginator.paginate_queryset(queryset, request)
+    us = UserFilterOutputSerializer(page, many=True)
+    return paginator.get_paginated_response(us.data)
+
+
+@extend_schema(responses={status.HTTP_200_OK: None})
+@api_view(["DELETE"])
+def users_delete(request: Request, pk: int) -> Response:
+    User.objects.filter(pk=pk).delete()
     return Response(status=status.HTTP_200_OK)
 
 
@@ -401,6 +544,57 @@ def todos_partial_update(request: Request, pk: int) -> Response:
 @extend_schema(
     responses={
         200: inline_serializer(
+            "InlineTodoFilterSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": TodoFilterOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="id", description="Filter by id", required=False, type=int),
+        OpenApiParameter(name="title", description="Filter by title", required=False, type=str),
+        OpenApiParameter(name="completed", description="Filter by completed", required=False, type=bool),
+        OpenApiParameter(name="user", description="Filter by user", required=False, type=int),
+    ],
+)
+@api_view(["GET"])
+def todos_filter(request: Request) -> Response:
+    class Pagination(PageNumberPagination):
+        page_size = 10
+
+    query_params = TodoFilterInputSerializer(data=request.query_params)
+    query_params.is_valid(raise_exception=True)
+    validated_data = query_params.validated_data
+
+    queryset = Todo.objects.order_by("id")
+    if (q := validated_data.get("id")) is not None:
+        queryset = queryset.filter(id=q)
+    if (q := validated_data.get("title")) is not None:
+        queryset = queryset.filter(title=q)
+    if (q := validated_data.get("completed")) is not None:
+        queryset = queryset.filter(completed=q)
+    if (q := validated_data.get("user")) is not None:
+        queryset = queryset.filter(user=q)
+
+    paginator = Pagination()
+    page = paginator.paginate_queryset(queryset, request)
+    ts = TodoFilterOutputSerializer(page, many=True)
+    return paginator.get_paginated_response(ts.data)
+
+
+@extend_schema(responses={status.HTTP_200_OK: None})
+@api_view(["DELETE"])
+def todos_delete(request: Request, pk: int) -> Response:
+    Todo.objects.filter(pk=pk).delete()
+    return Response(status=status.HTTP_200_OK)
+
+
+@extend_schema(
+    responses={
+        200: inline_serializer(
             "InlineAlbumListSerializer",
             {
                 "count": serializers.IntegerField(),
@@ -504,6 +698,54 @@ def albums_partial_update(request: Request, pk: int) -> Response:
     if body.get("user") is not None:
         body["user_id"] = body.pop("user")
     Album.objects.filter(pk=pk).update(**body)
+    return Response(status=status.HTTP_200_OK)
+
+
+@extend_schema(
+    responses={
+        200: inline_serializer(
+            "InlineAlbumFilterSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": AlbumFilterOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="id", description="Filter by id", required=False, type=int),
+        OpenApiParameter(name="title", description="Filter by title", required=False, type=str),
+        OpenApiParameter(name="user", description="Filter by user", required=False, type=int),
+    ],
+)
+@api_view(["GET"])
+def albums_filter(request: Request) -> Response:
+    class Pagination(PageNumberPagination):
+        page_size = 10
+
+    query_params = AlbumFilterInputSerializer(data=request.query_params)
+    query_params.is_valid(raise_exception=True)
+    validated_data = query_params.validated_data
+
+    queryset = Album.objects.order_by("id")
+    if (q := validated_data.get("id")) is not None:
+        queryset = queryset.filter(id=q)
+    if (q := validated_data.get("title")) is not None:
+        queryset = queryset.filter(title=q)
+    if (q := validated_data.get("user")) is not None:
+        queryset = queryset.filter(user=q)
+
+    paginator = Pagination()
+    page = paginator.paginate_queryset(queryset, request)
+    as_ = AlbumFilterOutputSerializer(page, many=True)
+    return paginator.get_paginated_response(as_.data)
+
+
+@extend_schema(responses={status.HTTP_200_OK: None})
+@api_view(["DELETE"])
+def albums_delete(request: Request, pk: int) -> Response:
+    Album.objects.filter(pk=pk).delete()
     return Response(status=status.HTTP_200_OK)
 
 
@@ -623,6 +865,60 @@ def photos_partial_update(request: Request, pk: int) -> Response:
 @extend_schema(
     responses={
         200: inline_serializer(
+            "InlinePhotoFilterSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": PhotoFilterOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="id", description="Filter by id", required=False, type=int),
+        OpenApiParameter(name="title", description="Filter by title", required=False, type=str),
+        OpenApiParameter(name="url", description="Filter by url", required=False, type=str),
+        OpenApiParameter(name="thumbnail_url", description="Filter by thumbnail_url", required=False, type=str),
+        OpenApiParameter(name="album", description="Filter by album", required=False, type=int),
+    ],
+)
+@api_view(["GET"])
+def photos_filter(request: Request) -> Response:
+    class Pagination(PageNumberPagination):
+        page_size = 10
+
+    query_params = PhotoFilterInputSerializer(data=request.query_params)
+    query_params.is_valid(raise_exception=True)
+    validated_data = query_params.validated_data
+
+    queryset = Photo.objects.order_by("id")
+    if (q := validated_data.get("id")) is not None:
+        queryset = queryset.filter(id=q)
+    if (q := validated_data.get("title")) is not None:
+        queryset = queryset.filter(title=q)
+    if (q := validated_data.get("url")) is not None:
+        queryset = queryset.filter(url=q)
+    if (q := validated_data.get("thumbnail_url")) is not None:
+        queryset = queryset.filter(thumbnail_url=q)
+    if (q := validated_data.get("album")) is not None:
+        queryset = queryset.filter(album=q)
+
+    paginator = Pagination()
+    page = paginator.paginate_queryset(queryset, request)
+    ps = PhotoFilterOutputSerializer(page, many=True)
+    return paginator.get_paginated_response(ps.data)
+
+
+@extend_schema(responses={status.HTTP_200_OK: None})
+@api_view(["DELETE"])
+def photos_delete(request: Request, pk: int) -> Response:
+    Photo.objects.filter(pk=pk).delete()
+    return Response(status=status.HTTP_200_OK)
+
+
+@extend_schema(
+    responses={
+        200: inline_serializer(
             "InlinePostListSerializer",
             {
                 "count": serializers.IntegerField(),
@@ -729,4 +1025,55 @@ def posts_partial_update(request: Request, pk: int) -> Response:
     if body.get("user") is not None:
         body["user_id"] = body.pop("user")
     Post.objects.filter(pk=pk).update(**body)
+    return Response(status=status.HTTP_200_OK)
+
+
+@extend_schema(
+    responses={
+        200: inline_serializer(
+            "InlinePostFilterSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": PostFilterOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="id", description="Filter by id", required=False, type=int),
+        OpenApiParameter(name="title", description="Filter by title", required=False, type=str),
+        OpenApiParameter(name="body", description="Filter by body", required=False, type=str),
+        OpenApiParameter(name="user", description="Filter by user", required=False, type=int),
+    ],
+)
+@api_view(["GET"])
+def posts_filter(request: Request) -> Response:
+    class Pagination(PageNumberPagination):
+        page_size = 10
+
+    query_params = PostFilterInputSerializer(data=request.query_params)
+    query_params.is_valid(raise_exception=True)
+    validated_data = query_params.validated_data
+
+    queryset = Post.objects.order_by("id")
+    if (q := validated_data.get("id")) is not None:
+        queryset = queryset.filter(id=q)
+    if (q := validated_data.get("title")) is not None:
+        queryset = queryset.filter(title=q)
+    if (q := validated_data.get("body")) is not None:
+        queryset = queryset.filter(body=q)
+    if (q := validated_data.get("user")) is not None:
+        queryset = queryset.filter(user=q)
+
+    paginator = Pagination()
+    page = paginator.paginate_queryset(queryset, request)
+    ps = PostFilterOutputSerializer(page, many=True)
+    return paginator.get_paginated_response(ps.data)
+
+
+@extend_schema(responses={status.HTTP_200_OK: None})
+@api_view(["DELETE"])
+def posts_delete(request: Request, pk: int) -> Response:
+    Post.objects.filter(pk=pk).delete()
     return Response(status=status.HTTP_200_OK)

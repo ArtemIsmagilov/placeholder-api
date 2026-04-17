@@ -32,3 +32,15 @@ class AlbumUpdateInputSerializer(serializers.Serializer):
 class AlbumPartialUpdateInputSerializer(serializers.Serializer):
     title = serializers.CharField(required=False)
     user = serializers.IntegerField(required=False)
+
+
+class AlbumFilterOutputSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    title = serializers.CharField()
+    user = serializers.IntegerField(source="user_id")
+
+
+class AlbumFilterInputSerializer(serializers.Serializer):
+    id = serializers.IntegerField(required=False)
+    title = serializers.CharField(required=False)
+    user = serializers.IntegerField(required=False)

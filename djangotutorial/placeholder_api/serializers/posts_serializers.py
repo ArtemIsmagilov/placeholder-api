@@ -38,3 +38,17 @@ class PostPartialUpdateInputSerializer(serializers.Serializer):
     title = serializers.CharField(required=False)
     body = serializers.CharField(required=False)
     user = serializers.IntegerField(required=False)
+
+
+class PostFilterOutputSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    title = serializers.CharField()
+    body = serializers.CharField()
+    user = serializers.IntegerField(source="user_id")
+
+
+class PostFilterInputSerializer(serializers.Serializer):
+    id = serializers.IntegerField(required=False)
+    title = serializers.CharField(required=False)
+    body = serializers.CharField(required=False)
+    user = serializers.IntegerField(required=False)

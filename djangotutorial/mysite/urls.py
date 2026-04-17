@@ -15,6 +15,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+import sys
+
 from django.contrib import admin
 from django.urls import path
 from drf_spectacular.views import (
@@ -63,6 +65,16 @@ urlpatterns = [
         views.comments_partial_update,
         name="comments_partial_update",
     ),
+    path(
+        "placeholder_api/comments_filter",
+        views.comments_filter,
+        name="comments_filter",
+    ),
+    path(
+        "placeholder_api/comments_delete/<int:pk>",
+        views.comments_delete,
+        name="comments_delete",
+    ),
     path("placeholder_api/users_list", views.users_list, name="users_list"),
     path(
         "placeholder_api/users_detail/<int:pk>", views.users_detail, name="users_detail"
@@ -77,6 +89,12 @@ urlpatterns = [
         views.users_partial_update,
         name="users_partial_update",
     ),
+    path("placeholder_api/users_filter", views.users_filter, name="users_filter"),
+    path(
+        "placeholder_api/users_delete/<int:pk>",
+        views.users_delete,
+        name="users_delete",
+    ),
     path("placeholder_api/todos_list", views.todos_list, name="todos_list"),
     path(
         "placeholder_api/todos_detail/<int:pk>", views.todos_detail, name="todos_detail"
@@ -90,6 +108,12 @@ urlpatterns = [
         "placeholder_api/todos_partial_update/<int:pk>",
         views.todos_partial_update,
         name="todos_partial_update",
+    ),
+    path("placeholder_api/todos_filter", views.todos_filter, name="todos_filter"),
+    path(
+        "placeholder_api/todos_delete/<int:pk>",
+        views.todos_delete,
+        name="todos_delete",
     ),
     path("placeholder_api/albums_list", views.albums_list, name="albums_list"),
     path(
@@ -109,6 +133,12 @@ urlpatterns = [
         views.albums_partial_update,
         name="albums_partial_update",
     ),
+    path("placeholder_api/albums_filter", views.albums_filter, name="albums_filter"),
+    path(
+        "placeholder_api/albums_delete/<int:pk>",
+        views.albums_delete,
+        name="albums_delete",
+    ),
     path("placeholder_api/photos_list", views.photos_list, name="photos_list"),
     path(
         "placeholder_api/photos_detail/<int:pk>",
@@ -127,6 +157,12 @@ urlpatterns = [
         views.photos_partial_update,
         name="photos_partial_update",
     ),
+    path("placeholder_api/photos_filter", views.photos_filter, name="photos_filter"),
+    path(
+        "placeholder_api/photos_delete/<int:pk>",
+        views.photos_delete,
+        name="photos_delete",
+    ),
     path("placeholder_api/posts_list", views.posts_list, name="posts_list"),
     path(
         "placeholder_api/posts_detail/<int:pk>", views.posts_detail, name="posts_detail"
@@ -141,4 +177,15 @@ urlpatterns = [
         views.posts_partial_update,
         name="posts_partial_update",
     ),
+    path("placeholder_api/posts_filter", views.posts_filter, name="posts_filter"),
+    path(
+        "placeholder_api/posts_delete/<int:pk>",
+        views.posts_delete,
+        name="posts_delete",
+    ),
 ]
+
+if "test" not in sys.argv:
+    from debug_toolbar.toolbar import debug_toolbar_urls
+
+    urlpatterns.extend(debug_toolbar_urls())

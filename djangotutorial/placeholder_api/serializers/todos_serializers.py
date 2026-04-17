@@ -38,3 +38,17 @@ class TodoPartialUpdateInputSerializer(serializers.Serializer):
     title = serializers.CharField(required=False)
     completed = serializers.BooleanField(required=False)
     user = serializers.IntegerField(required=False)
+
+
+class TodoFilterOutputSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    title = serializers.CharField()
+    completed = serializers.BooleanField()
+    user = serializers.IntegerField(source="user_id")
+
+
+class TodoFilterInputSerializer(serializers.Serializer):
+    id = serializers.IntegerField(required=False)
+    title = serializers.CharField(required=False)
+    completed = serializers.BooleanField(required=False)
+    user = serializers.IntegerField(required=False)

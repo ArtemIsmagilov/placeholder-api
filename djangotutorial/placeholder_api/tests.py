@@ -131,6 +131,78 @@ class PlaceholderApiTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
+    def test_comments_filter(self):
+        response = self.client.get(
+            "/placeholder_api/comments_filter", query_params={"post": 1}
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["count"], 5)
+        self.assertIsNone(
+            jsonschema.validate(
+                response.json()["results"],
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {"type": "number"},
+                            "name": {"type": "string"},
+                            "email": {"type": "string"},
+                            "body": {"type": "string"},
+                            "post": {"type": "number"},
+                        },
+                        "required": ["id", "name", "email", "body", "post"],
+                    },
+                },
+            )
+        )
+
+    def test_comments_delete(self):
+        response = self.client.delete("/placeholder_api/comments_delete/500")
+        self.assertEqual(response.status_code, 200)
+
+    def test_users_filter(self):
+        response = self.client.get(
+            "/placeholder_api/users_filter", query_params={"id": 1}
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["count"], 1)
+        self.assertIsNone(
+            jsonschema.validate(
+                response.json()["results"],
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {"type": "number"},
+                            "name": {"type": "string"},
+                            "username": {"type": "string"},
+                            "email": {"type": "string"},
+                            "address": {"type": "string"},
+                            "phone": {"type": "string"},
+                            "website": {"type": "string"},
+                            "company": {"type": "string"},
+                        },
+                        "required": [
+                            "id",
+                            "name",
+                            "username",
+                            "email",
+                            "address",
+                            "phone",
+                            "website",
+                            "company",
+                        ],
+                    },
+                },
+            )
+        )
+
+    def test_users_delete(self):
+        response = self.client.delete("/placeholder_api/users_delete/500")
+        self.assertEqual(response.status_code, 200)
+
     def test_users_list(self):
         response = self.client.get("/placeholder_api/users_list")
         self.assertEqual(response.status_code, 200)
@@ -316,6 +388,34 @@ class PlaceholderApiTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
+    def test_todos_filter(self):
+        response = self.client.get(
+            "/placeholder_api/todos_filter", query_params={"user": 1}
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(
+            jsonschema.validate(
+                response.json()["results"],
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {"type": "number"},
+                            "title": {"type": "string"},
+                            "completed": {"type": "boolean"},
+                            "user": {"type": "number"},
+                        },
+                        "required": ["id", "title", "completed", "user"],
+                    },
+                },
+            )
+        )
+
+    def test_todos_delete(self):
+        response = self.client.delete("/placeholder_api/todos_delete/500")
+        self.assertEqual(response.status_code, 200)
+
     def test_albums_list(self):
         response = self.client.get("/placeholder_api/albums_list")
         self.assertEqual(response.status_code, 200)
@@ -383,6 +483,33 @@ class PlaceholderApiTestCase(TestCase):
             {"title": "patched album"},
             content_type="application/json",
         )
+        self.assertEqual(response.status_code, 200)
+
+    def test_albums_filter(self):
+        response = self.client.get(
+            "/placeholder_api/albums_filter", query_params={"user": 1}
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(
+            jsonschema.validate(
+                response.json()["results"],
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {"type": "number"},
+                            "title": {"type": "string"},
+                            "user": {"type": "number"},
+                        },
+                        "required": ["id", "title", "user"],
+                    },
+                },
+            )
+        )
+
+    def test_albums_delete(self):
+        response = self.client.delete("/placeholder_api/albums_delete/500")
         self.assertEqual(response.status_code, 200)
 
     def test_photos_list(self):
@@ -468,6 +595,35 @@ class PlaceholderApiTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
+    def test_photos_filter(self):
+        response = self.client.get(
+            "/placeholder_api/photos_filter", query_params={"album": 1}
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(
+            jsonschema.validate(
+                response.json()["results"],
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {"type": "number"},
+                            "title": {"type": "string"},
+                            "url": {"type": "string"},
+                            "thumbnail_url": {"type": "string"},
+                            "album": {"type": "number"},
+                        },
+                        "required": ["id", "title", "url", "thumbnail_url", "album"],
+                    },
+                },
+            )
+        )
+
+    def test_photos_delete(self):
+        response = self.client.delete("/placeholder_api/photos_delete/500")
+        self.assertEqual(response.status_code, 200)
+
     def test_posts_list(self):
         response = self.client.get("/placeholder_api/posts_list")
         self.assertEqual(response.status_code, 200)
@@ -537,4 +693,32 @@ class PlaceholderApiTestCase(TestCase):
             {"title": "patched post"},
             content_type="application/json",
         )
+        self.assertEqual(response.status_code, 200)
+
+    def test_posts_filter(self):
+        response = self.client.get(
+            "/placeholder_api/posts_filter", query_params={"user": 1}
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(
+            jsonschema.validate(
+                response.json()["results"],
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {"type": "number"},
+                            "title": {"type": "string"},
+                            "body": {"type": "string"},
+                            "user": {"type": "number"},
+                        },
+                        "required": ["id", "title", "body", "user"],
+                    },
+                },
+            )
+        )
+
+    def test_posts_delete(self):
+        response = self.client.delete("/placeholder_api/posts_delete/500")
         self.assertEqual(response.status_code, 200)
