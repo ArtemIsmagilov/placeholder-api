@@ -10,6 +10,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["ruff>=0.15.10", "basedpyright>=1.39.0", "coverage>=7.13.5"]
+prod = ["granian>=2.7.3"]
 test = ["jsonschema>=4.26.0"]
 
 [tool.basedpyright]
