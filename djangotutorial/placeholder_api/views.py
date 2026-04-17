@@ -62,7 +62,7 @@ from .serializers.posts_serializers import (
 
 @extend_schema(
     responses={
-        200: inline_serializer(
+        status.HTTP_200_OK: inline_serializer(
             "InlineCommentListSerializer",
             {
                 "count": serializers.IntegerField(),
@@ -86,7 +86,7 @@ def comments_list(request: Request) -> Response:
 
 @extend_schema(
     responses={
-        200: CommentDetailOutputSerializer(),
+        status.HTTP_200_OK: CommentDetailOutputSerializer(),
     }
 )
 @api_view(["GET"])
@@ -97,7 +97,7 @@ def comments_detail(request: Request, pk: int) -> Response:
 
 @extend_schema(
     responses={
-        200: inline_serializer(
+        status.HTTP_200_OK: inline_serializer(
             "InlineCommentSearchSerializer",
             {
                 "count": serializers.IntegerField(),
@@ -146,6 +146,9 @@ def comments_create(request: Request) -> Response:
 
 @extend_schema(
     request=CommentUpdateInputSerializer,
+    responses={
+        status.HTTP_200_OK: None,
+    },
 )
 @api_view(["PUT"])
 def comments_update(request: Request, pk: int) -> Response:
@@ -159,6 +162,9 @@ def comments_update(request: Request, pk: int) -> Response:
 
 @extend_schema(
     request=CommentPartialUpdateInputSerializer,
+    responses={
+        status.HTTP_200_OK: None,
+    },
 )
 @api_view(["PATCH"])
 def comments_partial_update(request: Request, pk: int) -> Response:
@@ -258,6 +264,7 @@ def users_create(request: Request) -> Response:
 
 @extend_schema(
     request=UserUpdateInputSerializer,
+    responses={status.HTTP_200_OK: None},
 )
 @api_view(["PUT"])
 def users_update(request: Request, pk: int) -> Response:
@@ -269,6 +276,7 @@ def users_update(request: Request, pk: int) -> Response:
 
 @extend_schema(
     request=UserPartialUpdateInputSerializer,
+    responses={status.HTTP_200_OK: None},
 )
 @api_view(["PATCH"])
 def users_partial_update(request: Request, pk: int) -> Response:
@@ -363,6 +371,7 @@ def todos_create(request: Request) -> Response:
 
 @extend_schema(
     request=TodoUpdateInputSerializer,
+    responses={status.HTTP_200_OK: None},
 )
 @api_view(["PUT"])
 def todos_update(request: Request, pk: int) -> Response:
@@ -376,6 +385,7 @@ def todos_update(request: Request, pk: int) -> Response:
 
 @extend_schema(
     request=TodoPartialUpdateInputSerializer,
+    responses={status.HTTP_200_OK: None},
 )
 @api_view(["PATCH"])
 def todos_partial_update(request: Request, pk: int) -> Response:
@@ -470,6 +480,7 @@ def albums_create(request: Request) -> Response:
 
 @extend_schema(
     request=AlbumUpdateInputSerializer,
+    responses={status.HTTP_200_OK: None},
 )
 @api_view(["PUT"])
 def albums_update(request: Request, pk: int) -> Response:
@@ -483,6 +494,7 @@ def albums_update(request: Request, pk: int) -> Response:
 
 @extend_schema(
     request=AlbumPartialUpdateInputSerializer,
+    responses={status.HTTP_200_OK: None},
 )
 @api_view(["PATCH"])
 def albums_partial_update(request: Request, pk: int) -> Response:
@@ -581,6 +593,7 @@ def photos_create(request: Request) -> Response:
 
 @extend_schema(
     request=PhotoUpdateInputSerializer,
+    responses={status.HTTP_200_OK: None},
 )
 @api_view(["PUT"])
 def photos_update(request: Request, pk: int) -> Response:
@@ -594,6 +607,7 @@ def photos_update(request: Request, pk: int) -> Response:
 
 @extend_schema(
     request=PhotoPartialUpdateInputSerializer,
+    responses={status.HTTP_200_OK: None},
 )
 @api_view(["PATCH"])
 def photos_partial_update(request: Request, pk: int) -> Response:
@@ -691,6 +705,7 @@ def posts_create(request: Request) -> Response:
 
 @extend_schema(
     request=PostUpdateInputSerializer,
+    responses={status.HTTP_200_OK: None},
 )
 @api_view(["PUT"])
 def posts_update(request: Request, pk: int) -> Response:
@@ -704,6 +719,7 @@ def posts_update(request: Request, pk: int) -> Response:
 
 @extend_schema(
     request=PostPartialUpdateInputSerializer,
+    responses={status.HTTP_200_OK: None},
 )
 @api_view(["PATCH"])
 def posts_partial_update(request: Request, pk: int) -> Response:
