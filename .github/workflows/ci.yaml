@@ -39,10 +39,10 @@ jobs:
         run: |
           cd djangotutorial
           docker compose up -d
-          until curl -s --fail http://0.0.0.0:8000/placeholder_api/comments_list; do
+          until curl -s --fail http://127.0.0.1:8000/placeholder_api/comments_list; do
             echo "Ждём запуска сервиса..."
             sleep 2
           done
           echo "Конечная точка доступна!"
           sudo apt install wrk
-          wrk -c 100 -t 4 -d 30 http://0.0.0.0:8000/placeholder_api/comments_list
+          wrk -c 100 -t 4 -d 30 http://127.0.0.1:8000/placeholder_api/comments_list
