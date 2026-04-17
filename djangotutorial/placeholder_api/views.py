@@ -379,14 +379,30 @@ def users_partial_update(request: Request, pk: int) -> Response:
         )
     },
     parameters=[
-        OpenApiParameter(name="id", description="Filter by id", required=False, type=int),
-        OpenApiParameter(name="name", description="Filter by name", required=False, type=str),
-        OpenApiParameter(name="username", description="Filter by username", required=False, type=str),
-        OpenApiParameter(name="email", description="Filter by email", required=False, type=str),
-        OpenApiParameter(name="address", description="Filter by address", required=False, type=str),
-        OpenApiParameter(name="phone", description="Filter by phone", required=False, type=str),
-        OpenApiParameter(name="website", description="Filter by website", required=False, type=str),
-        OpenApiParameter(name="company", description="Filter by company", required=False, type=str),
+        OpenApiParameter(
+            name="id", description="Filter by id", required=False, type=int
+        ),
+        OpenApiParameter(
+            name="name", description="Filter by name", required=False, type=str
+        ),
+        OpenApiParameter(
+            name="username", description="Filter by username", required=False, type=str
+        ),
+        OpenApiParameter(
+            name="email", description="Filter by email", required=False, type=str
+        ),
+        OpenApiParameter(
+            name="address", description="Filter by address", required=False, type=str
+        ),
+        OpenApiParameter(
+            name="phone", description="Filter by phone", required=False, type=str
+        ),
+        OpenApiParameter(
+            name="website", description="Filter by website", required=False, type=str
+        ),
+        OpenApiParameter(
+            name="company", description="Filter by company", required=False, type=str
+        ),
     ],
 )
 @api_view(["GET"])
@@ -554,10 +570,21 @@ def todos_partial_update(request: Request, pk: int) -> Response:
         )
     },
     parameters=[
-        OpenApiParameter(name="id", description="Filter by id", required=False, type=int),
-        OpenApiParameter(name="title", description="Filter by title", required=False, type=str),
-        OpenApiParameter(name="completed", description="Filter by completed", required=False, type=bool),
-        OpenApiParameter(name="user", description="Filter by user", required=False, type=int),
+        OpenApiParameter(
+            name="id", description="Filter by id", required=False, type=int
+        ),
+        OpenApiParameter(
+            name="title", description="Filter by title", required=False, type=str
+        ),
+        OpenApiParameter(
+            name="completed",
+            description="Filter by completed",
+            required=False,
+            type=bool,
+        ),
+        OpenApiParameter(
+            name="user", description="Filter by user", required=False, type=int
+        ),
     ],
 )
 @api_view(["GET"])
@@ -714,9 +741,15 @@ def albums_partial_update(request: Request, pk: int) -> Response:
         )
     },
     parameters=[
-        OpenApiParameter(name="id", description="Filter by id", required=False, type=int),
-        OpenApiParameter(name="title", description="Filter by title", required=False, type=str),
-        OpenApiParameter(name="user", description="Filter by user", required=False, type=int),
+        OpenApiParameter(
+            name="id", description="Filter by id", required=False, type=int
+        ),
+        OpenApiParameter(
+            name="title", description="Filter by title", required=False, type=str
+        ),
+        OpenApiParameter(
+            name="user", description="Filter by user", required=False, type=int
+        ),
     ],
 )
 @api_view(["GET"])
@@ -875,11 +908,24 @@ def photos_partial_update(request: Request, pk: int) -> Response:
         )
     },
     parameters=[
-        OpenApiParameter(name="id", description="Filter by id", required=False, type=int),
-        OpenApiParameter(name="title", description="Filter by title", required=False, type=str),
-        OpenApiParameter(name="url", description="Filter by url", required=False, type=str),
-        OpenApiParameter(name="thumbnail_url", description="Filter by thumbnail_url", required=False, type=str),
-        OpenApiParameter(name="album", description="Filter by album", required=False, type=int),
+        OpenApiParameter(
+            name="id", description="Filter by id", required=False, type=int
+        ),
+        OpenApiParameter(
+            name="title", description="Filter by title", required=False, type=str
+        ),
+        OpenApiParameter(
+            name="url", description="Filter by url", required=False, type=str
+        ),
+        OpenApiParameter(
+            name="thumbnail_url",
+            description="Filter by thumbnail_url",
+            required=False,
+            type=str,
+        ),
+        OpenApiParameter(
+            name="album", description="Filter by album", required=False, type=int
+        ),
     ],
 )
 @api_view(["GET"])
@@ -1041,10 +1087,18 @@ def posts_partial_update(request: Request, pk: int) -> Response:
         )
     },
     parameters=[
-        OpenApiParameter(name="id", description="Filter by id", required=False, type=int),
-        OpenApiParameter(name="title", description="Filter by title", required=False, type=str),
-        OpenApiParameter(name="body", description="Filter by body", required=False, type=str),
-        OpenApiParameter(name="user", description="Filter by user", required=False, type=int),
+        OpenApiParameter(
+            name="id", description="Filter by id", required=False, type=int
+        ),
+        OpenApiParameter(
+            name="title", description="Filter by title", required=False, type=str
+        ),
+        OpenApiParameter(
+            name="body", description="Filter by body", required=False, type=str
+        ),
+        OpenApiParameter(
+            name="user", description="Filter by user", required=False, type=int
+        ),
     ],
 )
 @api_view(["GET"])
