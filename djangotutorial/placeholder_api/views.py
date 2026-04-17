@@ -5,12 +5,14 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.pagination import PageNumberPagination
-from drf_spectacular.utils import extend_schema
+from rest_framework import serializers
+from drf_spectacular.utils import extend_schema, inline_serializer
+
 
 from .models import Comment, User, Todo, Album, Photo, Post
 from .serializers.comments_serializers import (
     CommentSearchOutputSerializer,
-    CommentiListOutputSerializer,
+    CommentListOutputSerializer,
     CommentDetailOutputSerializer,
     CommentCreateInputSerializer,
     CommentUpdateInputSerializer,
@@ -58,6 +60,19 @@ from .serializers.posts_serializers import (
 )
 
 
+@extend_schema(
+    responses={
+        200: inline_serializer(
+            "InlineCommentListSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": CommentListOutputSerializer(many=True),
+            },
+        )
+    }
+)
 @api_view(["GET"])
 def comments_list(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -65,16 +80,34 @@ def comments_list(request: Request) -> Response:
 
     paginator = Pagination()
     page = paginator.paginate_queryset(Comment.objects.order_by("id"), request)
-    cs = CommentiListOutputSerializer(page, many=True)
+    cs = CommentListOutputSerializer(page, many=True)
     return paginator.get_paginated_response(cs.data)
 
 
+@extend_schema(
+    responses={
+        200: CommentDetailOutputSerializer(),
+    }
+)
 @api_view(["GET"])
 def comments_detail(request: Request, pk: int) -> Response:
     c = CommentDetailOutputSerializer(get_object_or_404(Comment, pk=pk))
     return Response(c.data)
 
 
+@extend_schema(
+    responses={
+        200: inline_serializer(
+            "InlineCommentSearchSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": CommentSearchOutputSerializer(many=True),
+            },
+        )
+    }
+)
 @api_view(["GET"])
 def comments_search(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -138,6 +171,19 @@ def comments_partial_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    responses={
+        200: inline_serializer(
+            "InlineUserListSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": UserListOutputSerializer(many=True),
+            },
+        )
+    }
+)
 @api_view(["GET"])
 def users_list(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -149,12 +195,30 @@ def users_list(request: Request) -> Response:
     return paginator.get_paginated_response(us.data)
 
 
+@extend_schema(
+    responses={
+        200: UserDetailOutputSerializer(),
+    }
+)
 @api_view(["GET"])
 def users_detail(request: Request, pk: int) -> Response:
     u = UserDetailOutputSerializer(get_object_or_404(User, pk=pk))
     return Response(u.data)
 
 
+@extend_schema(
+    responses={
+        200: inline_serializer(
+            "InlineUserSearchSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": UserSearchOutputSerializer(many=True),
+            },
+        )
+    }
+)
 @api_view(["GET"])
 def users_search(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -214,6 +278,19 @@ def users_partial_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    responses={
+        200: inline_serializer(
+            "InlineTodoListSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": TodoListOutputSerializer(many=True),
+            },
+        )
+    }
+)
 @api_view(["GET"])
 def todos_list(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -225,12 +302,30 @@ def todos_list(request: Request) -> Response:
     return paginator.get_paginated_response(ts.data)
 
 
+@extend_schema(
+    responses={
+        200: TodoDetailOutputSerializer(),
+    }
+)
 @api_view(["GET"])
 def todos_detail(request: Request, pk: int) -> Response:
     t = TodoDetailOutputSerializer(get_object_or_404(Todo, pk=pk))
     return Response(t.data)
 
 
+@extend_schema(
+    responses={
+        200: inline_serializer(
+            "InlineTodoSearchSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": TodoSearchOutputSerializer(many=True),
+            },
+        )
+    }
+)
 @api_view(["GET"])
 def todos_search(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -293,6 +388,19 @@ def todos_partial_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    responses={
+        200: inline_serializer(
+            "InlineAlbumListSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": AlbumListOutputSerializer(many=True),
+            },
+        )
+    }
+)
 @api_view(["GET"])
 def albums_list(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -304,12 +412,30 @@ def albums_list(request: Request) -> Response:
     return paginator.get_paginated_response(as_.data)
 
 
+@extend_schema(
+    responses={
+        200: AlbumDetailOutputSerializer(),
+    }
+)
 @api_view(["GET"])
 def albums_detail(request: Request, pk: int) -> Response:
     a = AlbumDetailOutputSerializer(get_object_or_404(Album, pk=pk))
     return Response(a.data)
 
 
+@extend_schema(
+    responses={
+        200: inline_serializer(
+            "InlineAlbumSearchSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": AlbumSearchOutputSerializer(many=True),
+            },
+        )
+    }
+)
 @api_view(["GET"])
 def albums_search(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -369,6 +495,19 @@ def albums_partial_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    responses={
+        200: inline_serializer(
+            "InlinePhotoListSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": PhotoListOutputSerializer(many=True),
+            },
+        )
+    }
+)
 @api_view(["GET"])
 def photos_list(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -380,12 +519,30 @@ def photos_list(request: Request) -> Response:
     return paginator.get_paginated_response(ps.data)
 
 
+@extend_schema(
+    responses={
+        200: PhotoDetailOutputSerializer(),
+    }
+)
 @api_view(["GET"])
 def photos_detail(request: Request, pk: int) -> Response:
     p = PhotoDetailOutputSerializer(get_object_or_404(Photo, pk=pk))
     return Response(p.data)
 
 
+@extend_schema(
+    responses={
+        200: inline_serializer(
+            "InlinePhotoSearchSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": PhotoSearchOutputSerializer(many=True),
+            },
+        )
+    }
+)
 @api_view(["GET"])
 def photos_search(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -449,6 +606,19 @@ def photos_partial_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    responses={
+        200: inline_serializer(
+            "InlinePostListSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": PostListOutputSerializer(many=True),
+            },
+        )
+    }
+)
 @api_view(["GET"])
 def posts_list(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -460,12 +630,30 @@ def posts_list(request: Request) -> Response:
     return paginator.get_paginated_response(ps.data)
 
 
+@extend_schema(
+    responses={
+        200: PostDetailOutputSerializer(),
+    }
+)
 @api_view(["GET"])
 def posts_detail(request: Request, pk: int) -> Response:
     p = PostDetailOutputSerializer(get_object_or_404(Post, pk=pk))
     return Response(p.data)
 
 
+@extend_schema(
+    responses={
+        200: inline_serializer(
+            "InlinePostSearchSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": PostSearchOutputSerializer(many=True),
+            },
+        )
+    }
+)
 @api_view(["GET"])
 def posts_search(request: Request) -> Response:
     class Pagination(PageNumberPagination):

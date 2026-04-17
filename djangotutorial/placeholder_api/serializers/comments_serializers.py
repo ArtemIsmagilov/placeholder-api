@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 
-class CommentiListOutputSerializer(serializers.Serializer):
+class CommentListOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     name = serializers.CharField()
     email = serializers.EmailField()
