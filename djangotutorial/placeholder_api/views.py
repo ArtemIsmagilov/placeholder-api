@@ -83,7 +83,10 @@ from .serializers.posts_serializers import (
                 "results": CommentListOutputSerializer(many=True),
             },
         )
-    }
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
 )
 @api_view(["GET"])
 def comments_list(request: Request) -> Response:
@@ -118,7 +121,10 @@ def comments_detail(request: Request, pk: int) -> Response:
                 "results": CommentSearchOutputSerializer(many=True),
             },
         )
-    }
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
 )
 @api_view(["GET"])
 def comments_search(request: Request) -> Response:
@@ -202,21 +208,12 @@ def comments_partial_update(request: Request, pk: int) -> Response:
         )
     },
     parameters=[
-        OpenApiParameter(
-            name="id", description="Filter by id", required=False, type=int
-        ),
-        OpenApiParameter(
-            name="name", description="Filter by name", required=False, type=str
-        ),
-        OpenApiParameter(
-            "email", description="Filter by email", required=False, type=str
-        ),
-        OpenApiParameter(
-            "body", description="Filter by body", required=False, type=str
-        ),
-        OpenApiParameter(
-            "post", description="Filter by post", required=False, type=int
-        ),
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+        OpenApiParameter(name="id", description="Filter by id", type=int),
+        OpenApiParameter(name="name", description="Filter by name", type=str),
+        OpenApiParameter("email", description="Filter by email", type=str),
+        OpenApiParameter("body", description="Filter by body", type=str),
+        OpenApiParameter("post", description="Filter by post", type=int),
     ],
 )
 @api_view(["GET"])
@@ -268,7 +265,10 @@ def comments_delete(request: Request, pk: int) -> Response:
                 "results": UserListOutputSerializer(many=True),
             },
         )
-    }
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
 )
 @api_view(["GET"])
 def users_list(request: Request) -> Response:
@@ -303,7 +303,10 @@ def users_detail(request: Request, pk: int) -> Response:
                 "results": UserSearchOutputSerializer(many=True),
             },
         )
-    }
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
 )
 @api_view(["GET"])
 def users_search(request: Request) -> Response:
@@ -379,30 +382,15 @@ def users_partial_update(request: Request, pk: int) -> Response:
         )
     },
     parameters=[
-        OpenApiParameter(
-            name="id", description="Filter by id", required=False, type=int
-        ),
-        OpenApiParameter(
-            name="name", description="Filter by name", required=False, type=str
-        ),
-        OpenApiParameter(
-            name="username", description="Filter by username", required=False, type=str
-        ),
-        OpenApiParameter(
-            name="email", description="Filter by email", required=False, type=str
-        ),
-        OpenApiParameter(
-            name="address", description="Filter by address", required=False, type=str
-        ),
-        OpenApiParameter(
-            name="phone", description="Filter by phone", required=False, type=str
-        ),
-        OpenApiParameter(
-            name="website", description="Filter by website", required=False, type=str
-        ),
-        OpenApiParameter(
-            name="company", description="Filter by company", required=False, type=str
-        ),
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+        OpenApiParameter(name="id", description="Filter by id", type=int),
+        OpenApiParameter(name="name", description="Filter by name", type=str),
+        OpenApiParameter(name="username", description="Filter by username", type=str),
+        OpenApiParameter(name="email", description="Filter by email", type=str),
+        OpenApiParameter(name="address", description="Filter by address", type=str),
+        OpenApiParameter(name="phone", description="Filter by phone", type=str),
+        OpenApiParameter(name="website", description="Filter by website", type=str),
+        OpenApiParameter(name="company", description="Filter by company", type=str),
     ],
 )
 @api_view(["GET"])
@@ -456,7 +444,10 @@ def users_delete(request: Request, pk: int) -> Response:
                 "results": TodoListOutputSerializer(many=True),
             },
         )
-    }
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
 )
 @api_view(["GET"])
 def todos_list(request: Request) -> Response:
@@ -491,7 +482,10 @@ def todos_detail(request: Request, pk: int) -> Response:
                 "results": TodoSearchOutputSerializer(many=True),
             },
         )
-    }
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
 )
 @api_view(["GET"])
 def todos_search(request: Request) -> Response:
@@ -570,21 +564,15 @@ def todos_partial_update(request: Request, pk: int) -> Response:
         )
     },
     parameters=[
-        OpenApiParameter(
-            name="id", description="Filter by id", required=False, type=int
-        ),
-        OpenApiParameter(
-            name="title", description="Filter by title", required=False, type=str
-        ),
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+        OpenApiParameter(name="id", description="Filter by id", type=int),
+        OpenApiParameter(name="title", description="Filter by title", type=str),
         OpenApiParameter(
             name="completed",
             description="Filter by completed",
-            required=False,
             type=bool,
         ),
-        OpenApiParameter(
-            name="user", description="Filter by user", required=False, type=int
-        ),
+        OpenApiParameter(name="user", description="Filter by user", type=int),
     ],
 )
 @api_view(["GET"])
@@ -630,7 +618,10 @@ def todos_delete(request: Request, pk: int) -> Response:
                 "results": AlbumListOutputSerializer(many=True),
             },
         )
-    }
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
 )
 @api_view(["GET"])
 def albums_list(request: Request) -> Response:
@@ -665,7 +656,10 @@ def albums_detail(request: Request, pk: int) -> Response:
                 "results": AlbumSearchOutputSerializer(many=True),
             },
         )
-    }
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
 )
 @api_view(["GET"])
 def albums_search(request: Request) -> Response:
@@ -741,15 +735,10 @@ def albums_partial_update(request: Request, pk: int) -> Response:
         )
     },
     parameters=[
-        OpenApiParameter(
-            name="id", description="Filter by id", required=False, type=int
-        ),
-        OpenApiParameter(
-            name="title", description="Filter by title", required=False, type=str
-        ),
-        OpenApiParameter(
-            name="user", description="Filter by user", required=False, type=int
-        ),
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+        OpenApiParameter(name="id", description="Filter by id", type=int),
+        OpenApiParameter(name="title", description="Filter by title", type=str),
+        OpenApiParameter(name="user", description="Filter by user", type=int),
     ],
 )
 @api_view(["GET"])
@@ -793,7 +782,10 @@ def albums_delete(request: Request, pk: int) -> Response:
                 "results": PhotoListOutputSerializer(many=True),
             },
         )
-    }
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
 )
 @api_view(["GET"])
 def photos_list(request: Request) -> Response:
@@ -828,7 +820,10 @@ def photos_detail(request: Request, pk: int) -> Response:
                 "results": PhotoSearchOutputSerializer(many=True),
             },
         )
-    }
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
 )
 @api_view(["GET"])
 def photos_search(request: Request) -> Response:
@@ -908,24 +903,16 @@ def photos_partial_update(request: Request, pk: int) -> Response:
         )
     },
     parameters=[
-        OpenApiParameter(
-            name="id", description="Filter by id", required=False, type=int
-        ),
-        OpenApiParameter(
-            name="title", description="Filter by title", required=False, type=str
-        ),
-        OpenApiParameter(
-            name="url", description="Filter by url", required=False, type=str
-        ),
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+        OpenApiParameter(name="id", description="Filter by id", type=int),
+        OpenApiParameter(name="title", description="Filter by title", type=str),
+        OpenApiParameter(name="url", description="Filter by url", type=str),
         OpenApiParameter(
             name="thumbnail_url",
             description="Filter by thumbnail_url",
-            required=False,
             type=str,
         ),
-        OpenApiParameter(
-            name="album", description="Filter by album", required=False, type=int
-        ),
+        OpenApiParameter(name="album", description="Filter by album", type=int),
     ],
 )
 @api_view(["GET"])
@@ -973,7 +960,10 @@ def photos_delete(request: Request, pk: int) -> Response:
                 "results": PostListOutputSerializer(many=True),
             },
         )
-    }
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
 )
 @api_view(["GET"])
 def posts_list(request: Request) -> Response:
@@ -1008,7 +998,10 @@ def posts_detail(request: Request, pk: int) -> Response:
                 "results": PostSearchOutputSerializer(many=True),
             },
         )
-    }
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
 )
 @api_view(["GET"])
 def posts_search(request: Request) -> Response:
@@ -1087,18 +1080,11 @@ def posts_partial_update(request: Request, pk: int) -> Response:
         )
     },
     parameters=[
-        OpenApiParameter(
-            name="id", description="Filter by id", required=False, type=int
-        ),
-        OpenApiParameter(
-            name="title", description="Filter by title", required=False, type=str
-        ),
-        OpenApiParameter(
-            name="body", description="Filter by body", required=False, type=str
-        ),
-        OpenApiParameter(
-            name="user", description="Filter by user", required=False, type=int
-        ),
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+        OpenApiParameter(name="id", description="Filter by id", type=int),
+        OpenApiParameter(name="title", description="Filter by title", type=str),
+        OpenApiParameter(name="body", description="Filter by body", type=str),
+        OpenApiParameter(name="user", description="Filter by user", type=int),
     ],
 )
 @api_view(["GET"])
