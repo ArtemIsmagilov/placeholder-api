@@ -20,6 +20,8 @@
   ```
 - Запускаем проект
   ```bash
+  python manage.py migrate
+  python manage.py loaddata f.json
   python manage.py runserver
   ```
 - Запускаем тесты
