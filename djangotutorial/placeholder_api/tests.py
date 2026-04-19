@@ -5,7 +5,6 @@ import jsonschema
 from .models import Comment, Todo, Album, User, Photo, Post
 
 
-# Create your tests here.
 class PlaceholderApiTestCase(TestCase):
     fixtures = ["f.json"]
     client = Client()
@@ -111,6 +110,19 @@ class PlaceholderApiTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 201)
 
+    def test_comments_create_forbidden(self):
+        response = self.client.post(
+            "/placeholder_api/comments_create",
+            {
+                "name": "new name",
+                "email": "new@email.com",
+                "body": "new body",
+                "post": 1,
+            },
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 403)
+
     def test_comments_update(self):
         response = self.client.put(
             "/placeholder_api/comments_update/1",
@@ -125,6 +137,19 @@ class PlaceholderApiTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
+    def test_comments_update_forbidden(self):
+        response = self.client.put(
+            "/placeholder_api/comments_update/1",
+            {
+                "name": "new name",
+                "email": "new@email.com",
+                "body": "new body",
+                "post": 1,
+            },
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 403)
+
     def test_comments_partial_update(self):
         response = self.client.patch(
             "/placeholder_api/comments_partial_update/1",
@@ -133,6 +158,14 @@ class PlaceholderApiTestCase(TestCase):
             headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
         )
         self.assertEqual(response.status_code, 200)
+
+    def test_comments_partial_update_forbidden(self):
+        response = self.client.patch(
+            "/placeholder_api/comments_partial_update/1",
+            {"name": "new name"},
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 403)
 
     def test_comments_filter(self):
         response = self.client.get(
@@ -167,50 +200,11 @@ class PlaceholderApiTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_users_filter(self):
-        response = self.client.get(
-            "/placeholder_api/users_filter", query_params={"id": 1}
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json()["count"], 1)
-        self.assertIsNone(
-            jsonschema.validate(
-                response.json()["results"],
-                {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "id": {"type": "number"},
-                            "name": {"type": "string"},
-                            "username": {"type": "string"},
-                            "email": {"type": "string"},
-                            "address": {"type": "string"},
-                            "phone": {"type": "string"},
-                            "website": {"type": "string"},
-                            "company": {"type": "string"},
-                        },
-                        "required": [
-                            "id",
-                            "name",
-                            "username",
-                            "email",
-                            "address",
-                            "phone",
-                            "website",
-                            "company",
-                        ],
-                    },
-                },
-            )
-        )
-
-    def test_users_delete(self):
+    def test_comments_delete_forbidden(self):
         response = self.client.delete(
-            "/placeholder_api/users_delete/500",
-            headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
+            "/placeholder_api/comments_delete/500",
         )
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 403)
 
     def test_users_list(self):
         response = self.client.get("/placeholder_api/users_list")
@@ -334,6 +328,22 @@ class PlaceholderApiTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 201)
 
+    def test_users_create_forbidden(self):
+        response = self.client.post(
+            "/placeholder_api/users_create",
+            {
+                "name": "new name",
+                "username": "newusername",
+                "email": "new@email.com",
+                "address": "new address",
+                "phone": "123456",
+                "website": "newsite.com",
+                "company": "New Company",
+            },
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 403)
+
     def test_users_update(self):
         response = self.client.put(
             "/placeholder_api/users_update/1",
@@ -351,6 +361,22 @@ class PlaceholderApiTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
+    def test_users_update_forbidden(self):
+        response = self.client.put(
+            "/placeholder_api/users_update/1",
+            {
+                "name": "updated name",
+                "username": "updatedusername",
+                "email": "updated@email.com",
+                "address": "updated address",
+                "phone": "654321",
+                "website": "updatedsite.com",
+                "company": "Updated Company",
+            },
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 403)
+
     def test_users_partial_update(self):
         response = self.client.patch(
             "/placeholder_api/users_partial_update/1",
@@ -359,6 +385,65 @@ class PlaceholderApiTestCase(TestCase):
             headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
         )
         self.assertEqual(response.status_code, 200)
+
+    def test_users_partial_update_forbidden(self):
+        response = self.client.patch(
+            "/placeholder_api/users_partial_update/1",
+            {"name": "patched name"},
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 403)
+
+    def test_users_filter(self):
+        response = self.client.get(
+            "/placeholder_api/users_filter", query_params={"id": 1}
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["count"], 1)
+        self.assertIsNone(
+            jsonschema.validate(
+                response.json()["results"],
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {"type": "number"},
+                            "name": {"type": "string"},
+                            "username": {"type": "string"},
+                            "email": {"type": "string"},
+                            "address": {"type": "string"},
+                            "phone": {"type": "string"},
+                            "website": {"type": "string"},
+                            "company": {"type": "string"},
+                        },
+                        "required": [
+                            "id",
+                            "name",
+                            "username",
+                            "email",
+                            "address",
+                            "phone",
+                            "website",
+                            "company",
+                        ],
+                    },
+                },
+            )
+        )
+
+    def test_users_delete(self):
+        response = self.client.delete(
+            "/placeholder_api/users_delete/500",
+            headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_users_delete_forbidden(self):
+        response = self.client.delete(
+            "/placeholder_api/users_delete/500",
+        )
+        self.assertEqual(response.status_code, 403)
 
     def test_todos_list(self):
         response = self.client.get("/placeholder_api/todos_list")
@@ -435,6 +520,14 @@ class PlaceholderApiTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 201)
 
+    def test_todos_create_forbidden(self):
+        response = self.client.post(
+            "/placeholder_api/todos_create",
+            {"title": "new todo", "completed": False, "user": 1},
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 403)
+
     def test_todos_update(self):
         response = self.client.put(
             "/placeholder_api/todos_update/1",
@@ -444,6 +537,14 @@ class PlaceholderApiTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
+    def test_todos_update_forbidden(self):
+        response = self.client.put(
+            "/placeholder_api/todos_update/1",
+            {"title": "updated todo", "completed": True, "user": 1},
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 403)
+
     def test_todos_partial_update(self):
         response = self.client.patch(
             "/placeholder_api/todos_partial_update/1",
@@ -452,6 +553,14 @@ class PlaceholderApiTestCase(TestCase):
             headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
         )
         self.assertEqual(response.status_code, 200)
+
+    def test_todos_partial_update_forbidden(self):
+        response = self.client.patch(
+            "/placeholder_api/todos_partial_update/1",
+            {"title": "patched todo"},
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 403)
 
     def test_todos_filter(self):
         response = self.client.get(
@@ -483,6 +592,12 @@ class PlaceholderApiTestCase(TestCase):
             headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
         )
         self.assertEqual(response.status_code, 200)
+
+    def test_todos_delete_forbidden(self):
+        response = self.client.delete(
+            "/placeholder_api/todos_delete/500",
+        )
+        self.assertEqual(response.status_code, 403)
 
     def test_albums_list(self):
         response = self.client.get("/placeholder_api/albums_list")
@@ -556,6 +671,14 @@ class PlaceholderApiTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 201)
 
+    def test_albums_create_forbidden(self):
+        response = self.client.post(
+            "/placeholder_api/albums_create",
+            {"title": "new album", "user": 1},
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 403)
+
     def test_albums_update(self):
         response = self.client.put(
             "/placeholder_api/albums_update/1",
@@ -564,6 +687,14 @@ class PlaceholderApiTestCase(TestCase):
             headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
         )
         self.assertEqual(response.status_code, 200)
+
+    def test_albums_update_forbidden(self):
+        response = self.client.put(
+            "/placeholder_api/albums_update/1",
+            {"title": "updated album", "user": 1},
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 403)
 
     def test_albums_partial_update(self):
         response = self.client.patch(
@@ -574,11 +705,20 @@ class PlaceholderApiTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
+    def test_albums_partial_update_forbidden(self):
+        response = self.client.patch(
+            "/placeholder_api/albums_partial_update/1",
+            {"title": "patched album"},
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 403)
+
     def test_albums_filter(self):
         response = self.client.get(
             "/placeholder_api/albums_filter", query_params={"user": 1}
         )
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["count"], 10)
         self.assertIsNone(
             jsonschema.validate(
                 response.json()["results"],
@@ -604,6 +744,12 @@ class PlaceholderApiTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
+    def test_albums_delete_forbidden(self):
+        response = self.client.delete(
+            "/placeholder_api/albums_delete/500",
+        )
+        self.assertEqual(response.status_code, 403)
+
     def test_photos_list(self):
         response = self.client.get("/placeholder_api/photos_list")
         self.assertEqual(response.status_code, 200)
@@ -621,7 +767,13 @@ class PlaceholderApiTestCase(TestCase):
                             "thumbnail_url": {"type": "string"},
                             "album": {"type": "number"},
                         },
-                        "required": ["id", "title", "url", "thumbnail_url", "album"],
+                        "required": [
+                            "id",
+                            "title",
+                            "url",
+                            "thumbnail_url",
+                            "album",
+                        ],
                     },
                 },
             )
@@ -642,7 +794,13 @@ class PlaceholderApiTestCase(TestCase):
                         "thumbnail_url": {"type": "string"},
                         "album": {"type": "number"},
                     },
-                    "required": ["id", "title", "url", "thumbnail_url", "album"],
+                    "required": [
+                        "id",
+                        "title",
+                        "url",
+                        "thumbnail_url",
+                        "album",
+                    ],
                 },
             )
         )
@@ -667,7 +825,13 @@ class PlaceholderApiTestCase(TestCase):
                             "thumbnail_url": {"type": "string"},
                             "album": {"type": "number"},
                         },
-                        "required": ["id", "title", "url", "thumbnail_url", "album"],
+                        "required": [
+                            "id",
+                            "title",
+                            "url",
+                            "thumbnail_url",
+                            "album",
+                        ],
                     },
                 },
             )
@@ -687,6 +851,19 @@ class PlaceholderApiTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 201)
 
+    def test_photos_create_forbidden(self):
+        response = self.client.post(
+            "/placeholder_api/photos_create",
+            {
+                "title": "new photo",
+                "url": "https://example.com/photo.jpg",
+                "thumbnail_url": "https://example.com/thumb.jpg",
+                "album": 1,
+            },
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 403)
+
     def test_photos_update(self):
         response = self.client.put(
             "/placeholder_api/photos_update/1",
@@ -701,6 +878,19 @@ class PlaceholderApiTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
+    def test_photos_update_forbidden(self):
+        response = self.client.put(
+            "/placeholder_api/photos_update/1",
+            {
+                "title": "updated photo",
+                "url": "https://example.com/updated.jpg",
+                "thumbnail_url": "https://example.com/updated_thumb.jpg",
+                "album": 1,
+            },
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 403)
+
     def test_photos_partial_update(self):
         response = self.client.patch(
             "/placeholder_api/photos_partial_update/1",
@@ -710,11 +900,20 @@ class PlaceholderApiTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
+    def test_photos_partial_update_forbidden(self):
+        response = self.client.patch(
+            "/placeholder_api/photos_partial_update/1",
+            {"title": "patched photo"},
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 403)
+
     def test_photos_filter(self):
         response = self.client.get(
             "/placeholder_api/photos_filter", query_params={"album": 1}
         )
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["count"], 50)
         self.assertIsNone(
             jsonschema.validate(
                 response.json()["results"],
@@ -729,7 +928,13 @@ class PlaceholderApiTestCase(TestCase):
                             "thumbnail_url": {"type": "string"},
                             "album": {"type": "number"},
                         },
-                        "required": ["id", "title", "url", "thumbnail_url", "album"],
+                        "required": [
+                            "id",
+                            "title",
+                            "url",
+                            "thumbnail_url",
+                            "album",
+                        ],
                     },
                 },
             )
@@ -741,6 +946,12 @@ class PlaceholderApiTestCase(TestCase):
             headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
         )
         self.assertEqual(response.status_code, 200)
+
+    def test_photos_delete_forbidden(self):
+        response = self.client.delete(
+            "/placeholder_api/photos_delete/500",
+        )
+        self.assertEqual(response.status_code, 403)
 
     def test_posts_list(self):
         response = self.client.get("/placeholder_api/posts_list")
@@ -817,6 +1028,14 @@ class PlaceholderApiTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 201)
 
+    def test_posts_create_forbidden(self):
+        response = self.client.post(
+            "/placeholder_api/posts_create",
+            {"title": "new post", "body": "new body", "user": 1},
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 403)
+
     def test_posts_update(self):
         response = self.client.put(
             "/placeholder_api/posts_update/1",
@@ -825,6 +1044,14 @@ class PlaceholderApiTestCase(TestCase):
             headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
         )
         self.assertEqual(response.status_code, 200)
+
+    def test_posts_update_forbidden(self):
+        response = self.client.put(
+            "/placeholder_api/posts_update/1",
+            {"title": "updated post", "body": "updated body", "user": 1},
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 403)
 
     def test_posts_partial_update(self):
         response = self.client.patch(
@@ -835,11 +1062,20 @@ class PlaceholderApiTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
+    def test_posts_partial_update_forbidden(self):
+        response = self.client.patch(
+            "/placeholder_api/posts_partial_update/1",
+            {"title": "patched post"},
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 403)
+
     def test_posts_filter(self):
         response = self.client.get(
             "/placeholder_api/posts_filter", query_params={"user": 1}
         )
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["count"], 10)
         self.assertIsNone(
             jsonschema.validate(
                 response.json()["results"],
@@ -864,6 +1100,16 @@ class PlaceholderApiTestCase(TestCase):
             "/placeholder_api/posts_delete/500",
             headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
         )
+        self.assertEqual(response.status_code, 200)
+
+    def test_posts_delete_forbidden(self):
+        response = self.client.delete(
+            "/placeholder_api/posts_delete/500",
+        )
+        self.assertEqual(response.status_code, 403)
+
+    def test_healthcheck(self):
+        response = self.client.get("/placeholder_api/healthcheck")
         self.assertEqual(response.status_code, 200)
 
     def test_profile(self):
@@ -920,7 +1166,9 @@ class PlaceholderApiTestCase(TestCase):
                                             "properties": {
                                                 "title": {"type": "string"},
                                                 "url": {"type": "string"},
-                                                "thumbnail_url": {"type": "string"},
+                                                "thumbnail_url": {
+                                                    "type": "string"
+                                                },
                                             },
                                             "required": [
                                                 "title",
@@ -965,7 +1213,3 @@ class PlaceholderApiTestCase(TestCase):
                 },
             )
         )
-
-    def test_healthcheck(self):
-        response = self.client.get("/placeholder_api/healthcheck")
-        self.assertEqual(response.status_code, 200)
