@@ -29,6 +29,7 @@
 - Запускаем тесты на покрытие кода
   ```bash
   coverage run -p --source='.' manage.py test --parallel
+  coverage combine
   coverage report
   ```
 - Проверяем стили кода
