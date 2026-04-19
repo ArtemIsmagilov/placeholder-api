@@ -1122,9 +1122,11 @@ def posts_delete(request: Request, pk: int) -> Response:
 
 @api_view(["GET"])
 def profile(request: Request, pk: int) -> Response:
-    user = User.objects.prefetch_related(
+    queryset = User.objects.prefetch_related(
         "todo_set", "album_set__photo_set", "post_set__comment_set"
-    ).get(id=pk)
+    )
+    user = get_object_or_404(queryset, id=pk)
+
     user_data = {
         "user_info": {
             "name": user.name,
