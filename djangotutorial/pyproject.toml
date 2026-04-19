@@ -4,13 +4,17 @@ version = "0.0.1"
 requires-python = ">= 3.12"
 dependencies = [
   "Django>=6.0.3",
-  "django-debug-toolbar>=6.3.0",
   "djangorestframework>=3.16.1",
   "drf_spectacular>=0.29.0"
 ]
 
 [project.optional-dependencies]
-dev = ["ruff>=0.15.10", "basedpyright>=1.39.0", "coverage>=7.13.5"]
+dev = [
+  "ruff>=0.15.10",
+  "basedpyright>=1.39.0",
+  "coverage>=7.13.5",
+  "django-debug-toolbar>=6.3.0",
+]
 prod = ["granian>=2.7.3"]
 test = ["jsonschema>=4.26.0"]
 
