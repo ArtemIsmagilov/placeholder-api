@@ -1166,9 +1166,7 @@ class PlaceholderApiTestCase(TestCase):
                                             "properties": {
                                                 "title": {"type": "string"},
                                                 "url": {"type": "string"},
-                                                "thumbnail_url": {
-                                                    "type": "string"
-                                                },
+                                                "thumbnail_url": {"type": "string"},
                                             },
                                             "required": [
                                                 "title",
