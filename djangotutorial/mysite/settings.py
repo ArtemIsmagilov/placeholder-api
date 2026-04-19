@@ -27,6 +27,8 @@ SECRET_KEY = "django-insecure-6$=d(@ik@afm&+wflk7^!_px4+)j$+heu-jwdb4=@bfc3omo=q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = environ.get("DEBUG", "True") == "True"
 
+AUTH_TOKEN = "65012222a2b880dd8927560043375a2cc86e1357da4df04d37744db20fbb4cad"
+
 ALLOWED_HOSTS = ["127.0.0.1"]
 
 

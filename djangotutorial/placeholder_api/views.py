@@ -3,7 +3,7 @@ from django.db.models import Q
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import serializers
 from drf_spectacular.utils import extend_schema, inline_serializer, OpenApiParameter
@@ -71,6 +71,7 @@ from .serializers.posts_serializers import (
     PostFilterInputSerializer,
 )
 from .serializers.profile_serializers import ProfileOutputSerializer
+from .permissions import TokenPermission
 
 
 @extend_schema(
@@ -152,8 +153,12 @@ def comments_search(request: Request) -> Response:
 @extend_schema(
     request=CommentCreateInputSerializer,
     responses={status.HTTP_201_CREATED: None},
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["POST"])
+@permission_classes([TokenPermission])
 def comments_create(request: Request) -> Response:
     c = CommentCreateInputSerializer(data=request.data)
     c.is_valid(raise_exception=True)
@@ -168,8 +173,12 @@ def comments_create(request: Request) -> Response:
     responses={
         status.HTTP_200_OK: None,
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PUT"])
+@permission_classes([TokenPermission])
 def comments_update(request: Request, pk: int) -> Response:
     c = CommentUpdateInputSerializer(data=request.data)
     c.is_valid(raise_exception=True)
@@ -184,8 +193,12 @@ def comments_update(request: Request, pk: int) -> Response:
     responses={
         status.HTTP_200_OK: None,
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PATCH"])
+@permission_classes([TokenPermission])
 def comments_partial_update(request: Request, pk: int) -> Response:
     c = CommentPartialUpdateInputSerializer(data=request.data)
     c.is_valid(raise_exception=True)
@@ -248,8 +261,12 @@ def comments_filter(request: Request) -> Response:
     responses={
         status.HTTP_200_OK: None,
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["DELETE"])
+@permission_classes([TokenPermission])
 def comments_delete(request: Request, pk: int) -> Response:
     Comment.objects.filter(pk=pk).delete()
     return Response(status=status.HTTP_200_OK)
@@ -337,8 +354,12 @@ def users_search(request: Request) -> Response:
 @extend_schema(
     request=UserCreateInputSerializer,
     responses={status.HTTP_201_CREATED: None},
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["POST"])
+@permission_classes([TokenPermission])
 def users_create(request: Request) -> Response:
     u = UserCreateInputSerializer(data=request.data)
     u.is_valid(raise_exception=True)
@@ -349,8 +370,12 @@ def users_create(request: Request) -> Response:
 @extend_schema(
     request=UserUpdateInputSerializer,
     responses={status.HTTP_200_OK: None},
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PUT"])
+@permission_classes([TokenPermission])
 def users_update(request: Request, pk: int) -> Response:
     u = UserUpdateInputSerializer(data=request.data)
     u.is_valid(raise_exception=True)
@@ -361,8 +386,12 @@ def users_update(request: Request, pk: int) -> Response:
 @extend_schema(
     request=UserPartialUpdateInputSerializer,
     responses={status.HTTP_200_OK: None},
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PATCH"])
+@permission_classes([TokenPermission])
 def users_partial_update(request: Request, pk: int) -> Response:
     u = UserPartialUpdateInputSerializer(data=request.data)
     u.is_valid(raise_exception=True)
@@ -427,8 +456,14 @@ def users_filter(request: Request) -> Response:
     return paginator.get_paginated_response(us.data)
 
 
-@extend_schema(responses={status.HTTP_200_OK: None})
+@extend_schema(
+    responses={status.HTTP_200_OK: None},
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
+)
 @api_view(["DELETE"])
+@permission_classes([TokenPermission])
 def users_delete(request: Request, pk: int) -> Response:
     User.objects.filter(pk=pk).delete()
     return Response(status=status.HTTP_200_OK)
@@ -512,8 +547,12 @@ def todos_search(request: Request) -> Response:
 @extend_schema(
     request=TodoCreateInputSerializer,
     responses={status.HTTP_201_CREATED: None},
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["POST"])
+@permission_classes([TokenPermission])
 def todos_create(request: Request) -> Response:
     t = TodoCreateInputSerializer(data=request.data)
     t.is_valid(raise_exception=True)
@@ -526,8 +565,12 @@ def todos_create(request: Request) -> Response:
 @extend_schema(
     request=TodoUpdateInputSerializer,
     responses={status.HTTP_200_OK: None},
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PUT"])
+@permission_classes([TokenPermission])
 def todos_update(request: Request, pk: int) -> Response:
     t = TodoUpdateInputSerializer(data=request.data)
     t.is_valid(raise_exception=True)
@@ -540,8 +583,12 @@ def todos_update(request: Request, pk: int) -> Response:
 @extend_schema(
     request=TodoPartialUpdateInputSerializer,
     responses={status.HTTP_200_OK: None},
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PATCH"])
+@permission_classes([TokenPermission])
 def todos_partial_update(request: Request, pk: int) -> Response:
     t = TodoPartialUpdateInputSerializer(data=request.data)
     t.is_valid(raise_exception=True)
@@ -601,8 +648,14 @@ def todos_filter(request: Request) -> Response:
     return paginator.get_paginated_response(ts.data)
 
 
-@extend_schema(responses={status.HTTP_200_OK: None})
+@extend_schema(
+    responses={status.HTTP_200_OK: None},
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
+)
 @api_view(["DELETE"])
+@permission_classes([TokenPermission])
 def todos_delete(request: Request, pk: int) -> Response:
     Todo.objects.filter(pk=pk).delete()
     return Response(status=status.HTTP_200_OK)
@@ -683,8 +736,12 @@ def albums_search(request: Request) -> Response:
 @extend_schema(
     request=AlbumCreateInputSerializer,
     responses={status.HTTP_201_CREATED: None},
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["POST"])
+@permission_classes([TokenPermission])
 def albums_create(request: Request) -> Response:
     a = AlbumCreateInputSerializer(data=request.data)
     a.is_valid(raise_exception=True)
@@ -697,8 +754,12 @@ def albums_create(request: Request) -> Response:
 @extend_schema(
     request=AlbumUpdateInputSerializer,
     responses={status.HTTP_200_OK: None},
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PUT"])
+@permission_classes([TokenPermission])
 def albums_update(request: Request, pk: int) -> Response:
     a = AlbumUpdateInputSerializer(data=request.data)
     a.is_valid(raise_exception=True)
@@ -711,8 +772,12 @@ def albums_update(request: Request, pk: int) -> Response:
 @extend_schema(
     request=AlbumPartialUpdateInputSerializer,
     responses={status.HTTP_200_OK: None},
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PATCH"])
+@permission_classes([TokenPermission])
 def albums_partial_update(request: Request, pk: int) -> Response:
     a = AlbumPartialUpdateInputSerializer(data=request.data)
     a.is_valid(raise_exception=True)
@@ -765,8 +830,14 @@ def albums_filter(request: Request) -> Response:
     return paginator.get_paginated_response(as_.data)
 
 
-@extend_schema(responses={status.HTTP_200_OK: None})
+@extend_schema(
+    responses={status.HTTP_200_OK: None},
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
+)
 @api_view(["DELETE"])
+@permission_classes([TokenPermission])
 def albums_delete(request: Request, pk: int) -> Response:
     Album.objects.filter(pk=pk).delete()
     return Response(status=status.HTTP_200_OK)
@@ -851,8 +922,12 @@ def photos_search(request: Request) -> Response:
 @extend_schema(
     request=PhotoCreateInputSerializer,
     responses={status.HTTP_201_CREATED: None},
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["POST"])
+@permission_classes([TokenPermission])
 def photos_create(request: Request) -> Response:
     p = PhotoCreateInputSerializer(data=request.data)
     p.is_valid(raise_exception=True)
@@ -865,8 +940,12 @@ def photos_create(request: Request) -> Response:
 @extend_schema(
     request=PhotoUpdateInputSerializer,
     responses={status.HTTP_200_OK: None},
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PUT"])
+@permission_classes([TokenPermission])
 def photos_update(request: Request, pk: int) -> Response:
     p = PhotoUpdateInputSerializer(data=request.data)
     p.is_valid(raise_exception=True)
@@ -879,8 +958,12 @@ def photos_update(request: Request, pk: int) -> Response:
 @extend_schema(
     request=PhotoPartialUpdateInputSerializer,
     responses={status.HTTP_200_OK: None},
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PATCH"])
+@permission_classes([TokenPermission])
 def photos_partial_update(request: Request, pk: int) -> Response:
     p = PhotoPartialUpdateInputSerializer(data=request.data)
     p.is_valid(raise_exception=True)
@@ -943,8 +1026,14 @@ def photos_filter(request: Request) -> Response:
     return paginator.get_paginated_response(ps.data)
 
 
-@extend_schema(responses={status.HTTP_200_OK: None})
+@extend_schema(
+    responses={status.HTTP_200_OK: None},
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
+)
 @api_view(["DELETE"])
+@permission_classes([TokenPermission])
 def photos_delete(request: Request, pk: int) -> Response:
     Photo.objects.filter(pk=pk).delete()
     return Response(status=status.HTTP_200_OK)
@@ -1028,8 +1117,12 @@ def posts_search(request: Request) -> Response:
 @extend_schema(
     request=PostCreateInputSerializer,
     responses={status.HTTP_201_CREATED: None},
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["POST"])
+@permission_classes([TokenPermission])
 def posts_create(request: Request) -> Response:
     p = PostCreateInputSerializer(data=request.data)
     p.is_valid(raise_exception=True)
@@ -1042,8 +1135,12 @@ def posts_create(request: Request) -> Response:
 @extend_schema(
     request=PostUpdateInputSerializer,
     responses={status.HTTP_200_OK: None},
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PUT"])
+@permission_classes([TokenPermission])
 def posts_update(request: Request, pk: int) -> Response:
     p = PostUpdateInputSerializer(data=request.data)
     p.is_valid(raise_exception=True)
@@ -1056,8 +1153,12 @@ def posts_update(request: Request, pk: int) -> Response:
 @extend_schema(
     request=PostPartialUpdateInputSerializer,
     responses={status.HTTP_200_OK: None},
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PATCH"])
+@permission_classes([TokenPermission])
 def posts_partial_update(request: Request, pk: int) -> Response:
     p = PostPartialUpdateInputSerializer(data=request.data)
     p.is_valid(raise_exception=True)
@@ -1113,8 +1214,14 @@ def posts_filter(request: Request) -> Response:
     return paginator.get_paginated_response(ps.data)
 
 
-@extend_schema(responses={status.HTTP_200_OK: None})
+@extend_schema(
+    responses={status.HTTP_200_OK: None},
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
+)
 @api_view(["DELETE"])
+@permission_classes([TokenPermission])
 def posts_delete(request: Request, pk: int) -> Response:
     Post.objects.filter(pk=pk).delete()
     return Response(status=status.HTTP_200_OK)

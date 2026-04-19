@@ -1,5 +1,5 @@
-from django.test import TestCase
-from django.test import Client
+from django.test import TestCase, Client
+from django.conf import settings
 import jsonschema
 
 from .models import Comment, Todo, Album, User, Photo, Post
@@ -107,6 +107,7 @@ class PlaceholderApiTestCase(TestCase):
                 "post": 1,
             },
             content_type="application/json",
+            headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
         )
         self.assertEqual(response.status_code, 201)
 
@@ -120,6 +121,7 @@ class PlaceholderApiTestCase(TestCase):
                 "post": 1,
             },
             content_type="application/json",
+            headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
         )
         self.assertEqual(response.status_code, 200)
 
@@ -128,6 +130,7 @@ class PlaceholderApiTestCase(TestCase):
             "/placeholder_api/comments_partial_update/1",
             {"name": "new name"},
             content_type="application/json",
+            headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
         )
         self.assertEqual(response.status_code, 200)
 
@@ -158,7 +161,10 @@ class PlaceholderApiTestCase(TestCase):
         )
 
     def test_comments_delete(self):
-        response = self.client.delete("/placeholder_api/comments_delete/500")
+        response = self.client.delete(
+            "/placeholder_api/comments_delete/500",
+            headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_users_filter(self):
@@ -200,7 +206,10 @@ class PlaceholderApiTestCase(TestCase):
         )
 
     def test_users_delete(self):
-        response = self.client.delete("/placeholder_api/users_delete/500")
+        response = self.client.delete(
+            "/placeholder_api/users_delete/500",
+            headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_users_list(self):
@@ -321,6 +330,7 @@ class PlaceholderApiTestCase(TestCase):
                 "company": "New Company",
             },
             content_type="application/json",
+            headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
         )
         self.assertEqual(response.status_code, 201)
 
@@ -337,6 +347,7 @@ class PlaceholderApiTestCase(TestCase):
                 "company": "Updated Company",
             },
             content_type="application/json",
+            headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
         )
         self.assertEqual(response.status_code, 200)
 
@@ -345,6 +356,7 @@ class PlaceholderApiTestCase(TestCase):
             "/placeholder_api/users_partial_update/1",
             {"name": "patched name"},
             content_type="application/json",
+            headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
         )
         self.assertEqual(response.status_code, 200)
 
@@ -419,6 +431,7 @@ class PlaceholderApiTestCase(TestCase):
             "/placeholder_api/todos_create",
             {"title": "new todo", "completed": False, "user": 1},
             content_type="application/json",
+            headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
         )
         self.assertEqual(response.status_code, 201)
 
@@ -427,6 +440,7 @@ class PlaceholderApiTestCase(TestCase):
             "/placeholder_api/todos_update/1",
             {"title": "updated todo", "completed": True, "user": 1},
             content_type="application/json",
+            headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
         )
         self.assertEqual(response.status_code, 200)
 
@@ -435,6 +449,7 @@ class PlaceholderApiTestCase(TestCase):
             "/placeholder_api/todos_partial_update/1",
             {"title": "patched todo"},
             content_type="application/json",
+            headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
         )
         self.assertEqual(response.status_code, 200)
 
@@ -463,7 +478,10 @@ class PlaceholderApiTestCase(TestCase):
         )
 
     def test_todos_delete(self):
-        response = self.client.delete("/placeholder_api/todos_delete/500")
+        response = self.client.delete(
+            "/placeholder_api/todos_delete/500",
+            headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_albums_list(self):
@@ -534,6 +552,7 @@ class PlaceholderApiTestCase(TestCase):
             "/placeholder_api/albums_create",
             {"title": "new album", "user": 1},
             content_type="application/json",
+            headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
         )
         self.assertEqual(response.status_code, 201)
 
@@ -542,6 +561,7 @@ class PlaceholderApiTestCase(TestCase):
             "/placeholder_api/albums_update/1",
             {"title": "updated album", "user": 1},
             content_type="application/json",
+            headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
         )
         self.assertEqual(response.status_code, 200)
 
@@ -550,6 +570,7 @@ class PlaceholderApiTestCase(TestCase):
             "/placeholder_api/albums_partial_update/1",
             {"title": "patched album"},
             content_type="application/json",
+            headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
         )
         self.assertEqual(response.status_code, 200)
 
@@ -577,7 +598,10 @@ class PlaceholderApiTestCase(TestCase):
         )
 
     def test_albums_delete(self):
-        response = self.client.delete("/placeholder_api/albums_delete/500")
+        response = self.client.delete(
+            "/placeholder_api/albums_delete/500",
+            headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_photos_list(self):
@@ -659,6 +683,7 @@ class PlaceholderApiTestCase(TestCase):
                 "album": 1,
             },
             content_type="application/json",
+            headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
         )
         self.assertEqual(response.status_code, 201)
 
@@ -672,6 +697,7 @@ class PlaceholderApiTestCase(TestCase):
                 "album": 1,
             },
             content_type="application/json",
+            headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
         )
         self.assertEqual(response.status_code, 200)
 
@@ -680,6 +706,7 @@ class PlaceholderApiTestCase(TestCase):
             "/placeholder_api/photos_partial_update/1",
             {"title": "patched photo"},
             content_type="application/json",
+            headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
         )
         self.assertEqual(response.status_code, 200)
 
@@ -709,7 +736,10 @@ class PlaceholderApiTestCase(TestCase):
         )
 
     def test_photos_delete(self):
-        response = self.client.delete("/placeholder_api/photos_delete/500")
+        response = self.client.delete(
+            "/placeholder_api/photos_delete/500",
+            headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_posts_list(self):
@@ -783,6 +813,7 @@ class PlaceholderApiTestCase(TestCase):
             "/placeholder_api/posts_create",
             {"title": "new post", "body": "new body", "user": 1},
             content_type="application/json",
+            headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
         )
         self.assertEqual(response.status_code, 201)
 
@@ -791,6 +822,7 @@ class PlaceholderApiTestCase(TestCase):
             "/placeholder_api/posts_update/1",
             {"title": "updated post", "body": "updated body", "user": 1},
             content_type="application/json",
+            headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
         )
         self.assertEqual(response.status_code, 200)
 
@@ -799,6 +831,7 @@ class PlaceholderApiTestCase(TestCase):
             "/placeholder_api/posts_partial_update/1",
             {"title": "patched post"},
             content_type="application/json",
+            headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
         )
         self.assertEqual(response.status_code, 200)
 
@@ -827,7 +860,10 @@ class PlaceholderApiTestCase(TestCase):
         )
 
     def test_posts_delete(self):
-        response = self.client.delete("/placeholder_api/posts_delete/500")
+        response = self.client.delete(
+            "/placeholder_api/posts_delete/500",
+            headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_profile(self):
