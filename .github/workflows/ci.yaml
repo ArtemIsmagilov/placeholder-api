@@ -44,4 +44,4 @@ jobs:
           sudo apt install wrk
       - name: Run wrk
         run: |
-          wrk -c 100 -t 4 -d 60 http://127.0.0.1:8000/placeholder_api/comments_list
+          wrk -c 100 -t 4 -d 60 http://127.0.0.1:8000/placeholder_api/profile/1
