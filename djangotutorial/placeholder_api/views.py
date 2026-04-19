@@ -1120,6 +1120,7 @@ def posts_delete(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(responses={status.HTTP_200_OK: ProfileOutputSerializer()})
 @api_view(["GET"])
 def profile(request: Request, pk: int) -> Response:
     queryset = User.objects.prefetch_related(
