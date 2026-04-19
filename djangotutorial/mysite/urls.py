@@ -19,6 +19,7 @@ import sys
 
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularRedocView,
@@ -186,7 +187,7 @@ urlpatterns = [
     path("placeholder_api/profile/<int:pk>", views.profile, name="profile"),
 ]
 
-if "test" not in sys.argv:
+if "test" not in sys.argv and settings.DEBUG:
     from debug_toolbar.toolbar import debug_toolbar_urls
 
     urlpatterns.extend(debug_toolbar_urls())

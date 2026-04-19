@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+from os import environ
 import sys
 from pathlib import Path
 
@@ -24,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-6$=d(@ik@afm&+wflk7^!_px4+)j$+heu-jwdb4=@bfc3omo=q"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = environ.get("DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1"]
 
 
 # Application definition
@@ -135,6 +136,6 @@ SPECTACULAR_SETTINGS = {
 }
 
 INTERNAL_IPS = ["127.0.0.1"]
-if "test" not in sys.argv:
+if "test" not in sys.argv and DEBUG:
     INSTALLED_APPS.append("debug_toolbar")
     MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
