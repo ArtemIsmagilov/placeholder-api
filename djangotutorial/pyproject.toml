@@ -16,7 +16,6 @@ dev = [
   "django-debug-toolbar>=6.3.0",
 ]
 prod = ["granian>=2.7.3"]
-test = ["jsonschema>=4.26.0"]
 
 [tool.basedpyright]
 typeCheckingMode = "standard"
