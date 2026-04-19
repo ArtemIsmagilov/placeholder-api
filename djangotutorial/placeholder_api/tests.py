@@ -829,3 +829,103 @@ class PlaceholderApiTestCase(TestCase):
     def test_posts_delete(self):
         response = self.client.delete("/placeholder_api/posts_delete/500")
         self.assertEqual(response.status_code, 200)
+
+    def test_profile(self):
+        response = self.client.get("/placeholder_api/profile/1")
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(
+            jsonschema.validate(
+                response.json(),
+                {
+                    "type": "object",
+                    "properties": {
+                        "user_info": {
+                            "type": "object",
+                            "properties": {
+                                "name": {"type": "string"},
+                                "username": {"type": "string"},
+                                "email": {"type": "string"},
+                                "address": {"type": "string"},
+                                "phone": {"type": "string"},
+                                "website": {"type": "string"},
+                                "company": {"type": "string"},
+                            },
+                            "required": [
+                                "name",
+                                "username",
+                                "email",
+                                "address",
+                                "phone",
+                                "website",
+                                "company",
+                            ],
+                        },
+                        "todos": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {"type": "string"},
+                                    "completed": {"type": "boolean"},
+                                },
+                                "required": ["title", "completed"],
+                            },
+                        },
+                        "albums": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {"type": "string"},
+                                    "pictures": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "title": {"type": "string"},
+                                                "url": {"type": "string"},
+                                                "thumbnail_url": {"type": "string"},
+                                            },
+                                            "required": [
+                                                "title",
+                                                "url",
+                                                "thumbnail_url",
+                                            ],
+                                        },
+                                    },
+                                },
+                                "required": ["title", "pictures"],
+                            },
+                        },
+                        "posts": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {"type": "string"},
+                                    "body": {"type": "string"},
+                                    "comments": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "name": {"type": "string"},
+                                                "email": {"type": "string"},
+                                                "body": {"type": "string"},
+                                            },
+                                            "required": [
+                                                "name",
+                                                "email",
+                                                "body",
+                                            ],
+                                        },
+                                    },
+                                },
+                                "required": ["title", "body", "comments"],
+                            },
+                        },
+                    },
+                    "required": ["user_info", "todos", "albums", "posts"],
+                },
+            )
+        )

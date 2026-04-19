@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from rest_framework.request import Request
@@ -70,6 +71,7 @@ from .serializers.posts_serializers import (
     PostFilterOutputSerializer,
     PostFilterInputSerializer,
 )
+from .serializers.profile_serializers import ProfileOutputSerializer
 
 
 @extend_schema(
@@ -1117,3 +1119,56 @@ def posts_filter(request: Request) -> Response:
 def posts_delete(request: Request, pk: int) -> Response:
     Post.objects.filter(pk=pk).delete()
     return Response(status=status.HTTP_200_OK)
+
+
+@api_view(["GET"])
+def profile(request: Request, pk: int) -> Response:
+    user = User.objects.prefetch_related(
+        "todo_set", "album_set__photo_set", "post_set__comment_set"
+    ).get(id=pk)
+    user_data = {
+        "user_info": {
+            "name": user.name,
+            "username": user.username,
+            "email": user.email,
+            "address": user.address,
+            "phone": user.phone,
+            "website": user.website,
+            "company": user.company,
+        },
+        "todos": [
+            {"title": todo.title, "completed": todo.completed}
+            for todo in user.todo_set.all()
+        ],
+        "albums": [
+            {
+                "title": album.title,
+                "pictures": [
+                    {
+                        "title": photo.title,
+                        "url": photo.url,
+                        "thumbnail_url": photo.thumbnail_url,
+                    }
+                    for photo in album.photo_set.all()
+                ],
+            }
+            for album in user.album_set.all()
+        ],
+        "posts": [
+            {
+                "title": post.title,
+                "body": post.body,
+                "comments": [
+                    {
+                        "name": comment.name,
+                        "email": comment.email,
+                        "body": comment.body,
+                    }
+                    for comment in post.comment_set.all()
+                ],
+            }
+            for post in user.post_set.all()
+        ],
+    }
+    serializer = ProfileOutputSerializer(user_data)
+    return Response(serializer.data)

@@ -183,6 +183,7 @@ urlpatterns = [
         views.posts_delete,
         name="posts_delete",
     ),
+    path("placeholder_api/profile/<int:pk>", views.profile, name="profile"),
 ]
 
 if "test" not in sys.argv:
