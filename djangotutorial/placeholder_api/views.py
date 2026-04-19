@@ -1174,3 +1174,9 @@ def profile(request: Request, pk: int) -> Response:
     }
     serializer = ProfileOutputSerializer(user_data)
     return Response(serializer.data)
+
+
+@extend_schema(responses={status.HTTP_200_OK: None})
+@api_view(["GET"])
+def healthcheck(request: Request) -> Response:
+    return Response(status=status.HTTP_200_OK)

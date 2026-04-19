@@ -185,6 +185,7 @@ urlpatterns = [
         name="posts_delete",
     ),
     path("placeholder_api/profile/<int:pk>", views.profile, name="profile"),
+    path("placeholder_api/healthcheck", views.healthcheck, name="healthcheck"),
 ]
 
 if "test" not in sys.argv and settings.DEBUG:

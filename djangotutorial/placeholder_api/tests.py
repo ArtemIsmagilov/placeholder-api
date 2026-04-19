@@ -929,3 +929,7 @@ class PlaceholderApiTestCase(TestCase):
                 },
             )
         )
+
+    def test_healthcheck(self):
+        response = self.client.get("/placeholder_api/healthcheck")
+        self.assertEqual(response.status_code, 200)
