@@ -18,7 +18,7 @@ Including another URLconf
 import sys
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 from django.conf import settings
 from drf_spectacular.views import (
     SpectacularAPIView,
@@ -43,6 +43,7 @@ urlpatterns = [
         SpectacularRedocView.as_view(url_name="schema"),
         name="redoc",
     ),
+    path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
     path("admin/", admin.site.urls),
     path("placeholder_api/comments_list", views.comments_list, name="comments_list"),
     path(
