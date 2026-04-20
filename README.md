@@ -10,12 +10,12 @@
 - Активируем окружение
   ```bash
   cd djangotutorial
-  pip install uv
-  uv venv
+  python3 -m venv .venv
   . .venv/bin/activate
   ```
 - Скачиваем зависимости
   ```bash
+  pip install uv
   uv pip install -r pyproject.toml --all-extras
   ```
 - Запускаем проект
