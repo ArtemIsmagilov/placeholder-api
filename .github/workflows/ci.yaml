@@ -45,3 +45,24 @@ jobs:
       - name: Run wrk
         run: |
           wrk -c 100 -t 4 -d 30 http://127.0.0.1:8000/placeholder_api/comments_list
+
+  mutation-test:
+    runs-on: ubuntu-latest
+    name: Run mutation tests
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v6
+      - name: Install the latest version of uv and set the python version
+        uses: astral-sh/setup-uv@v8.1.0
+        with:
+          python-version: 3.14t
+      - name: Run mutation tests
+        run: |
+          cd djangotutorial
+          uv venv
+          uv pip install -r pyproject.toml --all-extras
+          uv run cosmic-ray init cosmic-ray.toml cosmic-ray.sqlite3
+          uv run cosmic-ray --verbosity=INFO baseline cosmic-ray.toml
+          uv run cr-report cosmic-ray.sqlite3 --show-pending
+          uv run cosmic-ray exec cosmic-ray.toml cosmic-ray.sqlite3
+          uv run cr-report cosmic-ray.sqlite3

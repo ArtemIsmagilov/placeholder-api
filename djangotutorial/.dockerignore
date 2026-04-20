@@ -7,3 +7,5 @@ __pycache__/
 htmlcov/
 placeholder_api.egg-info/
 .ruff_cache/
+cosmic-ray.sqlite3
+report.html
