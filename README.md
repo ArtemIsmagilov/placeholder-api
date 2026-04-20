@@ -51,3 +51,12 @@
   ```bash
   open http://127.0.0.1:8000/api/schema/swagger-ui/
   ```
+- Запускаем мутационное тестирование
+  ```bash
+  cosmic-ray init cosmic-ray.toml cosmic-ray.sqlite3
+  cosmic-ray --verbosity=INFO baseline cosmic-ray.toml
+  cr-report cosmic-ray.sqlite3 --show-pending
+  cosmic-ray exec cosmic-ray.toml cosmic-ray.sqlite3
+  cr-html cosmic-ray.sqlite3 > report.html
+  open report.html
+  ```
