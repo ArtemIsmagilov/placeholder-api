@@ -110,4 +110,5 @@ urlpatterns = [
     ),
     path("carts_filter", views.carts_filter, name="carts_filter"),
     path("carts_delete/<int:pk>", views.carts_delete, name="carts_delete"),
+    path("profile/<int:pk>", views.profile, name="profile"),
 ]

@@ -109,6 +109,7 @@ from dummy_api.serializers.carts_serializers import (
     CartFilterOutputSerializer,
     CartFilterInputSerializer,
 )
+from dummy_api.serializers.profile_serializers import ProfileOutputSerializer
 from mysite.base_permissions import TokenPermission
 
 
@@ -2231,3 +2232,127 @@ def carts_filter(request: Request) -> Response:
 def carts_delete(request: Request, pk: int) -> Response:
     Cart.objects.filter(pk=pk).delete()
     return Response(status=status.HTTP_200_OK)
+
+
+@extend_schema(responses={status.HTTP_200_OK: ProfileOutputSerializer()})
+@api_view(["GET"])
+def profile(request: Request, pk: int) -> Response:
+    queryset = User.objects.prefetch_related(
+        "todo_set",
+        "recipe_set",
+        "review_set",
+        "cart_set__products",
+        "post_set__comment_set",
+    )
+    user = get_object_or_404(queryset, id=pk)
+
+    user_data = {
+        "user_info": {
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "maiden_name": user.maiden_name,
+            "age": user.age,
+            "gender": user.gender,
+            "email": user.email,
+            "phone": user.phone,
+            "username": user.username,
+            "password": user.password,
+            "birthday": user.birthday,
+            "image": user.image,
+            "blood_group": user.blood_group,
+            "height": user.height,
+            "weight": user.weight,
+            "eye_color": user.eye_color,
+            "hair_color": user.hair_color,
+            "hair_type": user.hair_type,
+            "ip": user.ip,
+            "address": user.address,
+            "city": user.city,
+            "state": user.state,
+            "state_code": user.state_code,
+            "postal_code": user.postal_code,
+            "coordinates": user.coordinates,
+            "country": user.country,
+            "mac_address": user.mac_address,
+            "university": user.university,
+            "bank_card_expire": user.bank_card_expire,
+            "bank_card_number": user.bank_card_number,
+            "bank_card_type": user.bank_card_type,
+            "bank_currency": user.bank_currency,
+            "bank_iban": user.bank_iban,
+            "company_department": user.company_department,
+            "company_name": user.company_name,
+            "company_title": user.company_title,
+            "company_address": user.company_address,
+            "company_city": user.company_city,
+            "company_state": user.company_state,
+            "company_state_code": user.company_state_code,
+            "company_postal_code": user.company_postal_code,
+            "company_coordinates": user.company_coordinates,
+            "company_country": user.company_country,
+            "ein": user.ein,
+            "snn": user.snn,
+            "user_agent": user.user_agent,
+            "crypto_coint": user.crypto_coint,
+            "crypto_wallet": user.crypto_wallet,
+            "crypto_network": user.crypto_network,
+            "role": user.role,
+        },
+        "todos": [
+            {"title": todo.title, "completed": todo.completed}
+            for todo in user.todo_set.all()
+        ],
+        "recipes": [
+            {
+                "name": recipe.name,
+                "ingredients": recipe.ingredients,
+                "instructions": recipe.instructions,
+                "prep_time_minutes": recipe.prep_time_minutes,
+                "cook_time_minutes": recipe.cook_time_minutes,
+                "servings": recipe.servings,
+                "difficulty": recipe.difficulty,
+                "cuisine": recipe.cuisine,
+                "calories_per_serving": recipe.calories_per_serving,
+                "tags": recipe.tags,
+                "image": recipe.image,
+                "rating": recipe.rating,
+                "review_count": recipe.review_count,
+                "meal_type": recipe.meal_type,
+            }
+            for recipe in user.recipe_set.all()
+        ],
+        "reviews": [
+            {
+                "rating": review.rating,
+                "comment": review.comment,
+                "date": review.date,
+            }
+            for review in user.review_set.all()
+        ],
+        "carts": [
+            {
+                "products": list(cart.products.values_list("id", flat=True)),
+            }
+            for cart in user.cart_set.all()
+        ],
+        "posts": [
+            {
+                "title": post.title,
+                "body": post.body,
+                "tags": post.tags,
+                "likes": post.likes,
+                "dislikes": post.dislikes,
+                "views": post.views,
+                "comments": [
+                    {
+                        "body": comment.body,
+                        "likes": comment.likes,
+                    }
+                    for comment in post.comment_set.all()
+                ],
+            }
+            for post in user.post_set.all()
+        ],
+    }
+    serializer = ProfileOutputSerializer(user_data)
+    return Response(serializer.data)
