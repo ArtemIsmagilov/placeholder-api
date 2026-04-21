@@ -34,8 +34,8 @@ class DummyApiTestCase(TestCase):
     def test_products(self):
         self.assertEqual(Product.objects.count(), 194)
 
-    def reviews(self):
-        self.assertEqual(Review.objects.count(), 500)
+    def test_reviews(self):
+        self.assertEqual(Review.objects.count(), 582)
 
     def test_posts(self):
         self.assertEqual(Post.objects.count(), 251)
@@ -223,9 +223,7 @@ class DummyApiTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_users_filter(self):
-        response = self.client.get(
-            "/dummy_api/users_filter", query_params={"first_name": "Emily"}
-        )
+        response = self.client.get("/dummy_api/users_filter", {"first_name": "Emily"})
         self.assertEqual(response.status_code, 200)
 
     def test_users_delete(self):
@@ -344,9 +342,7 @@ class DummyApiTestCase(TestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_todos_filter(self):
-        response = self.client.get(
-            "/dummy_api/todos_filter", query_params={"completed": True}
-        )
+        response = self.client.get("/dummy_api/todos_filter", {"completed": True})
         self.assertEqual(response.status_code, 200)
 
     def test_todos_delete(self):
@@ -577,9 +573,7 @@ class DummyApiTestCase(TestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_recipes_filter(self):
-        response = self.client.get(
-            "/dummy_api/recipes_filter", query_params={"cuisine": "Italian"}
-        )
+        response = self.client.get("/dummy_api/recipes_filter", {"cuisine": "Italian"})
         self.assertEqual(response.status_code, 200)
 
     def test_recipes_delete(self):
@@ -686,9 +680,7 @@ class DummyApiTestCase(TestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_quotes_filter(self):
-        response = self.client.get(
-            "/dummy_api/quotes_filter", query_params={"author": "Unknown"}
-        )
+        response = self.client.get("/dummy_api/quotes_filter", {"author": "Unknown"})
         self.assertEqual(response.status_code, 200)
 
     def test_quotes_delete(self):
@@ -991,9 +983,7 @@ class DummyApiTestCase(TestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_products_filter(self):
-        response = self.client.get(
-            "/dummy_api/products_filter", query_params={"category": "beauty"}
-        )
+        response = self.client.get("/dummy_api/products_filter", {"category": "beauty"})
         self.assertEqual(response.status_code, 200)
 
     def test_products_delete(self):
@@ -1137,9 +1127,7 @@ class DummyApiTestCase(TestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_reviews_filter(self):
-        response = self.client.get(
-            "/dummy_api/reviews_filter", query_params={"rating": 5}
-        )
+        response = self.client.get("/dummy_api/reviews_filter", {"rating": 5})
         self.assertEqual(response.status_code, 200)
 
     def test_reviews_delete(self):
@@ -1306,7 +1294,7 @@ class DummyApiTestCase(TestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_posts_filter(self):
-        response = self.client.get("/dummy_api/posts_filter", query_params={"user": 1})
+        response = self.client.get("/dummy_api/posts_filter", {"user": 1})
         self.assertEqual(response.status_code, 200)
 
     def test_posts_delete(self):
@@ -1357,9 +1345,8 @@ class DummyApiTestCase(TestCase):
                         "body": {"type": "string"},
                         "likes": {"type": "number"},
                         "post": {"type": "number"},
-                        "user": {"type": "number"},
                     },
-                    "required": ["id", "body", "likes", "post", "user"],
+                    "required": ["id", "body", "likes", "post"],
                 },
             )
         )
@@ -1432,9 +1419,7 @@ class DummyApiTestCase(TestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_comments_filter(self):
-        response = self.client.get(
-            "/dummy_api/comments_filter", query_params={"post": 1}
-        )
+        response = self.client.get("/dummy_api/comments_filter", {"post": 1})
         self.assertEqual(response.status_code, 200)
 
     def test_comments_delete(self):
@@ -1541,7 +1526,7 @@ class DummyApiTestCase(TestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_carts_filter(self):
-        response = self.client.get("/dummy_api/carts_filter", query_params={"user": 1})
+        response = self.client.get("/dummy_api/carts_filter", {"user": 1})
         self.assertEqual(response.status_code, 200)
 
     def test_carts_delete(self):

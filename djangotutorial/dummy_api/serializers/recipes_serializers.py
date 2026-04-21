@@ -128,7 +128,7 @@ class RecipeFilterOutputSerializer(serializers.Serializer):
     rating = serializers.FloatField()
     review_count = serializers.IntegerField()
     meal_type = serializers.CharField()
-    user = serializers.IntegerField()
+    user = serializers.IntegerField(source="user_id")
 
 
 class RecipeFilterInputSerializer(serializers.Serializer):
@@ -148,3 +148,4 @@ class RecipeFilterInputSerializer(serializers.Serializer):
     review_count = serializers.IntegerField(required=False)
     meal_type = serializers.CharField(required=False)
     user = serializers.IntegerField(required=False)
+
