@@ -30,7 +30,7 @@
   ```
 - Запускаем тесты на покрытие кода
   ```bash
-  coverage run -p --source='.' manage.py test --parallel
+  coverage run -p --source='.' manage.py test
   coverage combine
   coverage report
   ```

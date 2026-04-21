@@ -25,7 +25,7 @@ jobs:
           uv run ruff check
           uv run ruff format --check
           uv run python manage.py test --parallel
-          uv run coverage run -p --source='.' manage.py test --parallel
+          uv run coverage run -p --source='.' manage.py test
           uv run coverage combine
           uv run coverage report
 
