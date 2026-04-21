@@ -2331,7 +2331,35 @@ def profile(request: Request, pk: int) -> Response:
         ],
         "carts": [
             {
-                "products": list(cart.products.values_list("id", flat=True)),
+                "products": [
+                    {
+                        "title": product.title,
+                        "description": product.description,
+                        "category": product.category,
+                        "price": product.price,
+                        "discount_percentage": product.discount_percentage,
+                        "rating": product.rating,
+                        "stock": product.stock,
+                        "tags": product.tags,
+                        "brand": product.brand,
+                        "sku": product.sku,
+                        "weight": product.weight,
+                        "width": product.width,
+                        "height": product.height,
+                        "depth": product.depth,
+                        "warranty_information": product.warranty_information,
+                        "shipping_information": product.shipping_information,
+                        "availability_status": product.availability_status,
+                        "return_policy": product.return_policy,
+                        "minimum_order_quantity": product.minimum_order_quantity,
+                        "created_at": product.created_at,
+                        "updated_at": product.updated_at,
+                        "barcode": product.barcode,
+                        "qr_code": product.qr_code,
+                        "thumbnail": product.thumbnail,
+                    }
+                    for product in cart.products.all()
+                ],
             }
             for cart in user.cart_set.all()
         ],

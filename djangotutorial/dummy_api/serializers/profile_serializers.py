@@ -81,8 +81,35 @@ class ReviewProfileSerializer(serializers.Serializer):
     date = serializers.DateTimeField()
 
 
+class ProductProfileSerializer(serializers.Serializer):
+    title = serializers.CharField()
+    description = serializers.CharField()
+    category = serializers.CharField()
+    price = serializers.FloatField()
+    discount_percentage = serializers.FloatField()
+    rating = serializers.FloatField()
+    stock = serializers.IntegerField()
+    tags = serializers.CharField()
+    brand = serializers.CharField()
+    sku = serializers.CharField()
+    weight = serializers.IntegerField()
+    width = serializers.FloatField()
+    height = serializers.FloatField()
+    depth = serializers.FloatField()
+    warranty_information = serializers.CharField()
+    shipping_information = serializers.CharField()
+    availability_status = serializers.CharField()
+    return_policy = serializers.CharField()
+    minimum_order_quantity = serializers.IntegerField()
+    created_at = serializers.DateTimeField()
+    updated_at = serializers.DateTimeField()
+    barcode = serializers.CharField()
+    qr_code = serializers.CharField()
+    thumbnail = serializers.URLField()
+
+
 class CartProfileSerializer(serializers.Serializer):
-    products = serializers.ListField(child=serializers.IntegerField())
+    products = ProductProfileSerializer(many=True)
 
 
 class CommentProfileSerializer(serializers.Serializer):
