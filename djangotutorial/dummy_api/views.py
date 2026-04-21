@@ -238,6 +238,9 @@ def users_search(request: Request) -> Response:
     responses={
         status.HTTP_201_CREATED: UserCreateInputSerializer(),
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["POST"])
 @permission_classes([TokenPermission])
@@ -253,6 +256,9 @@ def users_create(request: Request) -> Response:
     responses={
         status.HTTP_200_OK: UserUpdateInputSerializer(),
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PUT"])
 @permission_classes([TokenPermission])
@@ -268,6 +274,9 @@ def users_update(request: Request, pk: int) -> Response:
     responses={
         status.HTTP_200_OK: UserPartialUpdateInputSerializer(),
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PATCH"])
 @permission_classes([TokenPermission])
@@ -466,6 +475,9 @@ def users_filter(request: Request) -> Response:
     responses={
         status.HTTP_200_OK: None,
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["DELETE"])
 @permission_classes([TokenPermission])
@@ -551,6 +563,9 @@ def todos_search(request: Request) -> Response:
     responses={
         status.HTTP_201_CREATED: TodoCreateInputSerializer(),
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["POST"])
 @permission_classes([TokenPermission])
@@ -568,6 +583,9 @@ def todos_create(request: Request) -> Response:
     responses={
         status.HTTP_200_OK: TodoUpdateInputSerializer(),
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PUT"])
 @permission_classes([TokenPermission])
@@ -585,6 +603,9 @@ def todos_update(request: Request, pk: int) -> Response:
     responses={
         status.HTTP_200_OK: TodoPartialUpdateInputSerializer(),
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PATCH"])
 @permission_classes([TokenPermission])
@@ -647,6 +668,9 @@ def todos_filter(request: Request) -> Response:
     responses={
         status.HTTP_200_OK: None,
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["DELETE"])
 @permission_classes([TokenPermission])
@@ -732,6 +756,9 @@ def recipes_search(request: Request) -> Response:
     responses={
         status.HTTP_201_CREATED: RecipeCreateInputSerializer(),
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["POST"])
 @permission_classes([TokenPermission])
@@ -749,6 +776,9 @@ def recipes_create(request: Request) -> Response:
     responses={
         status.HTTP_200_OK: RecipeUpdateInputSerializer(),
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PUT"])
 @permission_classes([TokenPermission])
@@ -766,6 +796,9 @@ def recipes_update(request: Request, pk: int) -> Response:
     responses={
         status.HTTP_200_OK: RecipePartialUpdateInputSerializer(),
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PATCH"])
 @permission_classes([TokenPermission])
@@ -894,6 +927,9 @@ def recipes_filter(request: Request) -> Response:
     responses={
         status.HTTP_200_OK: None,
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["DELETE"])
 @permission_classes([TokenPermission])
@@ -979,6 +1015,9 @@ def quotes_search(request: Request) -> Response:
     responses={
         status.HTTP_201_CREATED: QuoteCreateInputSerializer(),
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["POST"])
 @permission_classes([TokenPermission])
@@ -994,6 +1033,9 @@ def quotes_create(request: Request) -> Response:
     responses={
         status.HTTP_200_OK: QuoteUpdateInputSerializer(),
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PUT"])
 @permission_classes([TokenPermission])
@@ -1009,6 +1051,9 @@ def quotes_update(request: Request, pk: int) -> Response:
     responses={
         status.HTTP_200_OK: QuotePartialUpdateInputSerializer(),
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PATCH"])
 @permission_classes([TokenPermission])
@@ -1063,6 +1108,9 @@ def quotes_filter(request: Request) -> Response:
     responses={
         status.HTTP_200_OK: None,
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["DELETE"])
 @permission_classes([TokenPermission])
@@ -1152,6 +1200,9 @@ def products_search(request: Request) -> Response:
     responses={
         status.HTTP_201_CREATED: ProductCreateInputSerializer(),
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["POST"])
 @permission_classes([TokenPermission])
@@ -1167,6 +1218,9 @@ def products_create(request: Request) -> Response:
     responses={
         status.HTTP_200_OK: ProductUpdateInputSerializer(),
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PUT"])
 @permission_classes([TokenPermission])
@@ -1182,6 +1236,9 @@ def products_update(request: Request, pk: int) -> Response:
     responses={
         status.HTTP_200_OK: ProductPartialUpdateInputSerializer(),
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PATCH"])
 @permission_classes([TokenPermission])
@@ -1326,6 +1383,9 @@ def products_filter(request: Request) -> Response:
     responses={
         status.HTTP_200_OK: None,
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["DELETE"])
 @permission_classes([TokenPermission])
@@ -1411,6 +1471,9 @@ def reviews_search(request: Request) -> Response:
     responses={
         status.HTTP_201_CREATED: ReviewCreateInputSerializer(),
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["POST"])
 @permission_classes([TokenPermission])
@@ -1429,6 +1492,9 @@ def reviews_create(request: Request) -> Response:
     responses={
         status.HTTP_200_OK: ReviewUpdateInputSerializer(),
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PUT"])
 @permission_classes([TokenPermission])
@@ -1447,6 +1513,9 @@ def reviews_update(request: Request, pk: int) -> Response:
     responses={
         status.HTTP_200_OK: ReviewPartialUpdateInputSerializer(),
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PATCH"])
 @permission_classes([TokenPermission])
@@ -1515,6 +1584,9 @@ def reviews_filter(request: Request) -> Response:
     responses={
         status.HTTP_200_OK: None,
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["DELETE"])
 @permission_classes([TokenPermission])
@@ -1600,6 +1672,9 @@ def posts_search(request: Request) -> Response:
     responses={
         status.HTTP_201_CREATED: PostCreateInputSerializer(),
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["POST"])
 @permission_classes([TokenPermission])
@@ -1617,6 +1692,9 @@ def posts_create(request: Request) -> Response:
     responses={
         status.HTTP_200_OK: PostUpdateInputSerializer(),
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PUT"])
 @permission_classes([TokenPermission])
@@ -1634,6 +1712,9 @@ def posts_update(request: Request, pk: int) -> Response:
     responses={
         status.HTTP_200_OK: PostPartialUpdateInputSerializer(),
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PATCH"])
 @permission_classes([TokenPermission])
@@ -1706,6 +1787,9 @@ def posts_filter(request: Request) -> Response:
     responses={
         status.HTTP_200_OK: None,
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["DELETE"])
 @permission_classes([TokenPermission])
@@ -1791,6 +1875,9 @@ def comments_search(request: Request) -> Response:
     responses={
         status.HTTP_201_CREATED: CommentCreateInputSerializer(),
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["POST"])
 @permission_classes([TokenPermission])
@@ -1808,6 +1895,9 @@ def comments_create(request: Request) -> Response:
     responses={
         status.HTTP_200_OK: CommentUpdateInputSerializer(),
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PUT"])
 @permission_classes([TokenPermission])
@@ -1825,6 +1915,9 @@ def comments_update(request: Request, pk: int) -> Response:
     responses={
         status.HTTP_200_OK: CommentPartialUpdateInputSerializer(),
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PATCH"])
 @permission_classes([TokenPermission])
@@ -1888,6 +1981,9 @@ def comments_filter(request: Request) -> Response:
     responses={
         status.HTTP_200_OK: None,
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["DELETE"])
 @permission_classes([TokenPermission])
@@ -1980,16 +2076,12 @@ def carts_search(request: Request) -> Response:
         page_size = 10
 
     if (q := request.query_params.get("q")) is None:
-        queryset = (
-            Cart.objects.select_related("user")
-            .prefetch_related("products")
-            .order_by("id")
-        )
+        queryset = Cart.objects.prefetch_related("products").order_by("id")
     else:
         queryset = (
-            Cart.objects.select_related("user")
-            .prefetch_related("products")
+            Cart.objects.prefetch_related("products")
             .filter(id__icontains=q)
+            .filter(user__id__icontains=q)
             .order_by("id")
         )
     paginator = Pagination()
@@ -2012,6 +2104,9 @@ def carts_search(request: Request) -> Response:
     responses={
         status.HTTP_201_CREATED: CartCreateInputSerializer(),
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["POST"])
 @permission_classes([TokenPermission])
@@ -2031,6 +2126,9 @@ def carts_create(request: Request) -> Response:
     responses={
         status.HTTP_200_OK: CartUpdateInputSerializer(),
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PUT"])
 @permission_classes([TokenPermission])
@@ -2051,6 +2149,9 @@ def carts_update(request: Request, pk: int) -> Response:
     responses={
         status.HTTP_200_OK: CartPartialUpdateInputSerializer(),
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["PATCH"])
 @permission_classes([TokenPermission])
@@ -2121,6 +2222,9 @@ def carts_filter(request: Request) -> Response:
     responses={
         status.HTTP_200_OK: None,
     },
+    parameters=[
+        OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
+    ],
 )
 @api_view(["DELETE"])
 @permission_classes([TokenPermission])
