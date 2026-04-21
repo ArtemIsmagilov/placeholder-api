@@ -2180,5 +2180,3 @@ class DummyApiTestCase(TestCase):
                 },
             )
         )
-
-    
