@@ -36,6 +36,7 @@ ALLOWED_HOSTS = ["127.0.0.1"]
 
 INSTALLED_APPS = [
     "placeholder_api.apps.PlaceholderApiConfig",
+    "dummy_api.apps.DummyApiConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

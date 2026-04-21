@@ -5,7 +5,7 @@ from placeholder_api.models import User, Comment, Post, Todo, Album, Photo
 
 
 class Command(BaseCommand):
-    help = "Init DB from json file"
+    help = "Init DB from Placeholder json file"
 
     def handle(self, *args, **options):
         data = json.load(open("data.json"))
@@ -91,4 +91,6 @@ class Command(BaseCommand):
         )
         Comment.objects.bulk_create(comments)
 
-        self.stdout.write(self.style.SUCCESS("Successfully init tables"))
+        self.stdout.write(
+            self.style.SUCCESS("Successfully init tables from placeholder json.")
+        )

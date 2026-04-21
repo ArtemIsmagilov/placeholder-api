@@ -8,7 +8,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework import serializers
 from drf_spectacular.utils import extend_schema, inline_serializer, OpenApiParameter
 
-
+from mysite.base_permissions import TokenPermission
 from .models import Comment, User, Todo, Album, Photo, Post
 from .serializers.comments_serializers import (
     CommentSearchOutputSerializer,
@@ -71,7 +71,6 @@ from .serializers.posts_serializers import (
     PostFilterInputSerializer,
 )
 from .serializers.profile_serializers import ProfileOutputSerializer
-from .permissions import TokenPermission
 
 
 @extend_schema(

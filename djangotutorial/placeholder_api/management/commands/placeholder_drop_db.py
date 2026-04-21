@@ -3,7 +3,7 @@ from placeholder_api.models import User, Comment, Post, Todo, Album, Photo
 
 
 class Command(BaseCommand):
-    help = "Drop DB"
+    help = "Drop tables from placeholder app"
 
     def handle(self, *args, **options):
         User.objects.all().delete()
@@ -18,4 +18,6 @@ class Command(BaseCommand):
 
         Comment.objects.all().delete()
 
-        self.stdout.write(self.style.SUCCESS("Successfully truncate tables"))
+        self.stdout.write(
+            self.style.SUCCESS("Successfully truncate placeholder tables.")
+        )
