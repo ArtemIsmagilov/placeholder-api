@@ -281,6 +281,125 @@ class DummyApiTestCase(TestCase):
             )
         )
 
+    def test_users_search(self):
+        response = self.client.get("/dummy_api/users_search", {"q": "Emily"})
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(
+            jsonschema.validate(
+                response.json()["results"],
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {"type": "number"},
+                            "first_name": {"type": "string"},
+                            "last_name": {"type": "string"},
+                            "maiden_name": {"type": "string"},
+                            "age": {"type": "number"},
+                            "gender": {"type": "string"},
+                            "email": {"type": "string"},
+                            "phone": {"type": "string"},
+                            "username": {"type": "string"},
+                            "password": {"type": "string"},
+                            "birthday": {"type": "string"},
+                            "image": {"type": "string"},
+                            "blood_group": {"type": "string"},
+                            "height": {"type": "number"},
+                            "weight": {"type": "number"},
+                            "eye_color": {"type": "string"},
+                            "hair_color": {"type": "string"},
+                            "hair_type": {"type": "string"},
+                            "ip": {"type": "string"},
+                            "address": {"type": "string"},
+                            "city": {"type": "string"},
+                            "state": {"type": "string"},
+                            "state_code": {"type": "string"},
+                            "postal_code": {"type": "string"},
+                            "coordinates": {"type": "string"},
+                            "country": {"type": "string"},
+                            "mac_address": {"type": "string"},
+                            "university": {"type": "string"},
+                            "bank_card_expire": {"type": "string"},
+                            "bank_card_number": {"type": "string"},
+                            "bank_card_type": {"type": "string"},
+                            "bank_currency": {"type": "string"},
+                            "bank_iban": {"type": "string"},
+                            "company_department": {"type": "string"},
+                            "company_name": {"type": "string"},
+                            "company_title": {"type": "string"},
+                            "company_address": {"type": "string"},
+                            "company_city": {"type": "string"},
+                            "company_state": {"type": "string"},
+                            "company_state_code": {"type": "string"},
+                            "company_postal_code": {"type": "string"},
+                            "company_coordinates": {"type": "string"},
+                            "company_country": {"type": "string"},
+                            "ein": {"type": "string"},
+                            "snn": {"type": "string"},
+                            "user_agent": {"type": "string"},
+                            "crypto_coint": {"type": "string"},
+                            "crypto_wallet": {"type": "string"},
+                            "crypto_network": {"type": "string"},
+                            "role": {"type": "string"},
+                        },
+                        "required": [
+                            "id",
+                            "first_name",
+                            "last_name",
+                            "maiden_name",
+                            "age",
+                            "gender",
+                            "email",
+                            "phone",
+                            "username",
+                            "password",
+                            "birthday",
+                            "image",
+                            "blood_group",
+                            "height",
+                            "weight",
+                            "eye_color",
+                            "hair_color",
+                            "hair_type",
+                            "ip",
+                            "address",
+                            "city",
+                            "state",
+                            "state_code",
+                            "postal_code",
+                            "coordinates",
+                            "country",
+                            "mac_address",
+                            "university",
+                            "bank_card_expire",
+                            "bank_card_number",
+                            "bank_card_type",
+                            "bank_currency",
+                            "bank_iban",
+                            "company_department",
+                            "company_name",
+                            "company_title",
+                            "company_address",
+                            "company_city",
+                            "company_state",
+                            "company_state_code",
+                            "company_postal_code",
+                            "company_coordinates",
+                            "company_country",
+                            "ein",
+                            "snn",
+                            "user_agent",
+                            "crypto_coint",
+                            "crypto_wallet",
+                            "crypto_network",
+                            "role",
+                        ],
+                    },
+                },
+            )
+        )
+
     def test_users_create(self):
         response = self.client.post(
             "/dummy_api/users_create",
@@ -460,6 +579,28 @@ class DummyApiTestCase(TestCase):
             )
         )
 
+    def test_todos_search(self):
+        response = self.client.get("/dummy_api/todos_search", {"q": "test"})
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(
+            jsonschema.validate(
+                response.json()["results"],
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {"type": "number"},
+                            "title": {"type": "string"},
+                            "completed": {"type": "boolean"},
+                            "user": {"type": "number"},
+                        },
+                        "required": ["id", "title", "completed", "user"],
+                    },
+                },
+            )
+        )
+
     def test_todos_create(self):
         response = self.client.post(
             "/dummy_api/todos_create",
@@ -598,47 +739,54 @@ class DummyApiTestCase(TestCase):
     def test_recipes_detail(self):
         response = self.client.get("/dummy_api/recipes_detail/1")
         self.assertEqual(response.status_code, 200)
+
+    def test_recipes_search(self):
+        response = self.client.get("/dummy_api/recipes_search", {"q": "pasta"})
+        self.assertEqual(response.status_code, 200)
         self.assertIsNone(
             jsonschema.validate(
-                response.json(),
+                response.json()["results"],
                 {
-                    "type": "object",
-                    "properties": {
-                        "id": {"type": "number"},
-                        "name": {"type": "string"},
-                        "ingredients": {"type": "string"},
-                        "instructions": {"type": "string"},
-                        "prep_time_minutes": {"type": "number"},
-                        "cook_time_minutes": {"type": "number"},
-                        "servings": {"type": "number"},
-                        "difficulty": {"type": "string"},
-                        "cuisine": {"type": "string"},
-                        "calories_per_serving": {"type": "number"},
-                        "tags": {"type": "string"},
-                        "image": {"type": "string"},
-                        "rating": {"type": "number"},
-                        "review_count": {"type": "number"},
-                        "meal_type": {"type": "string"},
-                        "user": {"type": "number"},
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {"type": "number"},
+                            "name": {"type": "string"},
+                            "ingredients": {"type": "string"},
+                            "instructions": {"type": "string"},
+                            "prep_time_minutes": {"type": "number"},
+                            "cook_time_minutes": {"type": "number"},
+                            "servings": {"type": "number"},
+                            "difficulty": {"type": "string"},
+                            "cuisine": {"type": "string"},
+                            "calories_per_serving": {"type": "number"},
+                            "tags": {"type": "string"},
+                            "image": {"type": "string"},
+                            "rating": {"type": "number"},
+                            "review_count": {"type": "number"},
+                            "meal_type": {"type": "string"},
+                            "user": {"type": "number"},
+                        },
+                        "required": [
+                            "id",
+                            "name",
+                            "ingredients",
+                            "instructions",
+                            "prep_time_minutes",
+                            "cook_time_minutes",
+                            "servings",
+                            "difficulty",
+                            "cuisine",
+                            "calories_per_serving",
+                            "tags",
+                            "image",
+                            "rating",
+                            "review_count",
+                            "meal_type",
+                            "user",
+                        ],
                     },
-                    "required": [
-                        "id",
-                        "name",
-                        "ingredients",
-                        "instructions",
-                        "prep_time_minutes",
-                        "cook_time_minutes",
-                        "servings",
-                        "difficulty",
-                        "cuisine",
-                        "calories_per_serving",
-                        "tags",
-                        "image",
-                        "rating",
-                        "review_count",
-                        "meal_type",
-                        "user",
-                    ],
                 },
             )
         )
@@ -799,17 +947,24 @@ class DummyApiTestCase(TestCase):
     def test_quotes_detail(self):
         response = self.client.get("/dummy_api/quotes_detail/1")
         self.assertEqual(response.status_code, 200)
+
+    def test_quotes_search(self):
+        response = self.client.get("/dummy_api/quotes_search", {"q": "life"})
+        self.assertEqual(response.status_code, 200)
         self.assertIsNone(
             jsonschema.validate(
-                response.json(),
+                response.json()["results"],
                 {
-                    "type": "object",
-                    "properties": {
-                        "id": {"type": "number"},
-                        "title": {"type": "string"},
-                        "author": {"type": "string"},
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {"type": "number"},
+                            "title": {"type": "string"},
+                            "author": {"type": "string"},
+                        },
+                        "required": ["id", "title", "author"],
                     },
-                    "required": ["id", "title", "author"],
                 },
             )
         )
@@ -954,65 +1109,72 @@ class DummyApiTestCase(TestCase):
     def test_products_detail(self):
         response = self.client.get("/dummy_api/products_detail/1")
         self.assertEqual(response.status_code, 200)
+
+    def test_products_search(self):
+        response = self.client.get("/dummy_api/products_search", {"q": "phone"})
+        self.assertEqual(response.status_code, 200)
         self.assertIsNone(
             jsonschema.validate(
-                response.json(),
+                response.json()["results"],
                 {
-                    "type": "object",
-                    "properties": {
-                        "id": {"type": "number"},
-                        "title": {"type": "string"},
-                        "description": {"type": "string"},
-                        "category": {"type": "string"},
-                        "price": {"type": "number"},
-                        "discount_percentage": {"type": "number"},
-                        "rating": {"type": "number"},
-                        "stock": {"type": "number"},
-                        "tags": {"type": "string"},
-                        "brand": {"type": "string"},
-                        "sku": {"type": "string"},
-                        "weight": {"type": "number"},
-                        "width": {"type": "number"},
-                        "height": {"type": "number"},
-                        "depth": {"type": "number"},
-                        "warranty_information": {"type": "string"},
-                        "shipping_information": {"type": "string"},
-                        "availability_status": {"type": "string"},
-                        "return_policy": {"type": "string"},
-                        "minimum_order_quantity": {"type": "number"},
-                        "created_at": {"type": "string"},
-                        "updated_at": {"type": "string"},
-                        "barcode": {"type": "string"},
-                        "qr_code": {"type": "string"},
-                        "thumbnail": {"type": "string"},
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {"type": "number"},
+                            "title": {"type": "string"},
+                            "description": {"type": "string"},
+                            "category": {"type": "string"},
+                            "price": {"type": "number"},
+                            "discount_percentage": {"type": "number"},
+                            "rating": {"type": "number"},
+                            "stock": {"type": "number"},
+                            "tags": {"type": "string"},
+                            "brand": {"type": "string"},
+                            "sku": {"type": "string"},
+                            "weight": {"type": "number"},
+                            "width": {"type": "number"},
+                            "height": {"type": "number"},
+                            "depth": {"type": "number"},
+                            "warranty_information": {"type": "string"},
+                            "shipping_information": {"type": "string"},
+                            "availability_status": {"type": "string"},
+                            "return_policy": {"type": "string"},
+                            "minimum_order_quantity": {"type": "number"},
+                            "created_at": {"type": "string"},
+                            "updated_at": {"type": "string"},
+                            "barcode": {"type": "string"},
+                            "qr_code": {"type": "string"},
+                            "thumbnail": {"type": "string"},
+                        },
+                        "required": [
+                            "id",
+                            "title",
+                            "description",
+                            "category",
+                            "price",
+                            "discount_percentage",
+                            "rating",
+                            "stock",
+                            "tags",
+                            "brand",
+                            "sku",
+                            "weight",
+                            "width",
+                            "height",
+                            "depth",
+                            "warranty_information",
+                            "shipping_information",
+                            "availability_status",
+                            "return_policy",
+                            "minimum_order_quantity",
+                            "created_at",
+                            "updated_at",
+                            "barcode",
+                            "qr_code",
+                            "thumbnail",
+                        ],
                     },
-                    "required": [
-                        "id",
-                        "title",
-                        "description",
-                        "category",
-                        "price",
-                        "discount_percentage",
-                        "rating",
-                        "stock",
-                        "tags",
-                        "brand",
-                        "sku",
-                        "weight",
-                        "width",
-                        "height",
-                        "depth",
-                        "warranty_information",
-                        "shipping_information",
-                        "availability_status",
-                        "return_policy",
-                        "minimum_order_quantity",
-                        "created_at",
-                        "updated_at",
-                        "barcode",
-                        "qr_code",
-                        "thumbnail",
-                    ],
                 },
             )
         )
@@ -1219,20 +1381,34 @@ class DummyApiTestCase(TestCase):
     def test_reviews_detail(self):
         response = self.client.get("/dummy_api/reviews_detail/1")
         self.assertEqual(response.status_code, 200)
+
+    def test_reviews_search(self):
+        response = self.client.get("/dummy_api/reviews_search", {"q": "great"})
+        self.assertEqual(response.status_code, 200)
         self.assertIsNone(
             jsonschema.validate(
-                response.json(),
+                response.json()["results"],
                 {
-                    "type": "object",
-                    "properties": {
-                        "id": {"type": "number"},
-                        "rating": {"type": "number"},
-                        "comment": {"type": "string"},
-                        "date": {"type": "string"},
-                        "product": {"type": "number"},
-                        "user": {"type": "number"},
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {"type": "number"},
+                            "rating": {"type": "number"},
+                            "comment": {"type": "string"},
+                            "date": {"type": "string"},
+                            "product": {"type": "number"},
+                            "user": {"type": "number"},
+                        },
+                        "required": [
+                            "id",
+                            "rating",
+                            "comment",
+                            "date",
+                            "product",
+                            "user",
+                        ],
                     },
-                    "required": ["id", "rating", "comment", "date", "product", "user"],
                 },
             )
         )
@@ -1367,31 +1543,38 @@ class DummyApiTestCase(TestCase):
     def test_posts_detail(self):
         response = self.client.get("/dummy_api/posts_detail/1")
         self.assertEqual(response.status_code, 200)
+
+    def test_posts_search(self):
+        response = self.client.get("/dummy_api/posts_search", {"q": "test"})
+        self.assertEqual(response.status_code, 200)
         self.assertIsNone(
             jsonschema.validate(
-                response.json(),
+                response.json()["results"],
                 {
-                    "type": "object",
-                    "properties": {
-                        "id": {"type": "number"},
-                        "title": {"type": "string"},
-                        "body": {"type": "string"},
-                        "tags": {"type": "string"},
-                        "likes": {"type": "number"},
-                        "dislikes": {"type": "number"},
-                        "views": {"type": "number"},
-                        "user": {"type": "number"},
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {"type": "number"},
+                            "title": {"type": "string"},
+                            "body": {"type": "string"},
+                            "tags": {"type": "string"},
+                            "likes": {"type": "number"},
+                            "dislikes": {"type": "number"},
+                            "views": {"type": "number"},
+                            "user": {"type": "number"},
+                        },
+                        "required": [
+                            "id",
+                            "title",
+                            "body",
+                            "tags",
+                            "likes",
+                            "dislikes",
+                            "views",
+                            "user",
+                        ],
                     },
-                    "required": [
-                        "id",
-                        "title",
-                        "body",
-                        "tags",
-                        "likes",
-                        "dislikes",
-                        "views",
-                        "user",
-                    ],
                 },
             )
         )
@@ -1518,6 +1701,28 @@ class DummyApiTestCase(TestCase):
             )
         )
 
+    def test_comments_search(self):
+        response = self.client.get("/dummy_api/comments_search", {"q": "test"})
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(
+            jsonschema.validate(
+                response.json()["results"],
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {"type": "number"},
+                            "body": {"type": "string"},
+                            "likes": {"type": "number"},
+                            "post": {"type": "number"},
+                        },
+                        "required": ["id", "body", "likes", "post"],
+                    },
+                },
+            )
+        )
+
     def test_comments_detail(self):
         response = self.client.get("/dummy_api/comments_detail/1")
         self.assertEqual(response.status_code, 200)
@@ -1624,6 +1829,44 @@ class DummyApiTestCase(TestCase):
     def test_carts_list(self):
         response = self.client.get("/dummy_api/carts_list")
         self.assertEqual(response.status_code, 200)
+        self.assertIsNone(
+            jsonschema.validate(
+                response.json()["results"],
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {"type": "number"},
+                            "user": {"type": "number"},
+                            "products": {"type": "array", "items": {"type": "number"}},
+                        },
+                        "required": ["id", "user", "products"],
+                    },
+                },
+            )
+        )
+
+    def test_carts_search(self):
+        response = self.client.get("/dummy_api/carts_search", {"q": "1"})
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(
+            jsonschema.validate(
+                response.json()["results"],
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {"type": "number"},
+                            "user": {"type": "number"},
+                            "products": {"type": "array", "items": {"type": "number"}},
+                        },
+                        "required": ["id", "user", "products"],
+                    },
+                },
+            )
+        )
         self.assertIsNone(
             jsonschema.validate(
                 response.json()["results"],
