@@ -148,4 +148,3 @@ class RecipeFilterInputSerializer(serializers.Serializer):
     review_count = serializers.IntegerField(required=False)
     meal_type = serializers.CharField(required=False)
     user = serializers.IntegerField(required=False)
-

@@ -109,9 +109,25 @@ from dummy_api.serializers.carts_serializers import (
     CartFilterOutputSerializer,
     CartFilterInputSerializer,
 )
-from dummy_api.permissions import TokenPermission
+from mysite.base_permissions import TokenPermission
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlineUserListSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": UserListOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
+)
 @api_view(["GET"])
 def users_list(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -123,12 +139,34 @@ def users_list(request: Request) -> Response:
     return paginator.get_paginated_response(us.data)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: UserDetailOutputSerializer(),
+    }
+)
 @api_view(["GET"])
 def users_detail(request: Request, pk: int) -> Response:
     u = UserDetailOutputSerializer(get_object_or_404(User, pk=pk))
     return Response(u.data)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlineUserSearchSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": UserSearchOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="q", description="Search query", type=str),
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
+)
 @api_view(["GET"])
 def users_search(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -141,8 +179,53 @@ def users_search(request: Request) -> Response:
             Q(id__icontains=q)
             | Q(first_name__icontains=q)
             | Q(last_name__icontains=q)
-            | Q(username__icontains=q)
+            | Q(maiden_name__icontains=q)
+            | Q(age__icontains=q)
+            | Q(gender__icontains=q)
             | Q(email__icontains=q)
+            | Q(phone__icontains=q)
+            | Q(username__icontains=q)
+            | Q(password__icontains=q)
+            | Q(birthday__icontains=q)
+            | Q(image__icontains=q)
+            | Q(blood_group__icontains=q)
+            | Q(height__icontains=q)
+            | Q(weight__icontains=q)
+            | Q(eye_color__icontains=q)
+            | Q(hair_color__icontains=q)
+            | Q(hair_type__icontains=q)
+            | Q(ip__icontains=q)
+            | Q(address__icontains=q)
+            | Q(city__icontains=q)
+            | Q(state__icontains=q)
+            | Q(state_code__icontains=q)
+            | Q(postal_code__icontains=q)
+            | Q(coordinates__icontains=q)
+            | Q(country__icontains=q)
+            | Q(mac_address__icontains=q)
+            | Q(university__icontains=q)
+            | Q(bank_card_expire__icontains=q)
+            | Q(bank_card_number__icontains=q)
+            | Q(bank_card_type__icontains=q)
+            | Q(bank_currency__icontains=q)
+            | Q(bank_iban__icontains=q)
+            | Q(company_department__icontains=q)
+            | Q(company_name__icontains=q)
+            | Q(company_title__icontains=q)
+            | Q(company_address__icontains=q)
+            | Q(company_city__icontains=q)
+            | Q(company_state__icontains=q)
+            | Q(company_state_code__icontains=q)
+            | Q(company_postal_code__icontains=q)
+            | Q(company_coordinates__icontains=q)
+            | Q(company_country__icontains=q)
+            | Q(ein__icontains=q)
+            | Q(snn__icontains=q)
+            | Q(user_agent__icontains=q)
+            | Q(crypto_coint__icontains=q)
+            | Q(crypto_wallet__icontains=q)
+            | Q(crypto_network__icontains=q)
+            | Q(role__icontains=q)
         ).order_by("id")
     paginator = Pagination()
     page = paginator.paginate_queryset(queryset, request)
@@ -150,6 +233,12 @@ def users_search(request: Request) -> Response:
     return paginator.get_paginated_response(us.data)
 
 
+@extend_schema(
+    request=UserCreateInputSerializer,
+    responses={
+        status.HTTP_201_CREATED: UserCreateInputSerializer(),
+    },
+)
 @api_view(["POST"])
 @permission_classes([TokenPermission])
 def users_create(request: Request) -> Response:
@@ -159,6 +248,12 @@ def users_create(request: Request) -> Response:
     return Response(status=status.HTTP_201_CREATED)
 
 
+@extend_schema(
+    request=UserUpdateInputSerializer,
+    responses={
+        status.HTTP_200_OK: UserUpdateInputSerializer(),
+    },
+)
 @api_view(["PUT"])
 @permission_classes([TokenPermission])
 def users_update(request: Request, pk: int) -> Response:
@@ -168,6 +263,12 @@ def users_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    request=UserPartialUpdateInputSerializer,
+    responses={
+        status.HTTP_200_OK: UserPartialUpdateInputSerializer(),
+    },
+)
 @api_view(["PATCH"])
 @permission_classes([TokenPermission])
 def users_partial_update(request: Request, pk: int) -> Response:
@@ -177,6 +278,75 @@ def users_partial_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlineUserFilterSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": UserFilterOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name=field, description=f"Filter by {field}", type=str)
+        for field in [
+            "id",
+            "first_name",
+            "last_name",
+            "maiden_name",
+            "age",
+            "gender",
+            "email",
+            "phone",
+            "username",
+            "password",
+            "birthday",
+            "image",
+            "blood_group",
+            "height",
+            "weight",
+            "eye_color",
+            "hair_color",
+            "hair_type",
+            "ip",
+            "address",
+            "city",
+            "state",
+            "state_code",
+            "postal_code",
+            "coordinates",
+            "country",
+            "mac_address",
+            "university",
+            "bank_card_expire",
+            "bank_card_number",
+            "bank_card_type",
+            "bank_currency",
+            "bank_iban",
+            "company_department",
+            "company_name",
+            "company_title",
+            "company_address",
+            "company_city",
+            "company_state",
+            "company_state_code",
+            "company_postal_code",
+            "company_coordinates",
+            "company_country",
+            "ein",
+            "snn",
+            "user_agent",
+            "crypto_coint",
+            "crypto_wallet",
+            "crypto_network",
+            "role",
+        ]
+    ]
+    + [OpenApiParameter(name="page", description="Filter by page", type=int)],
+)
 @api_view(["GET"])
 def users_filter(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -292,6 +462,11 @@ def users_filter(request: Request) -> Response:
     return paginator.get_paginated_response(us.data)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: None,
+    },
+)
 @api_view(["DELETE"])
 @permission_classes([TokenPermission])
 def users_delete(request: Request, pk: int) -> Response:
@@ -299,6 +474,22 @@ def users_delete(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlineTodoListSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": TodoListOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
+)
 @api_view(["GET"])
 def todos_list(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -310,12 +501,34 @@ def todos_list(request: Request) -> Response:
     return paginator.get_paginated_response(ts.data)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: TodoDetailOutputSerializer(),
+    }
+)
 @api_view(["GET"])
 def todos_detail(request: Request, pk: int) -> Response:
     t = TodoDetailOutputSerializer(get_object_or_404(Todo, pk=pk))
     return Response(t.data)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlineTodoSearchSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": TodoSearchOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="q", description="Search query", type=str),
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
+)
 @api_view(["GET"])
 def todos_search(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -333,6 +546,12 @@ def todos_search(request: Request) -> Response:
     return paginator.get_paginated_response(ts.data)
 
 
+@extend_schema(
+    request=TodoCreateInputSerializer,
+    responses={
+        status.HTTP_201_CREATED: TodoCreateInputSerializer(),
+    },
+)
 @api_view(["POST"])
 @permission_classes([TokenPermission])
 def todos_create(request: Request) -> Response:
@@ -344,6 +563,12 @@ def todos_create(request: Request) -> Response:
     return Response(status=status.HTTP_201_CREATED)
 
 
+@extend_schema(
+    request=TodoUpdateInputSerializer,
+    responses={
+        status.HTTP_200_OK: TodoUpdateInputSerializer(),
+    },
+)
 @api_view(["PUT"])
 @permission_classes([TokenPermission])
 def todos_update(request: Request, pk: int) -> Response:
@@ -355,6 +580,12 @@ def todos_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    request=TodoPartialUpdateInputSerializer,
+    responses={
+        status.HTTP_200_OK: TodoPartialUpdateInputSerializer(),
+    },
+)
 @api_view(["PATCH"])
 @permission_classes([TokenPermission])
 def todos_partial_update(request: Request, pk: int) -> Response:
@@ -367,6 +598,28 @@ def todos_partial_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlineTodoFilterSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": TodoFilterOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="id", description="Filter by id", type=int),
+        OpenApiParameter(name="title", description="Filter by title", type=str),
+        OpenApiParameter(
+            name="completed",
+            description="Filter by completed",
+            type=bool,
+        ),
+    ],
+)
 @api_view(["GET"])
 def todos_filter(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -390,6 +643,11 @@ def todos_filter(request: Request) -> Response:
     return paginator.get_paginated_response(ts.data)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: None,
+    },
+)
 @api_view(["DELETE"])
 @permission_classes([TokenPermission])
 def todos_delete(request: Request, pk: int) -> Response:
@@ -397,6 +655,22 @@ def todos_delete(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlineRecipeListSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": RecipeListOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
+)
 @api_view(["GET"])
 def recipes_list(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -408,12 +682,34 @@ def recipes_list(request: Request) -> Response:
     return paginator.get_paginated_response(rs.data)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: RecipeDetailOutputSerializer(),
+    }
+)
 @api_view(["GET"])
 def recipes_detail(request: Request, pk: int) -> Response:
     r = RecipeDetailOutputSerializer(get_object_or_404(Recipe, pk=pk))
     return Response(r.data)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlineRecipeSearchSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": RecipeSearchOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="q", description="Search query", type=str),
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
+)
 @api_view(["GET"])
 def recipes_search(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -431,6 +727,12 @@ def recipes_search(request: Request) -> Response:
     return paginator.get_paginated_response(rs.data)
 
 
+@extend_schema(
+    request=RecipeCreateInputSerializer,
+    responses={
+        status.HTTP_201_CREATED: RecipeCreateInputSerializer(),
+    },
+)
 @api_view(["POST"])
 @permission_classes([TokenPermission])
 def recipes_create(request: Request) -> Response:
@@ -442,6 +744,12 @@ def recipes_create(request: Request) -> Response:
     return Response(status=status.HTTP_201_CREATED)
 
 
+@extend_schema(
+    request=RecipeUpdateInputSerializer,
+    responses={
+        status.HTTP_200_OK: RecipeUpdateInputSerializer(),
+    },
+)
 @api_view(["PUT"])
 @permission_classes([TokenPermission])
 def recipes_update(request: Request, pk: int) -> Response:
@@ -453,6 +761,12 @@ def recipes_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    request=RecipePartialUpdateInputSerializer,
+    responses={
+        status.HTTP_200_OK: RecipePartialUpdateInputSerializer(),
+    },
+)
 @api_view(["PATCH"])
 @permission_classes([TokenPermission])
 def recipes_partial_update(request: Request, pk: int) -> Response:
@@ -465,6 +779,70 @@ def recipes_partial_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlineRecipeFilterSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": RecipeFilterOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+        OpenApiParameter(name="id", description="Filter by id", type=int),
+        OpenApiParameter(name="name", description="Filter by name", type=str),
+        OpenApiParameter(
+            name="ingredients",
+            description="Filter by ingredients",
+            type=str,
+        ),
+        OpenApiParameter(
+            name="instructions",
+            description="Filter by instructions",
+            type=str,
+        ),
+        OpenApiParameter(
+            name="prep_time_minutes",
+            description="Filter by prep_time_minutes",
+            type=int,
+        ),
+        OpenApiParameter(
+            name="cook_time_minutes",
+            description="Filter by cook_time_minutes",
+            type=int,
+        ),
+        OpenApiParameter(name="servings", description="Filter by servings", type=int),
+        OpenApiParameter(
+            name="difficulty",
+            description="Filter by difficulty",
+            type=str,
+        ),
+        OpenApiParameter(name="cuisine", description="Filter by cuisine", type=str),
+        OpenApiParameter(
+            name="calories_per_serving",
+            description="Filter by calories_per_serving",
+            type=int,
+        ),
+        OpenApiParameter(name="tags", description="Filter by tags", type=str),
+        OpenApiParameter(name="image", description="Filter by image", type=str),
+        OpenApiParameter(name="rating", description="Filter by rating", type=float),
+        OpenApiParameter(
+            name="review_count",
+            description="Filter by review_count",
+            type=int,
+        ),
+        OpenApiParameter(
+            name="meal_type",
+            description="Filter by meal_type",
+            type=str,
+        ),
+        OpenApiParameter(name="user", description="Filter by user", type=int),
+    ],
+)
 @api_view(["GET"])
 def recipes_filter(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -512,6 +890,11 @@ def recipes_filter(request: Request) -> Response:
     return paginator.get_paginated_response(rs.data)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: None,
+    },
+)
 @api_view(["DELETE"])
 @permission_classes([TokenPermission])
 def recipes_delete(request: Request, pk: int) -> Response:
@@ -519,6 +902,22 @@ def recipes_delete(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlineQuoteListSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": QuoteListOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
+)
 @api_view(["GET"])
 def quotes_list(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -530,12 +929,34 @@ def quotes_list(request: Request) -> Response:
     return paginator.get_paginated_response(qs.data)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: QuoteDetailOutputSerializer(),
+    }
+)
 @api_view(["GET"])
 def quotes_detail(request: Request, pk: int) -> Response:
     q = QuoteDetailOutputSerializer(get_object_or_404(Quote, pk=pk))
     return Response(q.data)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlineQuoteSearchSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": QuoteSearchOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="q", description="Search query", type=str),
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
+)
 @api_view(["GET"])
 def quotes_search(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -553,6 +974,12 @@ def quotes_search(request: Request) -> Response:
     return paginator.get_paginated_response(qs.data)
 
 
+@extend_schema(
+    request=QuoteCreateInputSerializer,
+    responses={
+        status.HTTP_201_CREATED: QuoteCreateInputSerializer(),
+    },
+)
 @api_view(["POST"])
 @permission_classes([TokenPermission])
 def quotes_create(request: Request) -> Response:
@@ -562,6 +989,12 @@ def quotes_create(request: Request) -> Response:
     return Response(status=status.HTTP_201_CREATED)
 
 
+@extend_schema(
+    request=QuoteUpdateInputSerializer,
+    responses={
+        status.HTTP_200_OK: QuoteUpdateInputSerializer(),
+    },
+)
 @api_view(["PUT"])
 @permission_classes([TokenPermission])
 def quotes_update(request: Request, pk: int) -> Response:
@@ -571,6 +1004,12 @@ def quotes_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    request=QuotePartialUpdateInputSerializer,
+    responses={
+        status.HTTP_200_OK: QuotePartialUpdateInputSerializer(),
+    },
+)
 @api_view(["PATCH"])
 @permission_classes([TokenPermission])
 def quotes_partial_update(request: Request, pk: int) -> Response:
@@ -580,6 +1019,25 @@ def quotes_partial_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlineQuoteFilterSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": QuoteFilterOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+        OpenApiParameter(name="id", description="Filter by id", type=int),
+        OpenApiParameter(name="title", description="Filter by title", type=str),
+        OpenApiParameter(name="author", description="Filter by author", type=str),
+    ],
+)
 @api_view(["GET"])
 def quotes_filter(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -601,6 +1059,11 @@ def quotes_filter(request: Request) -> Response:
     return paginator.get_paginated_response(qs.data)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: None,
+    },
+)
 @api_view(["DELETE"])
 @permission_classes([TokenPermission])
 def quotes_delete(request: Request, pk: int) -> Response:
@@ -608,6 +1071,22 @@ def quotes_delete(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlineProductListSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": ProductListOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
+)
 @api_view(["GET"])
 def products_list(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -619,12 +1098,34 @@ def products_list(request: Request) -> Response:
     return paginator.get_paginated_response(ps.data)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: ProductDetailOutputSerializer(),
+    }
+)
 @api_view(["GET"])
 def products_detail(request: Request, pk: int) -> Response:
     p = ProductDetailOutputSerializer(get_object_or_404(Product, pk=pk))
     return Response(p.data)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlineProductSearchSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": ProductSearchOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="q", description="Search query", type=str),
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
+)
 @api_view(["GET"])
 def products_search(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -646,6 +1147,12 @@ def products_search(request: Request) -> Response:
     return paginator.get_paginated_response(ps.data)
 
 
+@extend_schema(
+    request=ProductCreateInputSerializer,
+    responses={
+        status.HTTP_201_CREATED: ProductCreateInputSerializer(),
+    },
+)
 @api_view(["POST"])
 @permission_classes([TokenPermission])
 def products_create(request: Request) -> Response:
@@ -655,6 +1162,12 @@ def products_create(request: Request) -> Response:
     return Response(status=status.HTTP_201_CREATED)
 
 
+@extend_schema(
+    request=ProductUpdateInputSerializer,
+    responses={
+        status.HTTP_200_OK: ProductUpdateInputSerializer(),
+    },
+)
 @api_view(["PUT"])
 @permission_classes([TokenPermission])
 def products_update(request: Request, pk: int) -> Response:
@@ -664,6 +1177,12 @@ def products_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    request=ProductPartialUpdateInputSerializer,
+    responses={
+        status.HTTP_200_OK: ProductPartialUpdateInputSerializer(),
+    },
+)
 @api_view(["PATCH"])
 @permission_classes([TokenPermission])
 def products_partial_update(request: Request, pk: int) -> Response:
@@ -673,6 +1192,75 @@ def products_partial_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlineProductFilterSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": ProductFilterOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+        OpenApiParameter(name="id", description="Filter by id", type=int),
+        OpenApiParameter(name="title", description="Filter by title", type=str),
+        OpenApiParameter(
+            name="description", description="Filter by description", type=str
+        ),
+        OpenApiParameter(name="category", description="Filter by category", type=str),
+        OpenApiParameter(name="price", description="Filter by price", type=float),
+        OpenApiParameter(
+            name="discount_percentage",
+            description="Filter by discount_percentage",
+            type=float,
+        ),
+        OpenApiParameter(name="rating", description="Filter by rating", type=float),
+        OpenApiParameter(name="stock", description="Filter by stock", type=int),
+        OpenApiParameter(name="tags", description="Filter by tags", type=str),
+        OpenApiParameter(name="brand", description="Filter by brand", type=str),
+        OpenApiParameter(name="sku", description="Filter by sku", type=str),
+        OpenApiParameter(name="weight", description="Filter by weight", type=int),
+        OpenApiParameter(name="width", description="Filter by width", type=float),
+        OpenApiParameter(name="height", description="Filter by height", type=float),
+        OpenApiParameter(name="depth", description="Filter by depth", type=float),
+        OpenApiParameter(
+            name="warranty_information",
+            description="Filter by warranty_information",
+            type=str,
+        ),
+        OpenApiParameter(
+            name="shipping_information",
+            description="Filter by shipping_information",
+            type=str,
+        ),
+        OpenApiParameter(
+            name="availability_status",
+            description="Filter by availability_status",
+            type=str,
+        ),
+        OpenApiParameter(
+            name="return_policy", description="Filter by return_policy", type=str
+        ),
+        OpenApiParameter(
+            name="minimum_order_quantity",
+            description="Filter by minimum_order_quantity",
+            type=int,
+        ),
+        OpenApiParameter(
+            name="created_at", description="Filter by created_at", type=str
+        ),
+        OpenApiParameter(
+            name="updated_at", description="Filter by updated_at", type=str
+        ),
+        OpenApiParameter(name="barcode", description="Filter by barcode", type=str),
+        OpenApiParameter(name="qr_code", description="Filter by qr_code", type=str),
+        OpenApiParameter(name="thumbnail", description="Filter by thumbnail", type=str),
+    ],
+)
 @api_view(["GET"])
 def products_filter(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -734,6 +1322,11 @@ def products_filter(request: Request) -> Response:
     return paginator.get_paginated_response(ps.data)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: None,
+    },
+)
 @api_view(["DELETE"])
 @permission_classes([TokenPermission])
 def products_delete(request: Request, pk: int) -> Response:
@@ -741,6 +1334,22 @@ def products_delete(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlineReviewListSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": ReviewListOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
+)
 @api_view(["GET"])
 def reviews_list(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -752,12 +1361,34 @@ def reviews_list(request: Request) -> Response:
     return paginator.get_paginated_response(rs.data)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: ReviewDetailOutputSerializer(),
+    }
+)
 @api_view(["GET"])
 def reviews_detail(request: Request, pk: int) -> Response:
     r = ReviewDetailOutputSerializer(get_object_or_404(Review, pk=pk))
     return Response(r.data)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlineReviewSearchSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": ReviewSearchOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="q", description="Search query", type=str),
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
+)
 @api_view(["GET"])
 def reviews_search(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -775,6 +1406,12 @@ def reviews_search(request: Request) -> Response:
     return paginator.get_paginated_response(rs.data)
 
 
+@extend_schema(
+    request=ReviewCreateInputSerializer,
+    responses={
+        status.HTTP_201_CREATED: ReviewCreateInputSerializer(),
+    },
+)
 @api_view(["POST"])
 @permission_classes([TokenPermission])
 def reviews_create(request: Request) -> Response:
@@ -787,6 +1424,12 @@ def reviews_create(request: Request) -> Response:
     return Response(status=status.HTTP_201_CREATED)
 
 
+@extend_schema(
+    request=ReviewUpdateInputSerializer,
+    responses={
+        status.HTTP_200_OK: ReviewUpdateInputSerializer(),
+    },
+)
 @api_view(["PUT"])
 @permission_classes([TokenPermission])
 def reviews_update(request: Request, pk: int) -> Response:
@@ -799,6 +1442,12 @@ def reviews_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    request=ReviewPartialUpdateInputSerializer,
+    responses={
+        status.HTTP_200_OK: ReviewPartialUpdateInputSerializer(),
+    },
+)
 @api_view(["PATCH"])
 @permission_classes([TokenPermission])
 def reviews_partial_update(request: Request, pk: int) -> Response:
@@ -813,6 +1462,28 @@ def reviews_partial_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlineReviewFilterSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": ReviewFilterOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+        OpenApiParameter(name="id", description="Filter by id", type=int),
+        OpenApiParameter(name="rating", description="Filter by rating", type=int),
+        OpenApiParameter(name="comment", description="Filter by comment", type=str),
+        OpenApiParameter(name="date", description="Filter by date", type=str),
+        OpenApiParameter(name="product", description="Filter by product", type=int),
+        OpenApiParameter(name="user", description="Filter by user", type=int),
+    ],
+)
 @api_view(["GET"])
 def reviews_filter(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -840,6 +1511,11 @@ def reviews_filter(request: Request) -> Response:
     return paginator.get_paginated_response(rs.data)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: None,
+    },
+)
 @api_view(["DELETE"])
 @permission_classes([TokenPermission])
 def reviews_delete(request: Request, pk: int) -> Response:
@@ -847,6 +1523,22 @@ def reviews_delete(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlinePostListSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": PostListOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
+)
 @api_view(["GET"])
 def posts_list(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -858,12 +1550,34 @@ def posts_list(request: Request) -> Response:
     return paginator.get_paginated_response(ps.data)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: PostDetailOutputSerializer(),
+    }
+)
 @api_view(["GET"])
 def posts_detail(request: Request, pk: int) -> Response:
     p = PostDetailOutputSerializer(get_object_or_404(Post, pk=pk))
     return Response(p.data)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlinePostSearchSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": PostSearchOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="q", description="Search query", type=str),
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
+)
 @api_view(["GET"])
 def posts_search(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -881,6 +1595,12 @@ def posts_search(request: Request) -> Response:
     return paginator.get_paginated_response(ps.data)
 
 
+@extend_schema(
+    request=PostCreateInputSerializer,
+    responses={
+        status.HTTP_201_CREATED: PostCreateInputSerializer(),
+    },
+)
 @api_view(["POST"])
 @permission_classes([TokenPermission])
 def posts_create(request: Request) -> Response:
@@ -892,6 +1612,12 @@ def posts_create(request: Request) -> Response:
     return Response(status=status.HTTP_201_CREATED)
 
 
+@extend_schema(
+    request=PostUpdateInputSerializer,
+    responses={
+        status.HTTP_200_OK: PostUpdateInputSerializer(),
+    },
+)
 @api_view(["PUT"])
 @permission_classes([TokenPermission])
 def posts_update(request: Request, pk: int) -> Response:
@@ -903,6 +1629,12 @@ def posts_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    request=PostPartialUpdateInputSerializer,
+    responses={
+        status.HTTP_200_OK: PostPartialUpdateInputSerializer(),
+    },
+)
 @api_view(["PATCH"])
 @permission_classes([TokenPermission])
 def posts_partial_update(request: Request, pk: int) -> Response:
@@ -915,6 +1647,30 @@ def posts_partial_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlinePostFilterSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": PostFilterOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+        OpenApiParameter(name="id", description="Filter by id", type=int),
+        OpenApiParameter(name="title", description="Filter by title", type=str),
+        OpenApiParameter(name="body", description="Filter by body", type=str),
+        OpenApiParameter(name="tags", description="Filter by tags", type=str),
+        OpenApiParameter(name="likes", description="Filter by likes", type=int),
+        OpenApiParameter(name="dislikes", description="Filter by dislikes", type=int),
+        OpenApiParameter(name="views", description="Filter by views", type=int),
+        OpenApiParameter(name="user", description="Filter by user", type=int),
+    ],
+)
 @api_view(["GET"])
 def posts_filter(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -946,6 +1702,11 @@ def posts_filter(request: Request) -> Response:
     return paginator.get_paginated_response(ps.data)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: None,
+    },
+)
 @api_view(["DELETE"])
 @permission_classes([TokenPermission])
 def posts_delete(request: Request, pk: int) -> Response:
@@ -953,6 +1714,22 @@ def posts_delete(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlineCommentListSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": CommentListOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
+)
 @api_view(["GET"])
 def comments_list(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -964,12 +1741,34 @@ def comments_list(request: Request) -> Response:
     return paginator.get_paginated_response(cs.data)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: CommentDetailOutputSerializer(),
+    }
+)
 @api_view(["GET"])
 def comments_detail(request: Request, pk: int) -> Response:
     c = CommentDetailOutputSerializer(get_object_or_404(Comment, pk=pk))
     return Response(c.data)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlineCommentSearchSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": CommentSearchOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="q", description="Search query", type=str),
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
+)
 @api_view(["GET"])
 def comments_search(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -987,6 +1786,12 @@ def comments_search(request: Request) -> Response:
     return paginator.get_paginated_response(cs.data)
 
 
+@extend_schema(
+    request=CommentCreateInputSerializer,
+    responses={
+        status.HTTP_201_CREATED: CommentCreateInputSerializer(),
+    },
+)
 @api_view(["POST"])
 @permission_classes([TokenPermission])
 def comments_create(request: Request) -> Response:
@@ -998,6 +1803,12 @@ def comments_create(request: Request) -> Response:
     return Response(status=status.HTTP_201_CREATED)
 
 
+@extend_schema(
+    request=CommentUpdateInputSerializer,
+    responses={
+        status.HTTP_200_OK: CommentUpdateInputSerializer(),
+    },
+)
 @api_view(["PUT"])
 @permission_classes([TokenPermission])
 def comments_update(request: Request, pk: int) -> Response:
@@ -1009,6 +1820,12 @@ def comments_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    request=CommentPartialUpdateInputSerializer,
+    responses={
+        status.HTTP_200_OK: CommentPartialUpdateInputSerializer(),
+    },
+)
 @api_view(["PATCH"])
 @permission_classes([TokenPermission])
 def comments_partial_update(request: Request, pk: int) -> Response:
@@ -1021,6 +1838,27 @@ def comments_partial_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlineCommentFilterSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": CommentFilterOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+        OpenApiParameter(name="id", description="Filter by id", type=int),
+        OpenApiParameter(name="body", description="Filter by body", type=str),
+        OpenApiParameter(name="likes", description="Filter by likes", type=int),
+        OpenApiParameter(name="post", description="Filter by post", type=int),
+        OpenApiParameter(name="user", description="Filter by user", type=int),
+    ],
+)
 @api_view(["GET"])
 def comments_filter(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -1046,6 +1884,11 @@ def comments_filter(request: Request) -> Response:
     return paginator.get_paginated_response(cs.data)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: None,
+    },
+)
 @api_view(["DELETE"])
 @permission_classes([TokenPermission])
 def comments_delete(request: Request, pk: int) -> Response:
@@ -1053,6 +1896,22 @@ def comments_delete(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlineCartListSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": CartListOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
+)
 @api_view(["GET"])
 def carts_list(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -1079,6 +1938,11 @@ def carts_list(request: Request) -> Response:
     return paginator.get_paginated_response(cs.data)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: CartDetailOutputSerializer(),
+    }
+)
 @api_view(["GET"])
 def carts_detail(request: Request, pk: int) -> Response:
     cart = get_object_or_404(
@@ -1093,6 +1957,23 @@ def carts_detail(request: Request, pk: int) -> Response:
     return Response(c.data)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlineCartSearchSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": CartSearchOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="q", description="Search query", type=str),
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+    ],
+)
 @api_view(["GET"])
 def carts_search(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -1126,6 +2007,12 @@ def carts_search(request: Request) -> Response:
     return paginator.get_paginated_response(cs.data)
 
 
+@extend_schema(
+    request=CartCreateInputSerializer,
+    responses={
+        status.HTTP_201_CREATED: CartCreateInputSerializer(),
+    },
+)
 @api_view(["POST"])
 @permission_classes([TokenPermission])
 def carts_create(request: Request) -> Response:
@@ -1139,6 +2026,12 @@ def carts_create(request: Request) -> Response:
     return Response(status=status.HTTP_201_CREATED)
 
 
+@extend_schema(
+    request=CartUpdateInputSerializer,
+    responses={
+        status.HTTP_200_OK: CartUpdateInputSerializer(),
+    },
+)
 @api_view(["PUT"])
 @permission_classes([TokenPermission])
 def carts_update(request: Request, pk: int) -> Response:
@@ -1153,6 +2046,12 @@ def carts_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    request=CartPartialUpdateInputSerializer,
+    responses={
+        status.HTTP_200_OK: CartPartialUpdateInputSerializer(),
+    },
+)
 @api_view(["PATCH"])
 @permission_classes([TokenPermission])
 def carts_partial_update(request: Request, pk: int) -> Response:
@@ -1170,6 +2069,24 @@ def carts_partial_update(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: inline_serializer(
+            "InlineCartFilterSerializer",
+            {
+                "count": serializers.IntegerField(),
+                "next": serializers.CharField(),
+                "previous": serializers.CharField(),
+                "results": CartFilterOutputSerializer(many=True),
+            },
+        )
+    },
+    parameters=[
+        OpenApiParameter(name="page", description="Filter by page", type=int),
+        OpenApiParameter(name="id", description="Filter by id", type=int),
+        OpenApiParameter(name="user", description="Filter by user", type=int),
+    ],
+)
 @api_view(["GET"])
 def carts_filter(request: Request) -> Response:
     class Pagination(PageNumberPagination):
@@ -1200,6 +2117,11 @@ def carts_filter(request: Request) -> Response:
     return paginator.get_paginated_response(cs.data)
 
 
+@extend_schema(
+    responses={
+        status.HTTP_200_OK: None,
+    },
+)
 @api_view(["DELETE"])
 @permission_classes([TokenPermission])
 def carts_delete(request: Request, pk: int) -> Response:
