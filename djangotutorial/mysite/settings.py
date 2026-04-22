@@ -138,7 +138,7 @@ SPECTACULAR_SETTINGS = {
     },
 }
 
-INTERNAL_IPS = ["127.0.0.1"]
 if "test" not in sys.argv and DEBUG:
+    INTERNAL_IPS = ["127.0.0.1"]
     INSTALLED_APPS.append("debug_toolbar")
     MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
