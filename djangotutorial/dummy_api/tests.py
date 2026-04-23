@@ -2707,3 +2707,379 @@ class DummyApiTestCase(TestCase):
                 },
             )
         )
+
+    def test_users_stats(self):
+        response = self.client.get("/dummy_api/users_stats")
+        self.assertEqual(response.status_code, 200)
+        jsonschema.validate(
+            response.json(),
+            {
+                "type": "object",
+                "properties": {
+                    "role_group": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "role": {"type": "string"},
+                                "count_users": {"type": "number"},
+                            },
+                            "required": ["role", "count_users"],
+                        },
+                    },
+                    "company_state_group": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "company_state": {"type": "string"},
+                                "count_users": {"type": "number"},
+                            },
+                            "required": ["company_state", "count_users"],
+                        },
+                    },
+                    "company_department_group": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "company_department": {"type": "string"},
+                                "count_users": {"type": "number"},
+                            },
+                            "required": ["company_department", "count_users"],
+                        },
+                    },
+                    "bank_card_type_group": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "bank_card_type": {"type": "string"},
+                                "count_users": {"type": "number"},
+                            },
+                            "required": ["bank_card_type", "count_users"],
+                        },
+                    },
+                    "university_group": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "university": {"type": "string"},
+                                "count_users": {"type": "number"},
+                            },
+                            "required": ["university", "count_users"],
+                        },
+                    },
+                    "state_group": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "state": {"type": "string"},
+                                "count_users": {"type": "number"},
+                            },
+                            "required": ["state", "count_users"],
+                        },
+                    },
+                    "blood_group_group": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "blood_group": {"type": "string"},
+                                "count_users": {"type": "number"},
+                            },
+                            "required": ["blood_group", "count_users"],
+                        },
+                    },
+                    "gender_group": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "gender": {"type": "string"},
+                                "count_users": {"type": "number"},
+                            },
+                            "required": ["gender", "count_users"],
+                        },
+                    },
+                    "other_group": {
+                        "type": "object",
+                        "properties": {
+                            "min_age": {"type": "number"},
+                            "max_age": {"type": "number"},
+                            "avg_age": {"type": "number"},
+                            "min_height": {"type": "number"},
+                            "max_height": {"type": "number"},
+                            "avg_height": {"type": "number"},
+                            "min_weight": {"type": "number"},
+                            "max_weight": {"type": "number"},
+                            "avg_weight": {"type": "number"},
+                        },
+                        "required": [
+                            "min_age",
+                            "max_age",
+                            "avg_age",
+                            "min_height",
+                            "max_height",
+                            "avg_height",
+                            "min_weight",
+                            "max_weight",
+                            "avg_weight",
+                        ],
+                    },
+                },
+                "required": [
+                    "role_group",
+                    "company_state_group",
+                    "company_department_group",
+                    "bank_card_type_group",
+                    "university_group",
+                    "state_group",
+                    "blood_group_group",
+                    "gender_group",
+                    "other_group",
+                ],
+            },
+        )
+
+    def test_todos_stats(self):
+        response = self.client.get("/dummy_api/todos_stats")
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(
+            jsonschema.validate(
+                response.json(),
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "user_id": {"type": "number"},
+                            "count_todos": {"type": "number"},
+                            "count_completed": {"type": "number"},
+                            "count_uncompleted": {"type": "number"},
+                        },
+                        "required": [
+                            "user_id",
+                            "count_todos",
+                            "count_completed",
+                            "count_uncompleted",
+                        ],
+                    },
+                },
+            )
+        )
+
+    def test_recipes_stats(self):
+        response = self.client.get("/dummy_api/recipes_stats")
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(
+            jsonschema.validate(
+                response.json(),
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "difficulty": {"type": "string"},
+                            "cuisine": {"type": "string"},
+                            "min_prep_time_minutes": {"type": "number"},
+                            "max_prep_time_minutes": {"type": "number"},
+                            "avg_prep_time_minutes": {"type": "number"},
+                            "min_cook_time_minutes": {"type": "number"},
+                            "max_cook_time_minutes": {"type": "number"},
+                            "avg_cook_time_minutes": {"type": "number"},
+                            "min_servings": {"type": "number"},
+                            "max_servings": {"type": "number"},
+                            "avg_servings": {"type": "number"},
+                            "min_calories_per_serving": {"type": "number"},
+                            "max_calories_per_serving": {"type": "number"},
+                            "avg_calories_per_serving": {"type": "number"},
+                            "min_rating": {"type": "number"},
+                            "max_rating": {"type": "number"},
+                            "avg_rating": {"type": "number"},
+                            "sum_review_count": {"type": "number"},
+                        },
+                        "required": [
+                            "difficulty",
+                            "cuisine",
+                            "min_prep_time_minutes",
+                            "max_prep_time_minutes",
+                            "avg_prep_time_minutes",
+                            "min_cook_time_minutes",
+                            "max_cook_time_minutes",
+                            "avg_cook_time_minutes",
+                            "min_servings",
+                            "max_servings",
+                            "avg_servings",
+                            "min_calories_per_serving",
+                            "max_calories_per_serving",
+                            "avg_calories_per_serving",
+                            "min_rating",
+                            "max_rating",
+                            "avg_rating",
+                            "sum_review_count",
+                        ],
+                    },
+                },
+            )
+        )
+
+    def test_quotes_stats(self):
+        response = self.client.get("/dummy_api/quotes_stats")
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(
+            jsonschema.validate(
+                response.json(),
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "author": {"type": "string"},
+                            "count_quotes": {"type": "number"},
+                        },
+                        "required": ["author", "count_quotes"],
+                    },
+                },
+            )
+        )
+
+    def test_products_stats(self):
+        response = self.client.get("/dummy_api/products_stats")
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(
+            jsonschema.validate(
+                response.json(),
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "category": {"type": "string"},
+                            "count_products": {"type": "number"},
+                            "avg_price": {"type": "number"},
+                            "max_price": {"type": "number"},
+                            "min_price": {"type": "number"},
+                            "avg_discount_percentage": {"type": "number"},
+                            "max_discount_percentage": {"type": "number"},
+                            "min_discount_percentage": {"type": "number"},
+                            "avg_rating": {"type": "number"},
+                            "max_rating": {"type": "number"},
+                            "min_rating": {"type": "number"},
+                            "sum_stock": {"type": "number"},
+                        },
+                        "required": [
+                            "category",
+                            "count_products",
+                            "avg_price",
+                            "max_price",
+                            "min_price",
+                            "avg_discount_percentage",
+                            "max_discount_percentage",
+                            "min_discount_percentage",
+                            "avg_rating",
+                            "max_rating",
+                            "min_rating",
+                            "sum_stock",
+                        ],
+                    },
+                },
+            )
+        )
+
+    def test_reviews_stats(self):
+        response = self.client.get("/dummy_api/reviews_stats")
+        self.assertEqual(response.status_code, 200)
+        jsonschema.validate(
+            response.json(),
+            {
+                "type": "object",
+                "properties": {
+                    "count_reviews": {"type": "number"},
+                    "avg_rating": {"type": "number"},
+                    "count_unique_products": {"type": "number"},
+                    "count_unique_users": {"type": "number"},
+                    "max_rating": {"type": "number"},
+                    "min_rating": {"type": "number"},
+                },
+                "required": [
+                    "count_reviews",
+                    "avg_rating",
+                    "count_unique_products",
+                    "count_unique_users",
+                    "max_rating",
+                    "min_rating",
+                ],
+            },
+        )
+
+    def test_posts_stats(self):
+        response = self.client.get("/dummy_api/posts_stats")
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(
+            jsonschema.validate(
+                response.json(),
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "user_id": {"type": "number"},
+                            "count_posts": {"type": "number"},
+                            "sum_likes": {"type": "number"},
+                            "sum_dislikes": {"type": "number"},
+                            "sum_views": {"type": "number"},
+                        },
+                        "required": [
+                            "user_id",
+                            "count_posts",
+                            "sum_likes",
+                            "sum_dislikes",
+                            "sum_views",
+                        ],
+                    },
+                },
+            )
+        )
+
+    def test_comments_stats(self):
+        response = self.client.get("/dummy_api/comments_stats")
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(
+            jsonschema.validate(
+                response.json(),
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "post_id": {"type": "number"},
+                            "count_comments": {"type": "number"},
+                            "sum_likes": {"type": "number"},
+                        },
+                        "required": ["post_id", "count_comments", "sum_likes"],
+                    },
+                },
+            )
+        )
+
+    def test_carts_stats(self):
+        response = self.client.get("/dummy_api/carts_stats")
+        self.assertEqual(response.status_code, 200)
+        jsonschema.validate(
+            response.json(),
+            {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "id": {"type": "number"},
+                        "user_id": {"type": "number"},
+                        "total_check": {"type": "number"},
+                    },
+                    "required": ["id", "user_id", "total_check"],
+                },
+            },
+        )
