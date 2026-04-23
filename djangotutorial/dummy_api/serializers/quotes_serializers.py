@@ -44,3 +44,8 @@ class QuoteFilterInputSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
     title = serializers.CharField(required=False)
     author = serializers.CharField(required=False)
+
+
+class QuotesStatsOutputSerializer(serializers.Serializer):
+    author = serializers.CharField()
+    count_quotes = serializers.IntegerField()

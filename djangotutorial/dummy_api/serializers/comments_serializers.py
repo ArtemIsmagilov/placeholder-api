@@ -52,3 +52,12 @@ class CommentFilterInputSerializer(serializers.Serializer):
     body = serializers.CharField(required=False)
     likes = serializers.IntegerField(required=False)
     post = serializers.IntegerField(required=False)
+
+
+class CommentsStatsOutputSerializer(serializers.Serializer):
+    post_id = serializers.IntegerField()
+    sum_likes = serializers.IntegerField()
+    count_comments = serializers.IntegerField()
+    avg_likes = serializers.FloatField()
+    max_likes = serializers.IntegerField()
+    min_likes = serializers.IntegerField()

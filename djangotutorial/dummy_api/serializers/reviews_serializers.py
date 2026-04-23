@@ -68,3 +68,12 @@ class ReviewFilterInputSerializer(serializers.Serializer):
     date = serializers.DateTimeField(required=False)
     product = serializers.IntegerField(required=False)
     user = serializers.IntegerField(required=False)
+
+
+class ReviewsStatsOutputSerializer(serializers.Serializer):
+    count_reviews = serializers.IntegerField()
+    avg_rating = serializers.FloatField()
+    count_unique_products = serializers.IntegerField()
+    count_unique_users = serializers.IntegerField()
+    max_rating = serializers.IntegerField()
+    min_rating = serializers.IntegerField()

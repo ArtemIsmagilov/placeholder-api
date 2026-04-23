@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from django.db.models import Q
+from django.db.models import Q, F, Count, Sum, Avg, Max, Min
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework import status
@@ -28,6 +28,7 @@ from dummy_api.serializers.users_serializers import (
     UserPartialUpdateInputSerializer,
     UserFilterOutputSerializer,
     UserFilterInputSerializer,
+    UsersStatsOutputSerializer,
 )
 from dummy_api.serializers.todos_serializers import (
     TodoListOutputSerializer,
@@ -38,6 +39,7 @@ from dummy_api.serializers.todos_serializers import (
     TodoPartialUpdateInputSerializer,
     TodoFilterOutputSerializer,
     TodoFilterInputSerializer,
+    TodosStatsOutputSerializer,
 )
 from dummy_api.serializers.recipes_serializers import (
     RecipeListOutputSerializer,
@@ -48,6 +50,7 @@ from dummy_api.serializers.recipes_serializers import (
     RecipePartialUpdateInputSerializer,
     RecipeFilterOutputSerializer,
     RecipeFilterInputSerializer,
+    RecipesStatsOutputSerializer,
 )
 from dummy_api.serializers.quotes_serializers import (
     QuoteListOutputSerializer,
@@ -58,6 +61,7 @@ from dummy_api.serializers.quotes_serializers import (
     QuotePartialUpdateInputSerializer,
     QuoteFilterOutputSerializer,
     QuoteFilterInputSerializer,
+    QuotesStatsOutputSerializer,
 )
 from dummy_api.serializers.products_serializers import (
     ProductListOutputSerializer,
@@ -68,6 +72,7 @@ from dummy_api.serializers.products_serializers import (
     ProductPartialUpdateInputSerializer,
     ProductFilterOutputSerializer,
     ProductFilterInputSerializer,
+    ProductsStatsOutputSerializer,
 )
 from dummy_api.serializers.reviews_serializers import (
     ReviewListOutputSerializer,
@@ -78,6 +83,7 @@ from dummy_api.serializers.reviews_serializers import (
     ReviewPartialUpdateInputSerializer,
     ReviewFilterOutputSerializer,
     ReviewFilterInputSerializer,
+    ReviewsStatsOutputSerializer,
 )
 from dummy_api.serializers.posts_serializers import (
     PostListOutputSerializer,
@@ -88,6 +94,7 @@ from dummy_api.serializers.posts_serializers import (
     PostPartialUpdateInputSerializer,
     PostFilterOutputSerializer,
     PostFilterInputSerializer,
+    PostsStatsOutputSerializer,
 )
 from dummy_api.serializers.comments_serializers import (
     CommentListOutputSerializer,
@@ -98,6 +105,7 @@ from dummy_api.serializers.comments_serializers import (
     CommentPartialUpdateInputSerializer,
     CommentFilterOutputSerializer,
     CommentFilterInputSerializer,
+    CommentsStatsOutputSerializer,
 )
 from dummy_api.serializers.carts_serializers import (
     CartListOutputSerializer,
@@ -108,6 +116,7 @@ from dummy_api.serializers.carts_serializers import (
     CartPartialUpdateInputSerializer,
     CartFilterOutputSerializer,
     CartFilterInputSerializer,
+    CartStatsOutputSerializer,
 )
 from dummy_api.serializers.profile_serializers import ProfileOutputSerializer
 from mysite.base_permissions import TokenPermission
@@ -2383,4 +2392,207 @@ def profile(request: Request, pk: int) -> Response:
         ],
     }
     serializer = ProfileOutputSerializer(user_data)
+    return Response(serializer.data)
+
+
+@extend_schema(
+    responses={status.HTTP_200_OK: UsersStatsOutputSerializer()},
+)
+@api_view(["GET"])
+def users_stats(request: Request) -> Response:
+    data = {
+        "role_group": User.objects.values("role")
+        .annotate(count_users=Count("id"))
+        .order_by("-count_users"),
+        "company_state_group": User.objects.values("company_state")
+        .annotate(count_users=Count("id"))
+        .order_by("-count_users"),
+        "company_department_group": User.objects.values("company_department")
+        .annotate(count_users=Count("id"))
+        .order_by("-count_users"),
+        "bank_card_type_group": User.objects.values("bank_card_type")
+        .annotate(count_users=Count("id"))
+        .order_by("-count_users"),
+        "university_group": User.objects.values("university")
+        .annotate(count_users=Count("id"))
+        .order_by("-count_users"),
+        "state_group": User.objects.values("state")
+        .annotate(count_users=Count("id"))
+        .order_by("-count_users"),
+        "blood_group_group": User.objects.values("blood_group")
+        .annotate(count_users=Count("id"))
+        .order_by("-count_users"),
+        "gender_group": User.objects.values("gender")
+        .annotate(count_users=Count("id"))
+        .order_by("-count_users"),
+        "other_group": User.objects.aggregate(
+            min_age=Min("age"),
+            max_age=Max("age"),
+            avg_age=Avg("age"),
+            min_height=Min("height"),
+            max_height=Max("height"),
+            avg_height=Avg("height"),
+            min_weight=Min("weight"),
+            max_weight=Max("weight"),
+            avg_weight=Avg("weight"),
+        ),
+    }
+    serializer = UsersStatsOutputSerializer(data)
+    return Response(serializer.data)
+
+
+@extend_schema(
+    responses={status.HTTP_200_OK: TodosStatsOutputSerializer(many=True)},
+)
+@api_view(["GET"])
+def todos_stats(request: Request) -> Response:
+    data = (
+        Todo.objects.values("user_id")
+        .annotate(
+            count_todos=Count("id"),
+            count_completed=Count("completed", filter=F("completed")),
+            count_uncompleted=Count("completed", filter=~F("completed")),
+        )
+        .order_by("-count_completed")
+    )
+    serializer = TodosStatsOutputSerializer(data, many=True)
+    return Response(serializer.data)
+
+
+@extend_schema(
+    responses={status.HTTP_200_OK: RecipesStatsOutputSerializer(many=True)},
+)
+@api_view(["GET"])
+def recipes_stats(request: Request) -> Response:
+    data = (
+        Recipe.objects.values("difficulty", "cuisine")
+        .annotate(
+            min_prep_time_minutes=Min("prep_time_minutes"),
+            max_prep_time_minutes=Max("prep_time_minutes"),
+            avg_prep_time_minutes=Avg("prep_time_minutes"),
+            min_cook_time_minutes=Min("cook_time_minutes"),
+            max_cook_time_minutes=Max("cook_time_minutes"),
+            avg_cook_time_minutes=Avg("cook_time_minutes"),
+            min_servings=Min("servings"),
+            max_servings=Max("servings"),
+            avg_servings=Avg("servings"),
+            min_calories_per_serving=Min("calories_per_serving"),
+            max_calories_per_serving=Max("calories_per_serving"),
+            avg_calories_per_serving=Avg("calories_per_serving"),
+            min_rating=Min("rating"),
+            max_rating=Max("rating"),
+            avg_rating=Avg("rating"),
+            sum_review_count=Sum("review_count"),
+        )
+        .order_by("-sum_review_count", "-avg_rating")
+    )
+    serializer = RecipesStatsOutputSerializer(data, many=True)
+    return Response(serializer.data)
+
+
+@extend_schema(
+    responses={status.HTTP_200_OK: QuotesStatsOutputSerializer(many=True)},
+)
+@api_view(["GET"])
+def quotes_stats(request: Request) -> Response:
+    data = (
+        Quote.objects.values("author")
+        .annotate(count_quotes=Count("id"))
+        .order_by("-count_quotes")
+    )
+    serializer = QuotesStatsOutputSerializer(data, many=True)
+    return Response(serializer.data)
+
+
+@extend_schema(
+    responses={status.HTTP_200_OK: ProductsStatsOutputSerializer(many=True)},
+)
+@api_view(["GET"])
+def products_stats(request: Request) -> Response:
+    data = (
+        Product.objects.values("category")
+        .annotate(
+            count_products=Count("id"),
+            avg_price=Avg("price"),
+            max_price=Max("price"),
+            min_price=Min("price"),
+            avg_discount_percentage=Avg("discount_percentage"),
+            max_discount_percentage=Max("discount_percentage"),
+            min_discount_percentage=Min("discount_percentage"),
+            avg_rating=Avg("rating"),
+            max_rating=Max("rating"),
+            min_rating=Min("rating"),
+            sum_stock=Sum("stock"),
+        )
+        .order_by("-count_products")
+    )
+    serializer = ProductsStatsOutputSerializer(data, many=True)
+    return Response(serializer.data)
+
+
+@extend_schema(
+    responses={status.HTTP_200_OK: ReviewsStatsOutputSerializer()},
+)
+@api_view(["GET"])
+def reviews_stats(request: Request) -> Response:
+    data = Review.objects.aggregate(
+        count_reviews=Count("id"),
+        avg_rating=Avg("rating"),
+        count_unique_products=Count("product", distinct=True),
+        count_unique_users=Count("user", distinct=True),
+        max_rating=Max("rating"),
+        min_rating=Min("rating"),
+    )
+    serializer = ReviewsStatsOutputSerializer(data)
+    return Response(serializer.data)
+
+
+@extend_schema(
+    responses={status.HTTP_200_OK: PostsStatsOutputSerializer(many=True)},
+)
+@api_view(["GET"])
+def posts_stats(request: Request) -> Response:
+    data = (
+        Post.objects.values("user_id")
+        .annotate(
+            count_posts=Count("id"),
+            sum_views=Sum("views"),
+            sum_likes=Sum("likes"),
+            sum_dislikes=Sum("dislikes"),
+        )
+        .order_by("-sum_views")
+    )
+    serializer = PostsStatsOutputSerializer(data, many=True)
+    return Response(serializer.data)
+
+
+@extend_schema(
+    responses={status.HTTP_200_OK: CommentsStatsOutputSerializer(many=True)},
+)
+@api_view(["GET"])
+def comments_stats(request: Request) -> Response:
+    data = (
+        Comment.objects.values("post_id")
+        .annotate(
+            sum_likes=Sum("likes"),
+            count_comments=Count("id"),
+            avg_likes=Avg("likes"),
+            max_likes=Max("likes"),
+            min_likes=Min("likes"),
+        )
+        .order_by("-sum_likes")
+    )
+    serializer = CommentsStatsOutputSerializer(data, many=True)
+    return Response(serializer.data)
+
+
+@extend_schema(
+    responses={status.HTTP_200_OK: CartStatsOutputSerializer(many=True)},
+)
+@api_view(["GET"])
+def carts_stats(request: Request) -> Response:
+    data = Cart.objects.annotate(total_check=Sum("products__price")).values(
+        "id", "user_id", "total_check"
+    )
+    serializer = CartStatsOutputSerializer(data, many=True)
     return Response(serializer.data)

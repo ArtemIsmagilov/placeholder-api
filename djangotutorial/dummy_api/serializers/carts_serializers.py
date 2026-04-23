@@ -43,3 +43,9 @@ class CartFilterOutputSerializer(serializers.Serializer):
 class CartFilterInputSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
     user = serializers.IntegerField(required=False)
+
+
+class CartStatsOutputSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    user_id = serializers.IntegerField()
+    total_check = serializers.FloatField()

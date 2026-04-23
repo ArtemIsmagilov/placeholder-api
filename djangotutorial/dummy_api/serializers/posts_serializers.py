@@ -84,3 +84,11 @@ class PostFilterInputSerializer(serializers.Serializer):
     dislikes = serializers.IntegerField(required=False)
     views = serializers.IntegerField(required=False)
     user = serializers.IntegerField(required=False)
+
+
+class PostsStatsOutputSerializer(serializers.Serializer):
+    user_id = serializers.IntegerField()
+    count_posts = serializers.IntegerField()
+    sum_views = serializers.IntegerField()
+    sum_likes = serializers.IntegerField()
+    sum_dislikes = serializers.IntegerField()

@@ -220,3 +220,18 @@ class ProductFilterInputSerializer(serializers.Serializer):
     barcode = serializers.CharField(required=False)
     qr_code = serializers.CharField(required=False)
     thumbnail = serializers.URLField(required=False)
+
+
+class ProductsStatsOutputSerializer(serializers.Serializer):
+    category = serializers.CharField()
+    count_products = serializers.IntegerField()
+    avg_price = serializers.FloatField()
+    max_price = serializers.FloatField()
+    min_price = serializers.FloatField()
+    avg_discount_percentage = serializers.FloatField()
+    max_discount_percentage = serializers.FloatField()
+    min_discount_percentage = serializers.FloatField()
+    avg_rating = serializers.FloatField()
+    max_rating = serializers.FloatField()
+    min_rating = serializers.FloatField()
+    sum_stock = serializers.IntegerField()
