@@ -44,3 +44,8 @@ class AlbumFilterInputSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
     title = serializers.CharField(required=False)
     user = serializers.IntegerField(required=False)
+
+
+class AlbumStatsOutputSerializer(serializers.Serializer):
+    user = serializers.IntegerField(source="user_id")
+    count_albums = serializers.IntegerField()

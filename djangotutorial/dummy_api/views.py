@@ -2450,8 +2450,8 @@ def todos_stats(request: Request) -> Response:
         Todo.objects.values("user_id")
         .annotate(
             count_todos=Count("id"),
-            count_completed=Count("completed", filter=F("completed")),
-            count_uncompleted=Count("completed", filter=~F("completed")),
+            count_completed=Count("id", filter=Q(completed=True)),
+            count_uncompleted=Count("id", filter=Q(completed=False)),
         )
         .order_by("-count_completed")
     )

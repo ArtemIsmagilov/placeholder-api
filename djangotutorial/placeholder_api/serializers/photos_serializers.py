@@ -60,3 +60,8 @@ class PhotoFilterInputSerializer(serializers.Serializer):
     url = serializers.URLField(required=False)
     thumbnail_url = serializers.URLField(required=False)
     album = serializers.IntegerField(required=False)
+
+
+class PhotoStatsOutputSerializer(serializers.Serializer):
+    album = serializers.IntegerField(source="album_id")
+    count_photos = serializers.IntegerField()

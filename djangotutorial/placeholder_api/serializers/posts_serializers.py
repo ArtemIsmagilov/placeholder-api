@@ -52,3 +52,8 @@ class PostFilterInputSerializer(serializers.Serializer):
     title = serializers.CharField(required=False)
     body = serializers.CharField(required=False)
     user = serializers.IntegerField(required=False)
+
+
+class PostStatsOutputSerializer(serializers.Serializer):
+    user = serializers.IntegerField(source="user_id")
+    count_posts = serializers.IntegerField()

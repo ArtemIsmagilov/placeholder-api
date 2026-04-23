@@ -60,3 +60,8 @@ class CommentFilterInputSerializer(serializers.Serializer):
     email = serializers.EmailField(required=False)
     body = serializers.CharField(required=False)
     post = serializers.IntegerField(required=False)
+
+
+class CommentStatsOutputSerializer(serializers.Serializer):
+    post = serializers.IntegerField(source="post_id")
+    count_comments = serializers.IntegerField()

@@ -1211,3 +1211,111 @@ class PlaceholderApiTestCase(TestCase):
                 },
             )
         )
+
+    def test_users_stats(self):
+        response = self.client.get("/placeholder_api/users_stats")
+        self.assertEqual(response.status_code, 200)
+        jsonschema.validate(
+            response.json(),
+            {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "company": {"type": "string"},
+                        "count_users": {"type": "number"},
+                    },
+                    "required": ["company", "count_users"],
+                },
+            },
+        )
+
+    def test_todos_stats(self):
+        response = self.client.get("/placeholder_api/todos_stats")
+        self.assertEqual(response.status_code, 200)
+        jsonschema.validate(
+            response.json(),
+            {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "completed": {"type": "boolean"},
+                        "count_todos": {"type": "number"},
+                    },
+                    "required": ["completed", "count_todos"],
+                },
+            },
+        )
+
+    def test_albums_stats(self):
+        response = self.client.get("/placeholder_api/albums_stats")
+        self.assertEqual(response.status_code, 200)
+        jsonschema.validate(
+            response.json(),
+            {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "user": {"type": "number"},
+                        "count_albums": {"type": "number"},
+                    },
+                    "required": ["user", "count_albums"],
+                },
+            },
+        )
+
+    def test_photos_stats(self):
+        response = self.client.get("/placeholder_api/photos_stats")
+        self.assertEqual(response.status_code, 200)
+        jsonschema.validate(
+            response.json(),
+            {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "album": {"type": "number"},
+                        "count_photos": {"type": "number"},
+                    },
+                    "required": ["album", "count_photos"],
+                },
+            },
+        )
+
+    def test_posts_stats(self):
+        response = self.client.get("/placeholder_api/posts_stats")
+        self.assertEqual(response.status_code, 200)
+        jsonschema.validate(
+            response.json(),
+            {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "user": {"type": "number"},
+                        "count_posts": {"type": "number"},
+                    },
+                    "required": ["user", "count_posts"],
+                },
+            },
+        )
+
+    def test_comments_stats(self):
+        response = self.client.get("/placeholder_api/comments_stats")
+        self.assertEqual(response.status_code, 200)
+        jsonschema.validate(
+            response.json(),
+            {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "post": {"type": "number"},
+                        "count_comments": {"type": "number"},
+                    },
+                    "required": ["post", "count_comments"],
+                },
+            },
+        )

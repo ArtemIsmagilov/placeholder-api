@@ -84,3 +84,8 @@ class UserFilterInputSerializer(serializers.Serializer):
     phone = serializers.CharField(required=False)
     website = serializers.CharField(required=False)
     company = serializers.CharField(required=False)
+
+
+class UserStatsOutputSerializer(serializers.Serializer):
+    company = serializers.CharField()
+    count_users = serializers.IntegerField()

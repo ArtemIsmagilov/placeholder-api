@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from django.db.models import Q
+from django.db.models import Q, Count
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework import status
@@ -19,6 +19,7 @@ from .serializers.comments_serializers import (
     CommentPartialUpdateInputSerializer,
     CommentFilterOutputSerializer,
     CommentFilterInputSerializer,
+    CommentStatsOutputSerializer,
 )
 from .serializers.users_serializers import (
     UserSearchOutputSerializer,
@@ -29,6 +30,7 @@ from .serializers.users_serializers import (
     UserPartialUpdateInputSerializer,
     UserFilterOutputSerializer,
     UserFilterInputSerializer,
+    UserStatsOutputSerializer,
 )
 from .serializers.todos_serializers import (
     TodoSearchOutputSerializer,
@@ -39,6 +41,7 @@ from .serializers.todos_serializers import (
     TodoPartialUpdateInputSerializer,
     TodoFilterOutputSerializer,
     TodoFilterInputSerializer,
+    TodoStatsOutputSerializer,
 )
 from .serializers.albums_serializers import (
     AlbumSearchOutputSerializer,
@@ -49,6 +52,7 @@ from .serializers.albums_serializers import (
     AlbumPartialUpdateInputSerializer,
     AlbumFilterOutputSerializer,
     AlbumFilterInputSerializer,
+    AlbumStatsOutputSerializer,
 )
 from .serializers.photos_serializers import (
     PhotoSearchOutputSerializer,
@@ -59,6 +63,7 @@ from .serializers.photos_serializers import (
     PhotoPartialUpdateInputSerializer,
     PhotoFilterOutputSerializer,
     PhotoFilterInputSerializer,
+    PhotoStatsOutputSerializer,
 )
 from .serializers.posts_serializers import (
     PostSearchOutputSerializer,
@@ -69,6 +74,7 @@ from .serializers.posts_serializers import (
     PostPartialUpdateInputSerializer,
     PostFilterOutputSerializer,
     PostFilterInputSerializer,
+    PostStatsOutputSerializer,
 )
 from .serializers.profile_serializers import ProfileOutputSerializer
 
@@ -1286,3 +1292,91 @@ def profile(request: Request, pk: int) -> Response:
 @api_view(["GET"])
 def healthcheck(request: Request) -> Response:
     return Response(status=status.HTTP_200_OK)
+
+
+@extend_schema(
+    responses={status.HTTP_200_OK: UserStatsOutputSerializer(many=True)},
+)
+@api_view(["GET"])
+def users_stats(request: Request) -> Response:
+    data = (
+        User.objects.values("company")
+        .annotate(count_users=Count("id"))
+        .order_by("-count_users")
+    )
+    serializer = UserStatsOutputSerializer(data, many=True)
+    return Response(serializer.data)
+
+
+@extend_schema(
+    responses={status.HTTP_200_OK: TodoStatsOutputSerializer(many=True)},
+)
+@api_view(["GET"])
+def todos_stats(request: Request) -> Response:
+    data = (
+        Todo.objects.values("completed")
+        .annotate(
+            count_todos=Count("id"),
+            count_completed=Count("id", filter=Q(completed=True)),
+            count_uncompleted=Count("id", filter=Q(completed=False)),
+        )
+        .order_by("-count_todos")
+    )
+    serializer = TodoStatsOutputSerializer(data, many=True)
+    return Response(serializer.data)
+
+
+@extend_schema(
+    responses={status.HTTP_200_OK: AlbumStatsOutputSerializer(many=True)},
+)
+@api_view(["GET"])
+def albums_stats(request: Request) -> Response:
+    data = (
+        Album.objects.values("user_id")
+        .annotate(count_albums=Count("id"))
+        .order_by("-count_albums")
+    )
+    serializer = AlbumStatsOutputSerializer(data, many=True)
+    return Response(serializer.data)
+
+
+@extend_schema(
+    responses={status.HTTP_200_OK: PhotoStatsOutputSerializer(many=True)},
+)
+@api_view(["GET"])
+def photos_stats(request: Request) -> Response:
+    data = (
+        Photo.objects.values("album_id")
+        .annotate(count_photos=Count("id"))
+        .order_by("-count_photos")
+    )
+    serializer = PhotoStatsOutputSerializer(data, many=True)
+    return Response(serializer.data)
+
+
+@extend_schema(
+    responses={status.HTTP_200_OK: PostStatsOutputSerializer(many=True)},
+)
+@api_view(["GET"])
+def posts_stats(request: Request) -> Response:
+    data = (
+        Post.objects.values("user_id")
+        .annotate(count_posts=Count("id"))
+        .order_by("-count_posts")
+    )
+    serializer = PostStatsOutputSerializer(data, many=True)
+    return Response(serializer.data)
+
+
+@extend_schema(
+    responses={status.HTTP_200_OK: CommentStatsOutputSerializer(many=True)},
+)
+@api_view(["GET"])
+def comments_stats(request: Request) -> Response:
+    data = (
+        Comment.objects.values("post_id")
+        .annotate(count_comments=Count("id"))
+        .order_by("-count_comments")
+    )
+    serializer = CommentStatsOutputSerializer(data, many=True)
+    return Response(serializer.data)
