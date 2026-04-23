@@ -2855,13 +2855,13 @@ class DummyApiTestCase(TestCase):
                     "items": {
                         "type": "object",
                         "properties": {
-                            "user_id": {"type": "number"},
+                            "user": {"type": "number"},
                             "count_todos": {"type": "number"},
                             "count_completed": {"type": "number"},
                             "count_uncompleted": {"type": "number"},
                         },
                         "required": [
-                            "user_id",
+                            "user",
                             "count_todos",
                             "count_completed",
                             "count_uncompleted",
