@@ -1314,13 +1314,13 @@ def users_stats(request: Request) -> Response:
 @api_view(["GET"])
 def todos_stats(request: Request) -> Response:
     data = (
-        Todo.objects.values("completed")
+        Todo.objects.values("user_id")
         .annotate(
             count_todos=Count("id"),
             count_completed=Count("id", filter=Q(completed=True)),
             count_uncompleted=Count("id", filter=Q(completed=False)),
         )
-        .order_by("-count_todos")
+        .order_by("-count_completed")
     )
     serializer = TodoStatsOutputSerializer(data, many=True)
     return Response(serializer.data)

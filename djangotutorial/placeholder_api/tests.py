@@ -1240,10 +1240,17 @@ class PlaceholderApiTestCase(TestCase):
                 "items": {
                     "type": "object",
                     "properties": {
-                        "completed": {"type": "boolean"},
+                        "user": {"type": "number"},
                         "count_todos": {"type": "number"},
+                        "count_completed": {"type": "number"},
+                        "count_uncompleted": {"type": "number"},
                     },
-                    "required": ["completed", "count_todos"],
+                    "required": [
+                        "user",
+                        "count_todos",
+                        "count_completed",
+                        "count_uncompleted",
+                    ],
                 },
             },
         )
