@@ -222,7 +222,7 @@ class ProductFilterInputSerializer(serializers.Serializer):
     thumbnail = serializers.URLField(required=False)
 
 
-class ProductsStatsOutputSerializer(serializers.Serializer):
+class ProductStatsOutputSerializer(serializers.Serializer):
     category = serializers.CharField()
     count_products = serializers.IntegerField()
     avg_price = serializers.FloatField()

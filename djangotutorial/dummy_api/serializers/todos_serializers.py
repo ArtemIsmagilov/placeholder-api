@@ -54,7 +54,7 @@ class TodoFilterInputSerializer(serializers.Serializer):
     user = serializers.IntegerField(required=False)
 
 
-class TodosStatsOutputSerializer(serializers.Serializer):
+class TodoStatsOutputSerializer(serializers.Serializer):
     user_id = serializers.IntegerField()
     count_todos = serializers.IntegerField()
     count_completed = serializers.IntegerField()

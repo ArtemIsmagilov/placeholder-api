@@ -86,7 +86,7 @@ class PostFilterInputSerializer(serializers.Serializer):
     user = serializers.IntegerField(required=False)
 
 
-class PostsStatsOutputSerializer(serializers.Serializer):
+class PostStatsOutputSerializer(serializers.Serializer):
     user_id = serializers.IntegerField()
     count_posts = serializers.IntegerField()
     sum_views = serializers.IntegerField()

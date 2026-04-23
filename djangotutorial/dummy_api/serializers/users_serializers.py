@@ -420,3 +420,67 @@ class UserFilterInputSerializer(serializers.Serializer):
     crypto_wallet = serializers.CharField(required=False)
     crypto_network = serializers.CharField(required=False)
     role = serializers.CharField(required=False)
+
+
+class UserRoleGroupSerializer(serializers.Serializer):
+    role = serializers.CharField()
+    count_users = serializers.IntegerField()
+
+
+class UserCompanyStateGroupSerializer(serializers.Serializer):
+    company_state = serializers.CharField()
+    count_users = serializers.IntegerField()
+
+
+class UserCompanyDepartmentGroupSerializer(serializers.Serializer):
+    company_department = serializers.CharField()
+    count_users = serializers.IntegerField()
+
+
+class UserBankCardTypeGroupSerializer(serializers.Serializer):
+    bank_card_type = serializers.CharField()
+    count_users = serializers.IntegerField()
+
+
+class UserUniversityGroupSerializer(serializers.Serializer):
+    university = serializers.CharField()
+    count_users = serializers.IntegerField()
+
+
+class UserStateGroupSerializer(serializers.Serializer):
+    state = serializers.CharField()
+    count_users = serializers.IntegerField()
+
+
+class UserBloodGroupGroupSerializer(serializers.Serializer):
+    blood_group = serializers.CharField()
+    count_users = serializers.IntegerField()
+
+
+class UserGenderGroupSerializer(serializers.Serializer):
+    gender = serializers.CharField()
+    count_users = serializers.IntegerField()
+
+
+class UserOtherGroupSerializer(serializers.Serializer):
+    min_age = serializers.IntegerField()
+    max_age = serializers.IntegerField()
+    avg_age = serializers.FloatField()
+    min_height = serializers.FloatField()
+    max_height = serializers.FloatField()
+    avg_height = serializers.FloatField()
+    min_weight = serializers.FloatField()
+    max_weight = serializers.FloatField()
+    avg_weight = serializers.FloatField()
+
+
+class UserStatsOutputSerializer(serializers.Serializer):
+    role_group = UserRoleGroupSerializer(many=True)
+    company_state_group = UserCompanyStateGroupSerializer(many=True)
+    company_department_group = UserCompanyDepartmentGroupSerializer(many=True)
+    bank_card_type_group = UserBankCardTypeGroupSerializer(many=True)
+    university_group = UserUniversityGroupSerializer(many=True)
+    state_group = UserStateGroupSerializer(many=True)
+    blood_group_group = UserBloodGroupGroupSerializer(many=True)
+    gender_group = UserGenderGroupSerializer(many=True)
+    other_group = UserOtherGroupSerializer()

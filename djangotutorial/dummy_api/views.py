@@ -28,7 +28,7 @@ from dummy_api.serializers.users_serializers import (
     UserPartialUpdateInputSerializer,
     UserFilterOutputSerializer,
     UserFilterInputSerializer,
-    UsersStatsOutputSerializer,
+    UserStatsOutputSerializer,
 )
 from dummy_api.serializers.todos_serializers import (
     TodoListOutputSerializer,
@@ -39,7 +39,7 @@ from dummy_api.serializers.todos_serializers import (
     TodoPartialUpdateInputSerializer,
     TodoFilterOutputSerializer,
     TodoFilterInputSerializer,
-    TodosStatsOutputSerializer,
+    TodoStatsOutputSerializer,
 )
 from dummy_api.serializers.recipes_serializers import (
     RecipeListOutputSerializer,
@@ -50,7 +50,7 @@ from dummy_api.serializers.recipes_serializers import (
     RecipePartialUpdateInputSerializer,
     RecipeFilterOutputSerializer,
     RecipeFilterInputSerializer,
-    RecipesStatsOutputSerializer,
+    RecipeStatsOutputSerializer,
 )
 from dummy_api.serializers.quotes_serializers import (
     QuoteListOutputSerializer,
@@ -61,7 +61,7 @@ from dummy_api.serializers.quotes_serializers import (
     QuotePartialUpdateInputSerializer,
     QuoteFilterOutputSerializer,
     QuoteFilterInputSerializer,
-    QuotesStatsOutputSerializer,
+    QuoteStatsOutputSerializer,
 )
 from dummy_api.serializers.products_serializers import (
     ProductListOutputSerializer,
@@ -72,7 +72,7 @@ from dummy_api.serializers.products_serializers import (
     ProductPartialUpdateInputSerializer,
     ProductFilterOutputSerializer,
     ProductFilterInputSerializer,
-    ProductsStatsOutputSerializer,
+    ProductStatsOutputSerializer,
 )
 from dummy_api.serializers.reviews_serializers import (
     ReviewListOutputSerializer,
@@ -83,7 +83,7 @@ from dummy_api.serializers.reviews_serializers import (
     ReviewPartialUpdateInputSerializer,
     ReviewFilterOutputSerializer,
     ReviewFilterInputSerializer,
-    ReviewsStatsOutputSerializer,
+    ReviewStatsOutputSerializer,
 )
 from dummy_api.serializers.posts_serializers import (
     PostListOutputSerializer,
@@ -94,7 +94,7 @@ from dummy_api.serializers.posts_serializers import (
     PostPartialUpdateInputSerializer,
     PostFilterOutputSerializer,
     PostFilterInputSerializer,
-    PostsStatsOutputSerializer,
+    PostStatsOutputSerializer,
 )
 from dummy_api.serializers.comments_serializers import (
     CommentListOutputSerializer,
@@ -105,7 +105,7 @@ from dummy_api.serializers.comments_serializers import (
     CommentPartialUpdateInputSerializer,
     CommentFilterOutputSerializer,
     CommentFilterInputSerializer,
-    CommentsStatsOutputSerializer,
+    CommentStatsOutputSerializer,
 )
 from dummy_api.serializers.carts_serializers import (
     CartListOutputSerializer,
@@ -2396,7 +2396,7 @@ def profile(request: Request, pk: int) -> Response:
 
 
 @extend_schema(
-    responses={status.HTTP_200_OK: UsersStatsOutputSerializer()},
+    responses={status.HTTP_200_OK: UserStatsOutputSerializer()},
 )
 @api_view(["GET"])
 def users_stats(request: Request) -> Response:
@@ -2437,12 +2437,12 @@ def users_stats(request: Request) -> Response:
             avg_weight=Avg("weight"),
         ),
     }
-    serializer = UsersStatsOutputSerializer(data)
+    serializer = UserStatsOutputSerializer(data)
     return Response(serializer.data)
 
 
 @extend_schema(
-    responses={status.HTTP_200_OK: TodosStatsOutputSerializer(many=True)},
+    responses={status.HTTP_200_OK: TodoStatsOutputSerializer(many=True)},
 )
 @api_view(["GET"])
 def todos_stats(request: Request) -> Response:
@@ -2455,12 +2455,12 @@ def todos_stats(request: Request) -> Response:
         )
         .order_by("-count_completed")
     )
-    serializer = TodosStatsOutputSerializer(data, many=True)
+    serializer = TodoStatsOutputSerializer(data, many=True)
     return Response(serializer.data)
 
 
 @extend_schema(
-    responses={status.HTTP_200_OK: RecipesStatsOutputSerializer(many=True)},
+    responses={status.HTTP_200_OK: RecipeStatsOutputSerializer(many=True)},
 )
 @api_view(["GET"])
 def recipes_stats(request: Request) -> Response:
@@ -2486,26 +2486,12 @@ def recipes_stats(request: Request) -> Response:
         )
         .order_by("-sum_review_count", "-avg_rating")
     )
-    serializer = RecipesStatsOutputSerializer(data, many=True)
+    serializer = RecipeStatsOutputSerializer(data, many=True)
     return Response(serializer.data)
 
 
 @extend_schema(
-    responses={status.HTTP_200_OK: QuotesStatsOutputSerializer(many=True)},
-)
-@api_view(["GET"])
-def quotes_stats(request: Request) -> Response:
-    data = (
-        Quote.objects.values("author")
-        .annotate(count_quotes=Count("id"))
-        .order_by("-count_quotes")
-    )
-    serializer = QuotesStatsOutputSerializer(data, many=True)
-    return Response(serializer.data)
-
-
-@extend_schema(
-    responses={status.HTTP_200_OK: ProductsStatsOutputSerializer(many=True)},
+    responses={status.HTTP_200_OK: ProductStatsOutputSerializer(many=True)},
 )
 @api_view(["GET"])
 def products_stats(request: Request) -> Response:
@@ -2526,12 +2512,12 @@ def products_stats(request: Request) -> Response:
         )
         .order_by("-count_products")
     )
-    serializer = ProductsStatsOutputSerializer(data, many=True)
+    serializer = ProductStatsOutputSerializer(data, many=True)
     return Response(serializer.data)
 
 
 @extend_schema(
-    responses={status.HTTP_200_OK: ReviewsStatsOutputSerializer()},
+    responses={status.HTTP_200_OK: ReviewStatsOutputSerializer()},
 )
 @api_view(["GET"])
 def reviews_stats(request: Request) -> Response:
@@ -2543,12 +2529,12 @@ def reviews_stats(request: Request) -> Response:
         max_rating=Max("rating"),
         min_rating=Min("rating"),
     )
-    serializer = ReviewsStatsOutputSerializer(data)
+    serializer = ReviewStatsOutputSerializer(data)
     return Response(serializer.data)
 
 
 @extend_schema(
-    responses={status.HTTP_200_OK: PostsStatsOutputSerializer(many=True)},
+    responses={status.HTTP_200_OK: PostStatsOutputSerializer(many=True)},
 )
 @api_view(["GET"])
 def posts_stats(request: Request) -> Response:
@@ -2562,12 +2548,12 @@ def posts_stats(request: Request) -> Response:
         )
         .order_by("-sum_views")
     )
-    serializer = PostsStatsOutputSerializer(data, many=True)
+    serializer = PostStatsOutputSerializer(data, many=True)
     return Response(serializer.data)
 
 
 @extend_schema(
-    responses={status.HTTP_200_OK: CommentsStatsOutputSerializer(many=True)},
+    responses={status.HTTP_200_OK: CommentStatsOutputSerializer(many=True)},
 )
 @api_view(["GET"])
 def comments_stats(request: Request) -> Response:
@@ -2582,7 +2568,7 @@ def comments_stats(request: Request) -> Response:
         )
         .order_by("-sum_likes")
     )
-    serializer = CommentsStatsOutputSerializer(data, many=True)
+    serializer = CommentStatsOutputSerializer(data, many=True)
     return Response(serializer.data)
 
 

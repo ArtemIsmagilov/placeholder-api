@@ -70,7 +70,7 @@ class ReviewFilterInputSerializer(serializers.Serializer):
     user = serializers.IntegerField(required=False)
 
 
-class ReviewsStatsOutputSerializer(serializers.Serializer):
+class ReviewStatsOutputSerializer(serializers.Serializer):
     count_reviews = serializers.IntegerField()
     avg_rating = serializers.FloatField()
     count_unique_products = serializers.IntegerField()
