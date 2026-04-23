@@ -2491,6 +2491,20 @@ def recipes_stats(request: Request) -> Response:
 
 
 @extend_schema(
+    responses={status.HTTP_200_OK: QuoteStatsOutputSerializer(many=True)},
+)
+@api_view(["GET"])
+def quotes_stats(request: Request) -> Response:
+    data = (
+        Quote.objects.values("author")
+        .annotate(count_quotes=Count("id"))
+        .order_by("-count_quotes")
+    )
+    serializer = QuoteStatsOutputSerializer(data, many=True)
+    return Response(serializer.data)
+
+
+@extend_schema(
     responses={status.HTTP_200_OK: ProductStatsOutputSerializer(many=True)},
 )
 @api_view(["GET"])

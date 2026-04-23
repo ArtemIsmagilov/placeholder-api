@@ -150,7 +150,7 @@ class RecipeFilterInputSerializer(serializers.Serializer):
     user = serializers.IntegerField(required=False)
 
 
-class RecipeStatsSerializer(serializers.Serializer):
+class RecipeStatsOutputSerializer(serializers.Serializer):
     difficulty = serializers.CharField()
     cuisine = serializers.CharField()
     min_prep_time_minutes = serializers.IntegerField()
