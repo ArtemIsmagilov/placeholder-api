@@ -66,7 +66,7 @@ class Command(BaseCommand):
                 company_coordinates=f"{u['company']['address']['coordinates']['lat']} {u['company']['address']['coordinates']['lng']}",
                 company_country=u["company"]["address"]["country"],
                 ein=u["ein"],
-                snn=u["ssn"],
+                ssn=u["ssn"],
                 user_agent=u["userAgent"],
                 crypto_coint=u["crypto"]["coin"],
                 crypto_wallet=u["crypto"]["wallet"],

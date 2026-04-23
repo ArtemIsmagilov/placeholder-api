@@ -45,7 +45,7 @@ class User(models.Model):
     company_coordinates = models.CharField()
     company_country = models.CharField()
     ein = models.CharField()
-    snn = models.CharField()
+    ssn = models.CharField()
     user_agent = models.CharField()
     crypto_coint = models.CharField()
     crypto_wallet = models.CharField()

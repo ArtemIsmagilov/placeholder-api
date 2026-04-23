@@ -221,7 +221,7 @@ def users_search(request: Request) -> Response:
             | Q(company_coordinates__icontains=q)
             | Q(company_country__icontains=q)
             | Q(ein__icontains=q)
-            | Q(snn__icontains=q)
+            | Q(ssn__icontains=q)
             | Q(user_agent__icontains=q)
             | Q(crypto_coint__icontains=q)
             | Q(crypto_wallet__icontains=q)
@@ -347,7 +347,7 @@ def users_partial_update(request: Request, pk: int) -> Response:
             "company_coordinates",
             "company_country",
             "ein",
-            "snn",
+            "ssn",
             "user_agent",
             "crypto_coint",
             "crypto_wallet",
@@ -454,8 +454,8 @@ def users_filter(request: Request) -> Response:
         queryset = queryset.filter(company_country=q)
     if (q := validated_data.get("ein")) is not None:
         queryset = queryset.filter(ein=q)
-    if (q := validated_data.get("snn")) is not None:
-        queryset = queryset.filter(snn=q)
+    if (q := validated_data.get("ssn")) is not None:
+        queryset = queryset.filter(ssn=q)
     if (q := validated_data.get("user_agent")) is not None:
         queryset = queryset.filter(user_agent=q)
     if (q := validated_data.get("crypto_coint")) is not None:
@@ -2291,7 +2291,7 @@ def profile(request: Request, pk: int) -> Response:
             "company_coordinates": user.company_coordinates,
             "company_country": user.company_country,
             "ein": user.ein,
-            "snn": user.snn,
+            "ssn": user.ssn,
             "user_agent": user.user_agent,
             "crypto_coint": user.crypto_coint,
             "crypto_wallet": user.crypto_wallet,

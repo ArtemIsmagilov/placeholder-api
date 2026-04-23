@@ -45,7 +45,7 @@ class UserProfileSerializer(serializers.Serializer):
     company_coordinates = serializers.CharField()
     company_country = serializers.CharField()
     ein = serializers.CharField()
-    snn = serializers.CharField()
+    ssn = serializers.CharField()
     user_agent = serializers.CharField()
     crypto_coint = serializers.CharField()
     crypto_wallet = serializers.CharField()
