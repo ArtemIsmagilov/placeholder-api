@@ -35,12 +35,12 @@ class CartCreateInputSerializer(serializers.Serializer):
 
 class CartUpdateInputSerializer(serializers.Serializer):
     user = serializers.IntegerField()
-    products = products = serializers.ListField(child=serializers.IntegerField())
+    products = serializers.ListField(child=serializers.IntegerField())
 
 
 class CartPartialUpdateInputSerializer(serializers.Serializer):
     user = serializers.IntegerField(required=False)
-    products = products = serializers.ListField(child=serializers.IntegerField())
+    products = serializers.ListField(child=serializers.IntegerField())
 
 
 class CartFilterOutputSerializer(serializers.Serializer):
