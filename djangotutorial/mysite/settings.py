@@ -142,3 +142,7 @@ if "test" not in sys.argv and DEBUG:
     INTERNAL_IPS = ["127.0.0.1"]
     INSTALLED_APPS.append("debug_toolbar")
     MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
+
+if DEBUG:
+    INSTALLED_APPS.append("zeal")
+    MIDDLEWARE.append("zeal.middleware.zeal_middleware")

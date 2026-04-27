@@ -3076,10 +3076,10 @@ class DummyApiTestCase(TestCase):
                     "type": "object",
                     "properties": {
                         "id": {"type": "number"},
-                        "user_id": {"type": "number"},
+                        "user": {"type": "number"},
                         "total_check": {"type": "number"},
                     },
-                    "required": ["id", "user_id", "total_check"],
+                    "required": ["id", "user", "total_check"],
                 },
             },
         )

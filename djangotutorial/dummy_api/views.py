@@ -2025,22 +2025,10 @@ def carts_list(request: Request) -> Response:
 
     paginator = Pagination()
     page = paginator.paginate_queryset(
-        Cart.objects.select_related("user")
-        .prefetch_related("products")
-        .order_by("id")
-        .all(),
+        Cart.objects.prefetch_related("products").order_by("id"),
         request,
     )
-    carts_data = []
-    for cart in page:
-        carts_data.append(
-            {
-                "id": cart.id,
-                "user": cart.user_id,
-                "products": list(cart.products.values_list("id", flat=True)),
-            }
-        )
-    cs = CartListOutputSerializer(carts_data, many=True)
+    cs = CartListOutputSerializer(page, many=True)
     return paginator.get_paginated_response(cs.data)
 
 
@@ -2051,15 +2039,8 @@ def carts_list(request: Request) -> Response:
 )
 @api_view(["GET"])
 def carts_detail(request: Request, pk: int) -> Response:
-    cart = get_object_or_404(
-        Cart.objects.select_related("user").prefetch_related("products"), pk=pk
-    )
-    cart_data = {
-        "id": cart.id,
-        "user": cart.user_id,
-        "products": list(cart.products.values_list("id", flat=True)),
-    }
-    c = CartDetailOutputSerializer(cart_data)
+    cart = get_object_or_404(Cart.objects.prefetch_related("products"), pk=pk)
+    c = CartDetailOutputSerializer(cart)
     return Response(c.data)
 
 
@@ -2096,16 +2077,7 @@ def carts_search(request: Request) -> Response:
         )
     paginator = Pagination()
     page = paginator.paginate_queryset(queryset, request)
-    carts_data = []
-    for cart in page:
-        carts_data.append(
-            {
-                "id": cart.id,
-                "user": cart.user_id,
-                "products": list(cart.products.values_list("id", flat=True)),
-            }
-        )
-    cs = CartSearchOutputSerializer(carts_data, many=True)
+    cs = CartSearchOutputSerializer(page, many=True)
     return paginator.get_paginated_response(cs.data)
 
 
@@ -2206,25 +2178,14 @@ def carts_filter(request: Request) -> Response:
     query_params = CartFilterInputSerializer(data=request.query_params)
     query_params.is_valid(raise_exception=True)
     validated_data = query_params.validated_data
-    queryset = (
-        Cart.objects.select_related("user").prefetch_related("products").order_by("id")
-    )
+    queryset = Cart.objects.prefetch_related("products").order_by("id")
     if (q := validated_data.get("id")) is not None:
         queryset = queryset.filter(id=q)
     if (q := validated_data.get("user")) is not None:
         queryset = queryset.filter(user=q)
     paginator = Pagination()
     page = paginator.paginate_queryset(queryset, request)
-    carts_data = []
-    for cart in page:
-        carts_data.append(
-            {
-                "id": cart.id,
-                "user": cart.user_id,
-                "products": list(cart.products.values_list("id", flat=True)),
-            }
-        )
-    cs = CartFilterOutputSerializer(carts_data, many=True)
+    cs = CartFilterOutputSerializer(page, many=True)
     return paginator.get_paginated_response(cs.data)
 
 
