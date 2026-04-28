@@ -1,3 +1,6 @@
+import csv
+
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.db.models import Q, Count, Sum, Avg, Max, Min
 from rest_framework.request import Request
@@ -2557,3 +2560,275 @@ def carts_stats(request: Request) -> Response:
     )
     serializer = CartStatsOutputSerializer(data, many=True)
     return Response(serializer.data)
+
+
+@api_view(["GET"])
+def profiles_export_csv(request: Request) -> HttpResponse:
+    response = HttpResponse(
+        content_type="text/csv",
+        headers={"Content-Disposition": 'attachment; filename="users.csv"'},
+    )
+
+    writer = csv.writer(response)
+
+    queryset = User.objects.prefetch_related(
+        "todo_set",
+        "recipe_set",
+        "review_set",
+        "cart_set__products",
+        "post_set__comment_set",
+    )
+
+    for user in queryset:
+        writer.writerow(["user_info"])
+        writer.writerow(
+            [
+                "first_name",
+                "last_name",
+                "maiden_name",
+                "age",
+                "gender",
+                "email",
+                "phone",
+                "username",
+                "password",
+                "birthday",
+                "image",
+                "blood_group",
+                "height",
+                "weight",
+                "eye_color",
+                "hair_color",
+                "hair_type",
+                "ip",
+                "address",
+                "city",
+                "state",
+                "state_code",
+                "postal_code",
+                "coordinates",
+                "country",
+                "mac_address",
+                "university",
+                "bank_card_expire",
+                "bank_card_number",
+                "bank_card_type",
+                "bank_currency",
+                "bank_iban",
+                "company_department",
+                "company_name",
+                "company_title",
+                "company_address",
+                "company_city",
+                "company_state",
+                "company_state_code",
+                "company_postal_code",
+                "company_coordinates",
+                "company_country",
+                "ein",
+                "ssn",
+                "user_agent",
+                "crypto_coint",
+                "crypto_wallet",
+                "crypto_network",
+                "role",
+            ]
+        )
+        writer.writerow(
+            [
+                user.first_name,
+                user.last_name,
+                user.maiden_name,
+                user.age,
+                user.gender,
+                user.email,
+                user.phone,
+                user.username,
+                user.password,
+                user.birthday,
+                user.image,
+                user.blood_group,
+                user.height,
+                user.weight,
+                user.eye_color,
+                user.hair_color,
+                user.hair_type,
+                user.ip,
+                user.address,
+                user.city,
+                user.state,
+                user.state_code,
+                user.postal_code,
+                user.coordinates,
+                user.country,
+                user.mac_address,
+                user.university,
+                user.bank_card_expire,
+                user.bank_card_number,
+                user.bank_card_type,
+                user.bank_currency,
+                user.bank_iban,
+                user.company_department,
+                user.company_name,
+                user.company_title,
+                user.company_address,
+                user.company_city,
+                user.company_state,
+                user.company_state_code,
+                user.company_postal_code,
+                user.company_coordinates,
+                user.company_country,
+                user.ein,
+                user.ssn,
+                user.user_agent,
+                user.crypto_coint,
+                user.crypto_wallet,
+                user.crypto_network,
+                user.role,
+            ]
+        )
+        writer.writerow([])
+        writer.writerow(["todos"])
+        writer.writerow(["title", "complited"])
+        for todo in user.todo_set.all():
+            writer.writerow([todo.title, todo.completed])
+        writer.writerow([])
+        writer.writerow(["recipes"])
+        writer.writerow(
+            [
+                "name",
+                "ingredients",
+                "instructions",
+                "prep_time_minutes",
+                "cook_time_minutes",
+                "servings",
+                "difficulty",
+                "cuisine",
+                "calories_per_serving",
+                "tags",
+                "image",
+                "rating",
+                "review_count",
+                "meal_type",
+            ]
+        )
+        for recipe in user.recipe_set.all():
+            writer.writerow(
+                [
+                    recipe.name,
+                    recipe.ingredients,
+                    recipe.instructions,
+                    recipe.prep_time_minutes,
+                    recipe.cook_time_minutes,
+                    recipe.servings,
+                    recipe.difficulty,
+                    recipe.cuisine,
+                    recipe.calories_per_serving,
+                    recipe.tags,
+                    recipe.image,
+                    recipe.rating,
+                    recipe.review_count,
+                    recipe.meal_type,
+                ]
+            )
+        writer.writerow([])
+        writer.writerow(["reviews"])
+        writer.writerow(
+            [
+                "rating",
+                "comment",
+                "date",
+            ]
+        )
+        for review in user.review_set.all():
+            writer.writerow(
+                [
+                    review.rating,
+                    review.comment,
+                    review.date,
+                ]
+            )
+        writer.writerow([])
+        writer.writerow(["carts"])
+        writer.writerow(
+            [
+                "cart",
+                "title",
+                "description",
+                "category",
+                "price",
+                "discount_percentage",
+                "rating",
+                "stock",
+                "tags",
+                "brand",
+                "sku",
+                "weight",
+                "width",
+                "height",
+                "depth",
+                "warranty_information",
+                "shipping_information",
+                "availability_status",
+                "return_policy",
+                "minimum_order_quantity",
+                "created_at",
+                "updated_at",
+                "barcode",
+                "qr_code",
+                "thumbnail",
+            ]
+        )
+        for cart in user.cart_set.all():
+            for product in cart.products.all():
+                writer.writerow(
+                    [
+                        cart.id,
+                        product.title,
+                        product.description,
+                        product.category,
+                        product.price,
+                        product.discount_percentage,
+                        product.rating,
+                        product.stock,
+                        product.tags,
+                        product.brand,
+                        product.sku,
+                        product.weight,
+                        product.width,
+                        product.height,
+                        product.depth,
+                        product.warranty_information,
+                        product.shipping_information,
+                        product.availability_status,
+                        product.return_policy,
+                        product.minimum_order_quantity,
+                        product.created_at,
+                        product.updated_at,
+                        product.barcode,
+                        product.qr_code,
+                        product.thumbnail,
+                    ]
+                )
+            writer.writerow([])
+        writer.writerow([])
+        writer.writerow(["posts"])
+        writer.writerow(["title", "body", "tags", "likes", "dislikes", "views"])
+        writer.writerow(["comments_body", "comments_likes"])
+        for post in user.post_set.all():
+            writer.writerow(
+                [
+                    post.title,
+                    post.body,
+                    post.tags,
+                    post.likes,
+                    post.dislikes,
+                    post.views,
+                ]
+            )
+            writer.writerow(["comments"])
+            for comment in post.comment_set.all():
+                writer.writerow([comment.body, comment.likes])
+            writer.writerow([])
+        writer.writerow([])
+    return response

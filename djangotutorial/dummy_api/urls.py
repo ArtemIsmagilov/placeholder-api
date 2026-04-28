@@ -120,4 +120,5 @@ urlpatterns = [
     path("carts_delete/<int:pk>", views.carts_delete, name="carts_delete"),
     path("carts_stats", views.carts_stats, name="carts_stats"),
     path("profile/<int:pk>", views.profile, name="profile"),
+    path("profiles_export_csv", views.profiles_export_csv, name="profiles_export_csv"),
 ]
