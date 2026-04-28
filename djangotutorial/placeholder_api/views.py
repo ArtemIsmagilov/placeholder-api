@@ -1,4 +1,6 @@
+import csv
 from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
 from django.db.models import Q, Count
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -1380,3 +1382,60 @@ def comments_stats(request: Request) -> Response:
     )
     serializer = CommentStatsOutputSerializer(data, many=True)
     return Response(serializer.data)
+
+
+@api_view(["GET"])
+def profiles_export_csv(request: Request) -> HttpResponse:
+    response = HttpResponse(
+        content_type="text/csv",
+        headers={"Content-Disposition": 'attachment; filename="users.csv"'},
+    )
+
+    writer = csv.writer(response)
+
+    queryset = User.objects.prefetch_related(
+        "todo_set", "album_set__photo_set", "post_set__comment_set"
+    )
+
+    for user in queryset:
+        writer.writerow(["user_info"])
+        writer.writerow(
+            ["name", "username", "email", "address", "phone", "website", "company"]
+        )
+        writer.writerow(
+            [
+                user.name,
+                user.username,
+                user.email,
+                user.address,
+                user.phone,
+                user.website,
+                user.company,
+            ]
+        )
+        writer.writerow([])
+        writer.writerow(["todos"])
+        writer.writerow(["title", "completed"])
+        for todo in user.todo_set.all():
+            writer.writerow([todo.title, todo.completed])
+        writer.writerow([])
+        writer.writerow(["albums"])
+        writer.writerow(["title"])
+        for album in user.album_set.all():
+            writer.writerow([album.title])
+            writer.writerow(["pictures"])
+            writer.writerow(["title", "url", "thumbnail_url"])
+            for photo in album.photo_set.all():
+                writer.writerow([photo.title, photo.url, photo.thumbnail_url])
+        writer.writerow([])
+        writer.writerow(["posts"])
+        writer.writerow(["title", "body"])
+        for post in user.post_set.all():
+            writer.writerow([post.title, post.body])
+            writer.writerow(["comments"])
+            writer.writerow(["name", "email", "body"])
+            for comment in post.comment_set.all():
+                writer.writerow([comment.name, comment.email, comment.body])
+        writer.writerow([])
+
+    return response

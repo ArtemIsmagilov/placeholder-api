@@ -1326,3 +1326,12 @@ class PlaceholderApiTestCase(TestCase):
                 },
             },
         )
+
+    def test_profiles_export_csv(self):
+        response = self.client.get("/placeholder_api/profiles_export_csv")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.headers["Content-Type"], "text/csv")
+        self.assertEqual(
+            response.headers["Content-Disposition"], 'attachment; filename="users.csv"'
+        )
+        self.assertNotEqual(response.content, b"")

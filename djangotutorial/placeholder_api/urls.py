@@ -81,5 +81,6 @@ urlpatterns = [
     path("posts_delete/<int:pk>", views.posts_delete, name="posts_delete"),
     path("posts_stats", views.posts_stats, name="posts_stats"),
     path("profile/<int:pk>", views.profile, name="profile"),
+    path("profiles_export_csv", views.profiles_export_csv, name="profiles_export_csv"),
     path("healthcheck", views.healthcheck, name="healthcheck"),
 ]
