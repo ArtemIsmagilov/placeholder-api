@@ -9,7 +9,12 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import serializers
-from drf_spectacular.utils import extend_schema, inline_serializer, OpenApiParameter
+from drf_spectacular.utils import (
+    extend_schema,
+    inline_serializer,
+    OpenApiParameter,
+    OpenApiTypes,
+)
 
 from dummy_api.models import (
     User,
@@ -2562,6 +2567,7 @@ def carts_stats(request: Request) -> Response:
     return Response(serializer.data)
 
 
+@extend_schema(responses={(status.HTTP_200_OK, "*/*"): OpenApiTypes.BINARY})
 @api_view(["GET"])
 def profiles_export_csv(request: Request) -> HttpResponse:
     response = HttpResponse(
