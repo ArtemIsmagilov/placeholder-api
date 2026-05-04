@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 
-class UserProfileSerializer(serializers.Serializer):
+class PlaceholderUserProfileSerializer(serializers.Serializer):
     name = serializers.CharField()
     username = serializers.CharField()
     email = serializers.EmailField()
@@ -11,36 +11,36 @@ class UserProfileSerializer(serializers.Serializer):
     company = serializers.CharField()
 
 
-class TodoProfileSerializer(serializers.Serializer):
+class PlaceholderTodoProfileSerializer(serializers.Serializer):
     title = serializers.CharField()
     completed = serializers.BooleanField()
 
 
-class PhotoProfileSerializer(serializers.Serializer):
+class PlaceholderPhotoProfileSerializer(serializers.Serializer):
     title = serializers.CharField()
     url = serializers.URLField()
     thumbnail_url = serializers.URLField()
 
 
-class AlbumProfileSerializer(serializers.Serializer):
+class PlaceholderAlbumProfileSerializer(serializers.Serializer):
     title = serializers.CharField()
-    pictures = PhotoProfileSerializer(many=True)
+    pictures = PlaceholderPhotoProfileSerializer(many=True)
 
 
-class CommentProfileSerializer(serializers.Serializer):
+class PlaceholderCommentProfileSerializer(serializers.Serializer):
     name = serializers.CharField()
     email = serializers.EmailField()
     body = serializers.CharField()
 
 
-class PostProfileSerializer(serializers.Serializer):
+class PlaceholderPostProfileSerializer(serializers.Serializer):
     title = serializers.CharField()
     body = serializers.CharField()
-    comments = CommentProfileSerializer(many=True)
+    comments = PlaceholderCommentProfileSerializer(many=True)
 
 
-class ProfileOutputSerializer(serializers.Serializer):
-    user_info = UserProfileSerializer()
-    todos = TodoProfileSerializer(many=True)
-    albums = AlbumProfileSerializer(many=True)
-    posts = PostProfileSerializer(many=True)
+class PlaceholderProfileOutputSerializer(serializers.Serializer):
+    user_info = PlaceholderUserProfileSerializer()
+    todos = PlaceholderTodoProfileSerializer(many=True)
+    albums = PlaceholderAlbumProfileSerializer(many=True)
+    posts = PlaceholderPostProfileSerializer(many=True)

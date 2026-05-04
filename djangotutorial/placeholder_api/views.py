@@ -18,83 +18,83 @@ from drf_spectacular.utils import (
 from mysite.base_permissions import TokenPermission
 from .models import Comment, User, Todo, Album, Photo, Post
 from .serializers.comments_serializers import (
-    CommentSearchOutputSerializer,
-    CommentListOutputSerializer,
-    CommentDetailOutputSerializer,
-    CommentCreateInputSerializer,
-    CommentUpdateInputSerializer,
-    CommentPartialUpdateInputSerializer,
-    CommentFilterOutputSerializer,
-    CommentFilterInputSerializer,
-    CommentStatsOutputSerializer,
+    PlaceholderCommentSearchOutputSerializer,
+    PlaceholderCommentListOutputSerializer,
+    PlaceholderCommentDetailOutputSerializer,
+    PlaceholderCommentCreateInputSerializer,
+    PlaceholderCommentUpdateInputSerializer,
+    PlaceholderCommentPartialUpdateInputSerializer,
+    PlaceholderCommentFilterOutputSerializer,
+    PlaceholderCommentFilterInputSerializer,
+    PlaceholderCommentStatsOutputSerializer,
 )
 from .serializers.users_serializers import (
-    UserSearchOutputSerializer,
-    UserListOutputSerializer,
-    UserDetailOutputSerializer,
-    UserCreateInputSerializer,
-    UserUpdateInputSerializer,
-    UserPartialUpdateInputSerializer,
-    UserFilterOutputSerializer,
-    UserFilterInputSerializer,
-    UserStatsOutputSerializer,
+    PlaceholderUserSearchOutputSerializer,
+    PlaceholderUserListOutputSerializer,
+    PlaceholderUserDetailOutputSerializer,
+    PlaceholderUserCreateInputSerializer,
+    PlaceholderUserUpdateInputSerializer,
+    PlaceholderUserPartialUpdateInputSerializer,
+    PlaceholderUserFilterOutputSerializer,
+    PlaceholderUserFilterInputSerializer,
+    PlaceholderUserStatsOutputSerializer,
 )
 from .serializers.todos_serializers import (
-    TodoSearchOutputSerializer,
-    TodoListOutputSerializer,
-    TodoDetailOutputSerializer,
-    TodoCreateInputSerializer,
-    TodoUpdateInputSerializer,
-    TodoPartialUpdateInputSerializer,
-    TodoFilterOutputSerializer,
-    TodoFilterInputSerializer,
-    TodoStatsOutputSerializer,
+    PlaceholderTodoSearchOutputSerializer,
+    PlaceholderTodoListOutputSerializer,
+    PlaceholderTodoDetailOutputSerializer,
+    PlaceholderTodoCreateInputSerializer,
+    PlaceholderTodoUpdateInputSerializer,
+    PlaceholderTodoPartialUpdateInputSerializer,
+    PlaceholderTodoFilterOutputSerializer,
+    PlaceholderTodoFilterInputSerializer,
+    PlaceholderTodoStatsOutputSerializer,
 )
 from .serializers.albums_serializers import (
-    AlbumSearchOutputSerializer,
-    AlbumListOutputSerializer,
-    AlbumDetailOutputSerializer,
-    AlbumCreateInputSerializer,
-    AlbumUpdateInputSerializer,
-    AlbumPartialUpdateInputSerializer,
-    AlbumFilterOutputSerializer,
-    AlbumFilterInputSerializer,
-    AlbumStatsOutputSerializer,
+    PlaceholderAlbumSearchOutputSerializer,
+    PlaceholderAlbumListOutputSerializer,
+    PlaceholderAlbumDetailOutputSerializer,
+    PlaceholderAlbumCreateInputSerializer,
+    PlaceholderAlbumUpdateInputSerializer,
+    PlaceholderAlbumPartialUpdateInputSerializer,
+    PlaceholderAlbumFilterOutputSerializer,
+    PlaceholderAlbumFilterInputSerializer,
+    PlaceholderAlbumStatsOutputSerializer,
 )
 from .serializers.photos_serializers import (
-    PhotoSearchOutputSerializer,
-    PhotoListOutputSerializer,
-    PhotoDetailOutputSerializer,
-    PhotoCreateInputSerializer,
-    PhotoUpdateInputSerializer,
-    PhotoPartialUpdateInputSerializer,
-    PhotoFilterOutputSerializer,
-    PhotoFilterInputSerializer,
-    PhotoStatsOutputSerializer,
+    PlaceholderPhotoSearchOutputSerializer,
+    PlaceholderPhotoListOutputSerializer,
+    PlaceholderPhotoDetailOutputSerializer,
+    PlaceholderPhotoCreateInputSerializer,
+    PlaceholderPhotoUpdateInputSerializer,
+    PlaceholderPhotoPartialUpdateInputSerializer,
+    PlaceholderPhotoFilterOutputSerializer,
+    PlaceholderPhotoFilterInputSerializer,
+    PlaceholderPhotoStatsOutputSerializer,
 )
 from .serializers.posts_serializers import (
-    PostSearchOutputSerializer,
-    PostListOutputSerializer,
-    PostDetailOutputSerializer,
-    PostCreateInputSerializer,
-    PostUpdateInputSerializer,
-    PostPartialUpdateInputSerializer,
-    PostFilterOutputSerializer,
-    PostFilterInputSerializer,
-    PostStatsOutputSerializer,
+    PlaceholderPostSearchOutputSerializer,
+    PlaceholderPostListOutputSerializer,
+    PlaceholderPostDetailOutputSerializer,
+    PlaceholderPostCreateInputSerializer,
+    PlaceholderPostUpdateInputSerializer,
+    PlaceholderPostPartialUpdateInputSerializer,
+    PlaceholderPostFilterOutputSerializer,
+    PlaceholderPostFilterInputSerializer,
+    PlaceholderPostStatsOutputSerializer,
 )
-from .serializers.profile_serializers import ProfileOutputSerializer
+from .serializers.profile_serializers import PlaceholderProfileOutputSerializer
 
 
 @extend_schema(
     responses={
         status.HTTP_200_OK: inline_serializer(
-            "InlineCommentListSerializer",
+            "PlaceholderInlineCommentListSerializer",
             {
                 "count": serializers.IntegerField(),
                 "next": serializers.CharField(),
                 "previous": serializers.CharField(),
-                "results": CommentListOutputSerializer(many=True),
+                "results": PlaceholderCommentListOutputSerializer(many=True),
             },
         )
     },
@@ -109,30 +109,30 @@ def comments_list(request: Request) -> Response:
 
     paginator = Pagination()
     page = paginator.paginate_queryset(Comment.objects.order_by("id"), request)
-    cs = CommentListOutputSerializer(page, many=True)
+    cs = PlaceholderCommentListOutputSerializer(page, many=True)
     return paginator.get_paginated_response(cs.data)
 
 
 @extend_schema(
     responses={
-        status.HTTP_200_OK: CommentDetailOutputSerializer(),
+        status.HTTP_200_OK: PlaceholderCommentDetailOutputSerializer(),
     }
 )
 @api_view(["GET"])
 def comments_detail(request: Request, pk: int) -> Response:
-    c = CommentDetailOutputSerializer(get_object_or_404(Comment, pk=pk))
+    c = PlaceholderCommentDetailOutputSerializer(get_object_or_404(Comment, pk=pk))
     return Response(c.data)
 
 
 @extend_schema(
     responses={
         status.HTTP_200_OK: inline_serializer(
-            "InlineCommentSearchSerializer",
+            "PlaceholderInlineCommentSearchSerializer",
             {
                 "count": serializers.IntegerField(),
                 "next": serializers.CharField(),
                 "previous": serializers.CharField(),
-                "results": CommentSearchOutputSerializer(many=True),
+                "results": PlaceholderCommentSearchOutputSerializer(many=True),
             },
         )
     },
@@ -158,12 +158,12 @@ def comments_search(request: Request) -> Response:
 
     paginator = Pagination()
     page = paginator.paginate_queryset(queryset, request)
-    cs = CommentSearchOutputSerializer(page, many=True)
+    cs = PlaceholderCommentSearchOutputSerializer(page, many=True)
     return paginator.get_paginated_response(cs.data)
 
 
 @extend_schema(
-    request=CommentCreateInputSerializer,
+    request=PlaceholderCommentCreateInputSerializer,
     responses={status.HTTP_201_CREATED: None},
     parameters=[
         OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
@@ -172,7 +172,7 @@ def comments_search(request: Request) -> Response:
 @api_view(["POST"])
 @permission_classes([TokenPermission])
 def comments_create(request: Request) -> Response:
-    c = CommentCreateInputSerializer(data=request.data)
+    c = PlaceholderCommentCreateInputSerializer(data=request.data)
     c.is_valid(raise_exception=True)
     body = c.validated_data
     body["post_id"] = body.pop("post")
@@ -181,7 +181,7 @@ def comments_create(request: Request) -> Response:
 
 
 @extend_schema(
-    request=CommentUpdateInputSerializer,
+    request=PlaceholderCommentUpdateInputSerializer,
     responses={
         status.HTTP_200_OK: None,
     },
@@ -192,7 +192,7 @@ def comments_create(request: Request) -> Response:
 @api_view(["PUT"])
 @permission_classes([TokenPermission])
 def comments_update(request: Request, pk: int) -> Response:
-    c = CommentUpdateInputSerializer(data=request.data)
+    c = PlaceholderCommentUpdateInputSerializer(data=request.data)
     c.is_valid(raise_exception=True)
     body = c.validated_data
     body["post_id"] = body.pop("post")
@@ -201,7 +201,7 @@ def comments_update(request: Request, pk: int) -> Response:
 
 
 @extend_schema(
-    request=CommentPartialUpdateInputSerializer,
+    request=PlaceholderCommentPartialUpdateInputSerializer,
     responses={
         status.HTTP_200_OK: None,
     },
@@ -212,7 +212,7 @@ def comments_update(request: Request, pk: int) -> Response:
 @api_view(["PATCH"])
 @permission_classes([TokenPermission])
 def comments_partial_update(request: Request, pk: int) -> Response:
-    c = CommentPartialUpdateInputSerializer(data=request.data)
+    c = PlaceholderCommentPartialUpdateInputSerializer(data=request.data)
     c.is_valid(raise_exception=True)
     body = c.validated_data
     if body.get("post") is not None:
@@ -224,12 +224,12 @@ def comments_partial_update(request: Request, pk: int) -> Response:
 @extend_schema(
     responses={
         status.HTTP_200_OK: inline_serializer(
-            "InlineCommentFilterSerializer",
+            "PlaceholderInlineCommentFilterSerializer",
             {
                 "count": serializers.IntegerField(),
                 "next": serializers.CharField(),
                 "previous": serializers.CharField(),
-                "results": CommentFilterOutputSerializer(many=True),
+                "results": PlaceholderCommentFilterOutputSerializer(many=True),
             },
         )
     },
@@ -247,7 +247,7 @@ def comments_filter(request: Request) -> Response:
     class Pagination(PageNumberPagination):
         page_size = 10
 
-    query_params = CommentFilterInputSerializer(data=request.query_params)
+    query_params = PlaceholderCommentFilterInputSerializer(data=request.query_params)
     query_params.is_valid(raise_exception=True)
     validated_data = query_params.validated_data
 
@@ -265,7 +265,7 @@ def comments_filter(request: Request) -> Response:
 
     paginator = Pagination()
     page = paginator.paginate_queryset(queryset, request)
-    cs = CommentFilterOutputSerializer(page, many=True)
+    cs = PlaceholderCommentFilterOutputSerializer(page, many=True)
     return paginator.get_paginated_response(cs.data)
 
 
@@ -287,12 +287,12 @@ def comments_delete(request: Request, pk: int) -> Response:
 @extend_schema(
     responses={
         200: inline_serializer(
-            "InlineUserListSerializer",
+            "PlaceholderInlineUserListSerializer",
             {
                 "count": serializers.IntegerField(),
                 "next": serializers.CharField(),
                 "previous": serializers.CharField(),
-                "results": UserListOutputSerializer(many=True),
+                "results": PlaceholderUserListOutputSerializer(many=True),
             },
         )
     },
@@ -307,30 +307,30 @@ def users_list(request: Request) -> Response:
 
     paginator = Pagination()
     page = paginator.paginate_queryset(User.objects.order_by("id").all(), request)
-    us = UserListOutputSerializer(page, many=True)
+    us = PlaceholderUserListOutputSerializer(page, many=True)
     return paginator.get_paginated_response(us.data)
 
 
 @extend_schema(
     responses={
-        200: UserDetailOutputSerializer(),
+        200: PlaceholderUserDetailOutputSerializer(),
     }
 )
 @api_view(["GET"])
 def users_detail(request: Request, pk: int) -> Response:
-    u = UserDetailOutputSerializer(get_object_or_404(User, pk=pk))
+    u = PlaceholderUserDetailOutputSerializer(get_object_or_404(User, pk=pk))
     return Response(u.data)
 
 
 @extend_schema(
     responses={
         200: inline_serializer(
-            "InlineUserSearchSerializer",
+            "PlaceholderInlineUserSearchSerializer",
             {
                 "count": serializers.IntegerField(),
                 "next": serializers.CharField(),
                 "previous": serializers.CharField(),
-                "results": UserSearchOutputSerializer(many=True),
+                "results": PlaceholderUserSearchOutputSerializer(many=True),
             },
         )
     },
@@ -359,12 +359,12 @@ def users_search(request: Request) -> Response:
 
     paginator = Pagination()
     page = paginator.paginate_queryset(queryset, request)
-    us = UserSearchOutputSerializer(page, many=True)
+    us = PlaceholderUserSearchOutputSerializer(page, many=True)
     return paginator.get_paginated_response(us.data)
 
 
 @extend_schema(
-    request=UserCreateInputSerializer,
+    request=PlaceholderUserCreateInputSerializer,
     responses={status.HTTP_201_CREATED: None},
     parameters=[
         OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
@@ -373,14 +373,14 @@ def users_search(request: Request) -> Response:
 @api_view(["POST"])
 @permission_classes([TokenPermission])
 def users_create(request: Request) -> Response:
-    u = UserCreateInputSerializer(data=request.data)
+    u = PlaceholderUserCreateInputSerializer(data=request.data)
     u.is_valid(raise_exception=True)
     User.objects.create(**u.validated_data)
     return Response(status=status.HTTP_201_CREATED)
 
 
 @extend_schema(
-    request=UserUpdateInputSerializer,
+    request=PlaceholderUserUpdateInputSerializer,
     responses={status.HTTP_200_OK: None},
     parameters=[
         OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
@@ -389,14 +389,14 @@ def users_create(request: Request) -> Response:
 @api_view(["PUT"])
 @permission_classes([TokenPermission])
 def users_update(request: Request, pk: int) -> Response:
-    u = UserUpdateInputSerializer(data=request.data)
+    u = PlaceholderUserUpdateInputSerializer(data=request.data)
     u.is_valid(raise_exception=True)
     User.objects.filter(pk=pk).update(**u.validated_data)
     return Response(status=status.HTTP_200_OK)
 
 
 @extend_schema(
-    request=UserPartialUpdateInputSerializer,
+    request=PlaceholderUserPartialUpdateInputSerializer,
     responses={status.HTTP_200_OK: None},
     parameters=[
         OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
@@ -405,7 +405,7 @@ def users_update(request: Request, pk: int) -> Response:
 @api_view(["PATCH"])
 @permission_classes([TokenPermission])
 def users_partial_update(request: Request, pk: int) -> Response:
-    u = UserPartialUpdateInputSerializer(data=request.data)
+    u = PlaceholderUserPartialUpdateInputSerializer(data=request.data)
     u.is_valid(raise_exception=True)
     User.objects.filter(pk=pk).update(**u.validated_data)
     return Response(status=status.HTTP_200_OK)
@@ -414,12 +414,12 @@ def users_partial_update(request: Request, pk: int) -> Response:
 @extend_schema(
     responses={
         200: inline_serializer(
-            "InlineUserFilterSerializer",
+            "PlaceholderInlineUserFilterSerializer",
             {
                 "count": serializers.IntegerField(),
                 "next": serializers.CharField(),
                 "previous": serializers.CharField(),
-                "results": UserFilterOutputSerializer(many=True),
+                "results": PlaceholderUserFilterOutputSerializer(many=True),
             },
         )
     },
@@ -440,7 +440,7 @@ def users_filter(request: Request) -> Response:
     class Pagination(PageNumberPagination):
         page_size = 10
 
-    query_params = UserFilterInputSerializer(data=request.query_params)
+    query_params = PlaceholderUserFilterInputSerializer(data=request.query_params)
     query_params.is_valid(raise_exception=True)
     validated_data = query_params.validated_data
 
@@ -464,7 +464,7 @@ def users_filter(request: Request) -> Response:
 
     paginator = Pagination()
     page = paginator.paginate_queryset(queryset, request)
-    us = UserFilterOutputSerializer(page, many=True)
+    us = PlaceholderUserFilterOutputSerializer(page, many=True)
     return paginator.get_paginated_response(us.data)
 
 
@@ -484,12 +484,12 @@ def users_delete(request: Request, pk: int) -> Response:
 @extend_schema(
     responses={
         200: inline_serializer(
-            "InlineTodoListSerializer",
+            "PlaceholderInlineTodoListSerializer",
             {
                 "count": serializers.IntegerField(),
                 "next": serializers.CharField(),
                 "previous": serializers.CharField(),
-                "results": TodoListOutputSerializer(many=True),
+                "results": PlaceholderTodoListOutputSerializer(many=True),
             },
         )
     },
@@ -504,30 +504,30 @@ def todos_list(request: Request) -> Response:
 
     paginator = Pagination()
     page = paginator.paginate_queryset(Todo.objects.order_by("id").all(), request)
-    ts = TodoListOutputSerializer(page, many=True)
+    ts = PlaceholderTodoListOutputSerializer(page, many=True)
     return paginator.get_paginated_response(ts.data)
 
 
 @extend_schema(
     responses={
-        200: TodoDetailOutputSerializer(),
+        200: PlaceholderTodoDetailOutputSerializer(),
     }
 )
 @api_view(["GET"])
 def todos_detail(request: Request, pk: int) -> Response:
-    t = TodoDetailOutputSerializer(get_object_or_404(Todo, pk=pk))
+    t = PlaceholderTodoDetailOutputSerializer(get_object_or_404(Todo, pk=pk))
     return Response(t.data)
 
 
 @extend_schema(
     responses={
         200: inline_serializer(
-            "InlineTodoSearchSerializer",
+            "PlaceholderInlineTodoSearchSerializer",
             {
                 "count": serializers.IntegerField(),
                 "next": serializers.CharField(),
                 "previous": serializers.CharField(),
-                "results": TodoSearchOutputSerializer(many=True),
+                "results": PlaceholderTodoSearchOutputSerializer(many=True),
             },
         )
     },
@@ -552,12 +552,12 @@ def todos_search(request: Request) -> Response:
 
     paginator = Pagination()
     page = paginator.paginate_queryset(queryset, request)
-    ts = TodoSearchOutputSerializer(page, many=True)
+    ts = PlaceholderTodoSearchOutputSerializer(page, many=True)
     return paginator.get_paginated_response(ts.data)
 
 
 @extend_schema(
-    request=TodoCreateInputSerializer,
+    request=PlaceholderTodoCreateInputSerializer,
     responses={status.HTTP_201_CREATED: None},
     parameters=[
         OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
@@ -566,7 +566,7 @@ def todos_search(request: Request) -> Response:
 @api_view(["POST"])
 @permission_classes([TokenPermission])
 def todos_create(request: Request) -> Response:
-    t = TodoCreateInputSerializer(data=request.data)
+    t = PlaceholderTodoCreateInputSerializer(data=request.data)
     t.is_valid(raise_exception=True)
     body = t.validated_data
     body["user_id"] = body.pop("user")
@@ -575,7 +575,7 @@ def todos_create(request: Request) -> Response:
 
 
 @extend_schema(
-    request=TodoUpdateInputSerializer,
+    request=PlaceholderTodoUpdateInputSerializer,
     responses={status.HTTP_200_OK: None},
     parameters=[
         OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
@@ -584,7 +584,7 @@ def todos_create(request: Request) -> Response:
 @api_view(["PUT"])
 @permission_classes([TokenPermission])
 def todos_update(request: Request, pk: int) -> Response:
-    t = TodoUpdateInputSerializer(data=request.data)
+    t = PlaceholderTodoUpdateInputSerializer(data=request.data)
     t.is_valid(raise_exception=True)
     body = t.validated_data
     body["user_id"] = body.pop("user")
@@ -593,7 +593,7 @@ def todos_update(request: Request, pk: int) -> Response:
 
 
 @extend_schema(
-    request=TodoPartialUpdateInputSerializer,
+    request=PlaceholderTodoPartialUpdateInputSerializer,
     responses={status.HTTP_200_OK: None},
     parameters=[
         OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
@@ -602,7 +602,7 @@ def todos_update(request: Request, pk: int) -> Response:
 @api_view(["PATCH"])
 @permission_classes([TokenPermission])
 def todos_partial_update(request: Request, pk: int) -> Response:
-    t = TodoPartialUpdateInputSerializer(data=request.data)
+    t = PlaceholderTodoPartialUpdateInputSerializer(data=request.data)
     t.is_valid(raise_exception=True)
     body = t.validated_data
     if body.get("user") is not None:
@@ -614,12 +614,12 @@ def todos_partial_update(request: Request, pk: int) -> Response:
 @extend_schema(
     responses={
         200: inline_serializer(
-            "InlineTodoFilterSerializer",
+            "PlaceholderInlineTodoFilterSerializer",
             {
                 "count": serializers.IntegerField(),
                 "next": serializers.CharField(),
                 "previous": serializers.CharField(),
-                "results": TodoFilterOutputSerializer(many=True),
+                "results": PlaceholderTodoFilterOutputSerializer(many=True),
             },
         )
     },
@@ -640,7 +640,7 @@ def todos_filter(request: Request) -> Response:
     class Pagination(PageNumberPagination):
         page_size = 10
 
-    query_params = TodoFilterInputSerializer(data=request.query_params)
+    query_params = PlaceholderTodoFilterInputSerializer(data=request.query_params)
     query_params.is_valid(raise_exception=True)
     validated_data = query_params.validated_data
 
@@ -656,7 +656,7 @@ def todos_filter(request: Request) -> Response:
 
     paginator = Pagination()
     page = paginator.paginate_queryset(queryset, request)
-    ts = TodoFilterOutputSerializer(page, many=True)
+    ts = PlaceholderTodoFilterOutputSerializer(page, many=True)
     return paginator.get_paginated_response(ts.data)
 
 
@@ -676,12 +676,12 @@ def todos_delete(request: Request, pk: int) -> Response:
 @extend_schema(
     responses={
         200: inline_serializer(
-            "InlineAlbumListSerializer",
+            "PlaceholderInlineAlbumListSerializer",
             {
                 "count": serializers.IntegerField(),
                 "next": serializers.CharField(),
                 "previous": serializers.CharField(),
-                "results": AlbumListOutputSerializer(many=True),
+                "results": PlaceholderAlbumListOutputSerializer(many=True),
             },
         )
     },
@@ -696,30 +696,30 @@ def albums_list(request: Request) -> Response:
 
     paginator = Pagination()
     page = paginator.paginate_queryset(Album.objects.order_by("id").all(), request)
-    as_ = AlbumListOutputSerializer(page, many=True)
+    as_ = PlaceholderAlbumListOutputSerializer(page, many=True)
     return paginator.get_paginated_response(as_.data)
 
 
 @extend_schema(
     responses={
-        200: AlbumDetailOutputSerializer(),
+        200: PlaceholderAlbumDetailOutputSerializer(),
     }
 )
 @api_view(["GET"])
 def albums_detail(request: Request, pk: int) -> Response:
-    a = AlbumDetailOutputSerializer(get_object_or_404(Album, pk=pk))
+    a = PlaceholderAlbumDetailOutputSerializer(get_object_or_404(Album, pk=pk))
     return Response(a.data)
 
 
 @extend_schema(
     responses={
         200: inline_serializer(
-            "InlineAlbumSearchSerializer",
+            "PlaceholderInlineAlbumSearchSerializer",
             {
                 "count": serializers.IntegerField(),
                 "next": serializers.CharField(),
                 "previous": serializers.CharField(),
-                "results": AlbumSearchOutputSerializer(many=True),
+                "results": PlaceholderAlbumSearchOutputSerializer(many=True),
             },
         )
     },
@@ -741,12 +741,12 @@ def albums_search(request: Request) -> Response:
 
     paginator = Pagination()
     page = paginator.paginate_queryset(queryset, request)
-    as_ = AlbumSearchOutputSerializer(page, many=True)
+    as_ = PlaceholderAlbumSearchOutputSerializer(page, many=True)
     return paginator.get_paginated_response(as_.data)
 
 
 @extend_schema(
-    request=AlbumCreateInputSerializer,
+    request=PlaceholderAlbumCreateInputSerializer,
     responses={status.HTTP_201_CREATED: None},
     parameters=[
         OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
@@ -755,7 +755,7 @@ def albums_search(request: Request) -> Response:
 @api_view(["POST"])
 @permission_classes([TokenPermission])
 def albums_create(request: Request) -> Response:
-    a = AlbumCreateInputSerializer(data=request.data)
+    a = PlaceholderAlbumCreateInputSerializer(data=request.data)
     a.is_valid(raise_exception=True)
     body = a.validated_data
     body["user_id"] = body.pop("user")
@@ -764,7 +764,7 @@ def albums_create(request: Request) -> Response:
 
 
 @extend_schema(
-    request=AlbumUpdateInputSerializer,
+    request=PlaceholderAlbumUpdateInputSerializer,
     responses={status.HTTP_200_OK: None},
     parameters=[
         OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
@@ -773,7 +773,7 @@ def albums_create(request: Request) -> Response:
 @api_view(["PUT"])
 @permission_classes([TokenPermission])
 def albums_update(request: Request, pk: int) -> Response:
-    a = AlbumUpdateInputSerializer(data=request.data)
+    a = PlaceholderAlbumUpdateInputSerializer(data=request.data)
     a.is_valid(raise_exception=True)
     body = a.validated_data
     body["user_id"] = body.pop("user")
@@ -782,7 +782,7 @@ def albums_update(request: Request, pk: int) -> Response:
 
 
 @extend_schema(
-    request=AlbumPartialUpdateInputSerializer,
+    request=PlaceholderAlbumPartialUpdateInputSerializer,
     responses={status.HTTP_200_OK: None},
     parameters=[
         OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
@@ -791,7 +791,7 @@ def albums_update(request: Request, pk: int) -> Response:
 @api_view(["PATCH"])
 @permission_classes([TokenPermission])
 def albums_partial_update(request: Request, pk: int) -> Response:
-    a = AlbumPartialUpdateInputSerializer(data=request.data)
+    a = PlaceholderAlbumPartialUpdateInputSerializer(data=request.data)
     a.is_valid(raise_exception=True)
     body = a.validated_data
     if body.get("user") is not None:
@@ -803,12 +803,12 @@ def albums_partial_update(request: Request, pk: int) -> Response:
 @extend_schema(
     responses={
         200: inline_serializer(
-            "InlineAlbumFilterSerializer",
+            "PlaceholderInlineAlbumFilterSerializer",
             {
                 "count": serializers.IntegerField(),
                 "next": serializers.CharField(),
                 "previous": serializers.CharField(),
-                "results": AlbumFilterOutputSerializer(many=True),
+                "results": PlaceholderAlbumFilterOutputSerializer(many=True),
             },
         )
     },
@@ -824,7 +824,7 @@ def albums_filter(request: Request) -> Response:
     class Pagination(PageNumberPagination):
         page_size = 10
 
-    query_params = AlbumFilterInputSerializer(data=request.query_params)
+    query_params = PlaceholderAlbumFilterInputSerializer(data=request.query_params)
     query_params.is_valid(raise_exception=True)
     validated_data = query_params.validated_data
 
@@ -838,7 +838,7 @@ def albums_filter(request: Request) -> Response:
 
     paginator = Pagination()
     page = paginator.paginate_queryset(queryset, request)
-    as_ = AlbumFilterOutputSerializer(page, many=True)
+    as_ = PlaceholderAlbumFilterOutputSerializer(page, many=True)
     return paginator.get_paginated_response(as_.data)
 
 
@@ -858,12 +858,12 @@ def albums_delete(request: Request, pk: int) -> Response:
 @extend_schema(
     responses={
         200: inline_serializer(
-            "InlinePhotoListSerializer",
+            "PlaceholderInlinePhotoListSerializer",
             {
                 "count": serializers.IntegerField(),
                 "next": serializers.CharField(),
                 "previous": serializers.CharField(),
-                "results": PhotoListOutputSerializer(many=True),
+                "results": PlaceholderPhotoListOutputSerializer(many=True),
             },
         )
     },
@@ -878,30 +878,30 @@ def photos_list(request: Request) -> Response:
 
     paginator = Pagination()
     page = paginator.paginate_queryset(Photo.objects.order_by("id").all(), request)
-    ps = PhotoListOutputSerializer(page, many=True)
+    ps = PlaceholderPhotoListOutputSerializer(page, many=True)
     return paginator.get_paginated_response(ps.data)
 
 
 @extend_schema(
     responses={
-        200: PhotoDetailOutputSerializer(),
+        200: PlaceholderPhotoDetailOutputSerializer(),
     }
 )
 @api_view(["GET"])
 def photos_detail(request: Request, pk: int) -> Response:
-    p = PhotoDetailOutputSerializer(get_object_or_404(Photo, pk=pk))
+    p = PlaceholderPhotoDetailOutputSerializer(get_object_or_404(Photo, pk=pk))
     return Response(p.data)
 
 
 @extend_schema(
     responses={
         200: inline_serializer(
-            "InlinePhotoSearchSerializer",
+            "PlaceholderInlinePhotoSearchSerializer",
             {
                 "count": serializers.IntegerField(),
                 "next": serializers.CharField(),
                 "previous": serializers.CharField(),
-                "results": PhotoSearchOutputSerializer(many=True),
+                "results": PlaceholderPhotoSearchOutputSerializer(many=True),
             },
         )
     },
@@ -927,12 +927,12 @@ def photos_search(request: Request) -> Response:
 
     paginator = Pagination()
     page = paginator.paginate_queryset(queryset, request)
-    ps = PhotoSearchOutputSerializer(page, many=True)
+    ps = PlaceholderPhotoSearchOutputSerializer(page, many=True)
     return paginator.get_paginated_response(ps.data)
 
 
 @extend_schema(
-    request=PhotoCreateInputSerializer,
+    request=PlaceholderPhotoCreateInputSerializer,
     responses={status.HTTP_201_CREATED: None},
     parameters=[
         OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
@@ -941,7 +941,7 @@ def photos_search(request: Request) -> Response:
 @api_view(["POST"])
 @permission_classes([TokenPermission])
 def photos_create(request: Request) -> Response:
-    p = PhotoCreateInputSerializer(data=request.data)
+    p = PlaceholderPhotoCreateInputSerializer(data=request.data)
     p.is_valid(raise_exception=True)
     body = p.validated_data
     body["album_id"] = body.pop("album")
@@ -950,7 +950,7 @@ def photos_create(request: Request) -> Response:
 
 
 @extend_schema(
-    request=PhotoUpdateInputSerializer,
+    request=PlaceholderPhotoUpdateInputSerializer,
     responses={status.HTTP_200_OK: None},
     parameters=[
         OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
@@ -959,7 +959,7 @@ def photos_create(request: Request) -> Response:
 @api_view(["PUT"])
 @permission_classes([TokenPermission])
 def photos_update(request: Request, pk: int) -> Response:
-    p = PhotoUpdateInputSerializer(data=request.data)
+    p = PlaceholderPhotoUpdateInputSerializer(data=request.data)
     p.is_valid(raise_exception=True)
     body = p.validated_data
     body["album_id"] = body.pop("album")
@@ -968,7 +968,7 @@ def photos_update(request: Request, pk: int) -> Response:
 
 
 @extend_schema(
-    request=PhotoPartialUpdateInputSerializer,
+    request=PlaceholderPhotoPartialUpdateInputSerializer,
     responses={status.HTTP_200_OK: None},
     parameters=[
         OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
@@ -977,7 +977,7 @@ def photos_update(request: Request, pk: int) -> Response:
 @api_view(["PATCH"])
 @permission_classes([TokenPermission])
 def photos_partial_update(request: Request, pk: int) -> Response:
-    p = PhotoPartialUpdateInputSerializer(data=request.data)
+    p = PlaceholderPhotoPartialUpdateInputSerializer(data=request.data)
     p.is_valid(raise_exception=True)
     body = p.validated_data
     if body.get("album") is not None:
@@ -989,12 +989,12 @@ def photos_partial_update(request: Request, pk: int) -> Response:
 @extend_schema(
     responses={
         200: inline_serializer(
-            "InlinePhotoFilterSerializer",
+            "PlaceholderInlinePhotoFilterSerializer",
             {
                 "count": serializers.IntegerField(),
                 "next": serializers.CharField(),
                 "previous": serializers.CharField(),
-                "results": PhotoFilterOutputSerializer(many=True),
+                "results": PlaceholderPhotoFilterOutputSerializer(many=True),
             },
         )
     },
@@ -1016,7 +1016,7 @@ def photos_filter(request: Request) -> Response:
     class Pagination(PageNumberPagination):
         page_size = 10
 
-    query_params = PhotoFilterInputSerializer(data=request.query_params)
+    query_params = PlaceholderPhotoFilterInputSerializer(data=request.query_params)
     query_params.is_valid(raise_exception=True)
     validated_data = query_params.validated_data
 
@@ -1034,7 +1034,7 @@ def photos_filter(request: Request) -> Response:
 
     paginator = Pagination()
     page = paginator.paginate_queryset(queryset, request)
-    ps = PhotoFilterOutputSerializer(page, many=True)
+    ps = PlaceholderPhotoFilterOutputSerializer(page, many=True)
     return paginator.get_paginated_response(ps.data)
 
 
@@ -1054,12 +1054,12 @@ def photos_delete(request: Request, pk: int) -> Response:
 @extend_schema(
     responses={
         200: inline_serializer(
-            "InlinePostListSerializer",
+            "PlaceholderInlinePostListSerializer",
             {
                 "count": serializers.IntegerField(),
                 "next": serializers.CharField(),
                 "previous": serializers.CharField(),
-                "results": PostListOutputSerializer(many=True),
+                "results": PlaceholderPostListOutputSerializer(many=True),
             },
         )
     },
@@ -1074,30 +1074,30 @@ def posts_list(request: Request) -> Response:
 
     paginator = Pagination()
     page = paginator.paginate_queryset(Post.objects.order_by("id").all(), request)
-    ps = PostListOutputSerializer(page, many=True)
+    ps = PlaceholderPostListOutputSerializer(page, many=True)
     return paginator.get_paginated_response(ps.data)
 
 
 @extend_schema(
     responses={
-        200: PostDetailOutputSerializer(),
+        200: PlaceholderPostDetailOutputSerializer(),
     }
 )
 @api_view(["GET"])
 def posts_detail(request: Request, pk: int) -> Response:
-    p = PostDetailOutputSerializer(get_object_or_404(Post, pk=pk))
+    p = PlaceholderPostDetailOutputSerializer(get_object_or_404(Post, pk=pk))
     return Response(p.data)
 
 
 @extend_schema(
     responses={
         200: inline_serializer(
-            "InlinePostSearchSerializer",
+            "PlaceholderInlinePostSearchSerializer",
             {
                 "count": serializers.IntegerField(),
                 "next": serializers.CharField(),
                 "previous": serializers.CharField(),
-                "results": PostSearchOutputSerializer(many=True),
+                "results": PlaceholderPostSearchOutputSerializer(many=True),
             },
         )
     },
@@ -1122,12 +1122,12 @@ def posts_search(request: Request) -> Response:
 
     paginator = Pagination()
     page = paginator.paginate_queryset(queryset, request)
-    ps = PostSearchOutputSerializer(page, many=True)
+    ps = PlaceholderPostSearchOutputSerializer(page, many=True)
     return paginator.get_paginated_response(ps.data)
 
 
 @extend_schema(
-    request=PostCreateInputSerializer,
+    request=PlaceholderPostCreateInputSerializer,
     responses={status.HTTP_201_CREATED: None},
     parameters=[
         OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
@@ -1136,7 +1136,7 @@ def posts_search(request: Request) -> Response:
 @api_view(["POST"])
 @permission_classes([TokenPermission])
 def posts_create(request: Request) -> Response:
-    p = PostCreateInputSerializer(data=request.data)
+    p = PlaceholderPostCreateInputSerializer(data=request.data)
     p.is_valid(raise_exception=True)
     body = p.validated_data
     body["user_id"] = body.pop("user")
@@ -1145,7 +1145,7 @@ def posts_create(request: Request) -> Response:
 
 
 @extend_schema(
-    request=PostUpdateInputSerializer,
+    request=PlaceholderPostUpdateInputSerializer,
     responses={status.HTTP_200_OK: None},
     parameters=[
         OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
@@ -1154,7 +1154,7 @@ def posts_create(request: Request) -> Response:
 @api_view(["PUT"])
 @permission_classes([TokenPermission])
 def posts_update(request: Request, pk: int) -> Response:
-    p = PostUpdateInputSerializer(data=request.data)
+    p = PlaceholderPostUpdateInputSerializer(data=request.data)
     p.is_valid(raise_exception=True)
     body = p.validated_data
     body["user_id"] = body.pop("user")
@@ -1163,7 +1163,7 @@ def posts_update(request: Request, pk: int) -> Response:
 
 
 @extend_schema(
-    request=PostPartialUpdateInputSerializer,
+    request=PlaceholderPostPartialUpdateInputSerializer,
     responses={status.HTTP_200_OK: None},
     parameters=[
         OpenApiParameter(name="AUTH-TOKEN", location=OpenApiParameter.HEADER),
@@ -1172,7 +1172,7 @@ def posts_update(request: Request, pk: int) -> Response:
 @api_view(["PATCH"])
 @permission_classes([TokenPermission])
 def posts_partial_update(request: Request, pk: int) -> Response:
-    p = PostPartialUpdateInputSerializer(data=request.data)
+    p = PlaceholderPostPartialUpdateInputSerializer(data=request.data)
     p.is_valid(raise_exception=True)
     body = p.validated_data
     if body.get("user") is not None:
@@ -1184,12 +1184,12 @@ def posts_partial_update(request: Request, pk: int) -> Response:
 @extend_schema(
     responses={
         200: inline_serializer(
-            "InlinePostFilterSerializer",
+            "PlaceholderInlinePostFilterSerializer",
             {
                 "count": serializers.IntegerField(),
                 "next": serializers.CharField(),
                 "previous": serializers.CharField(),
-                "results": PostFilterOutputSerializer(many=True),
+                "results": PlaceholderPostFilterOutputSerializer(many=True),
             },
         )
     },
@@ -1206,7 +1206,7 @@ def posts_filter(request: Request) -> Response:
     class Pagination(PageNumberPagination):
         page_size = 10
 
-    query_params = PostFilterInputSerializer(data=request.query_params)
+    query_params = PlaceholderPostFilterInputSerializer(data=request.query_params)
     query_params.is_valid(raise_exception=True)
     validated_data = query_params.validated_data
 
@@ -1222,7 +1222,7 @@ def posts_filter(request: Request) -> Response:
 
     paginator = Pagination()
     page = paginator.paginate_queryset(queryset, request)
-    ps = PostFilterOutputSerializer(page, many=True)
+    ps = PlaceholderPostFilterOutputSerializer(page, many=True)
     return paginator.get_paginated_response(ps.data)
 
 
@@ -1239,7 +1239,7 @@ def posts_delete(request: Request, pk: int) -> Response:
     return Response(status=status.HTTP_200_OK)
 
 
-@extend_schema(responses={status.HTTP_200_OK: ProfileOutputSerializer()})
+@extend_schema(responses={status.HTTP_200_OK: PlaceholderProfileOutputSerializer()})
 @api_view(["GET"])
 def profile(request: Request, pk: int) -> Response:
     queryset = User.objects.prefetch_related(
@@ -1291,7 +1291,7 @@ def profile(request: Request, pk: int) -> Response:
             for post in user.post_set.all()
         ],
     }
-    serializer = ProfileOutputSerializer(user_data)
+    serializer = PlaceholderProfileOutputSerializer(user_data)
     return Response(serializer.data)
 
 
@@ -1302,7 +1302,7 @@ def healthcheck(request: Request) -> Response:
 
 
 @extend_schema(
-    responses={status.HTTP_200_OK: UserStatsOutputSerializer(many=True)},
+    responses={status.HTTP_200_OK: PlaceholderUserStatsOutputSerializer(many=True)},
 )
 @api_view(["GET"])
 def users_stats(request: Request) -> Response:
@@ -1311,12 +1311,12 @@ def users_stats(request: Request) -> Response:
         .annotate(count_users=Count("id"))
         .order_by("-count_users")
     )
-    serializer = UserStatsOutputSerializer(data, many=True)
+    serializer = PlaceholderUserStatsOutputSerializer(data, many=True)
     return Response(serializer.data)
 
 
 @extend_schema(
-    responses={status.HTTP_200_OK: TodoStatsOutputSerializer(many=True)},
+    responses={status.HTTP_200_OK: PlaceholderTodoStatsOutputSerializer(many=True)},
 )
 @api_view(["GET"])
 def todos_stats(request: Request) -> Response:
@@ -1329,12 +1329,12 @@ def todos_stats(request: Request) -> Response:
         )
         .order_by("-count_completed")
     )
-    serializer = TodoStatsOutputSerializer(data, many=True)
+    serializer = PlaceholderTodoStatsOutputSerializer(data, many=True)
     return Response(serializer.data)
 
 
 @extend_schema(
-    responses={status.HTTP_200_OK: AlbumStatsOutputSerializer(many=True)},
+    responses={status.HTTP_200_OK: PlaceholderAlbumStatsOutputSerializer(many=True)},
 )
 @api_view(["GET"])
 def albums_stats(request: Request) -> Response:
@@ -1343,12 +1343,12 @@ def albums_stats(request: Request) -> Response:
         .annotate(count_albums=Count("id"))
         .order_by("-count_albums")
     )
-    serializer = AlbumStatsOutputSerializer(data, many=True)
+    serializer = PlaceholderAlbumStatsOutputSerializer(data, many=True)
     return Response(serializer.data)
 
 
 @extend_schema(
-    responses={status.HTTP_200_OK: PhotoStatsOutputSerializer(many=True)},
+    responses={status.HTTP_200_OK: PlaceholderPhotoStatsOutputSerializer(many=True)},
 )
 @api_view(["GET"])
 def photos_stats(request: Request) -> Response:
@@ -1357,12 +1357,12 @@ def photos_stats(request: Request) -> Response:
         .annotate(count_photos=Count("id"))
         .order_by("-count_photos")
     )
-    serializer = PhotoStatsOutputSerializer(data, many=True)
+    serializer = PlaceholderPhotoStatsOutputSerializer(data, many=True)
     return Response(serializer.data)
 
 
 @extend_schema(
-    responses={status.HTTP_200_OK: PostStatsOutputSerializer(many=True)},
+    responses={status.HTTP_200_OK: PlaceholderPostStatsOutputSerializer(many=True)},
 )
 @api_view(["GET"])
 def posts_stats(request: Request) -> Response:
@@ -1371,12 +1371,12 @@ def posts_stats(request: Request) -> Response:
         .annotate(count_posts=Count("id"))
         .order_by("-count_posts")
     )
-    serializer = PostStatsOutputSerializer(data, many=True)
+    serializer = PlaceholderPostStatsOutputSerializer(data, many=True)
     return Response(serializer.data)
 
 
 @extend_schema(
-    responses={status.HTTP_200_OK: CommentStatsOutputSerializer(many=True)},
+    responses={status.HTTP_200_OK: PlaceholderCommentStatsOutputSerializer(many=True)},
 )
 @api_view(["GET"])
 def comments_stats(request: Request) -> Response:
@@ -1385,7 +1385,7 @@ def comments_stats(request: Request) -> Response:
         .annotate(count_comments=Count("id"))
         .order_by("-count_comments")
     )
-    serializer = CommentStatsOutputSerializer(data, many=True)
+    serializer = PlaceholderCommentStatsOutputSerializer(data, many=True)
     return Response(serializer.data)
 
 

@@ -1,51 +1,51 @@
 from rest_framework import serializers
 
 
-class QuoteListOutputSerializer(serializers.Serializer):
+class DummyQuoteListOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     author = serializers.CharField()
 
 
-class QuoteDetailOutputSerializer(serializers.Serializer):
+class DummyQuoteDetailOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     author = serializers.CharField()
 
 
-class QuoteSearchOutputSerializer(serializers.Serializer):
+class DummyQuoteSearchOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     author = serializers.CharField()
 
 
-class QuoteCreateInputSerializer(serializers.Serializer):
+class DummyQuoteCreateInputSerializer(serializers.Serializer):
     title = serializers.CharField()
     author = serializers.CharField()
 
 
-class QuoteUpdateInputSerializer(serializers.Serializer):
+class DummyQuoteUpdateInputSerializer(serializers.Serializer):
     title = serializers.CharField()
     author = serializers.CharField()
 
 
-class QuotePartialUpdateInputSerializer(serializers.Serializer):
+class DummyQuotePartialUpdateInputSerializer(serializers.Serializer):
     title = serializers.CharField(required=False)
     author = serializers.CharField(required=False)
 
 
-class QuoteFilterOutputSerializer(serializers.Serializer):
+class DummyQuoteFilterOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     author = serializers.CharField()
 
 
-class QuoteFilterInputSerializer(serializers.Serializer):
+class DummyQuoteFilterInputSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
     title = serializers.CharField(required=False)
     author = serializers.CharField(required=False)
 
 
-class QuoteStatsOutputSerializer(serializers.Serializer):
+class DummyQuoteStatsOutputSerializer(serializers.Serializer):
     author = serializers.CharField()
     count_quotes = serializers.IntegerField()

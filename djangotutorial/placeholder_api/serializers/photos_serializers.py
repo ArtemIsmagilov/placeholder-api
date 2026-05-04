@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 
-class PhotoListOutputSerializer(serializers.Serializer):
+class PlaceholderPhotoListOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     url = serializers.URLField()
@@ -9,7 +9,7 @@ class PhotoListOutputSerializer(serializers.Serializer):
     album = serializers.IntegerField(source="album_id")
 
 
-class PhotoDetailOutputSerializer(serializers.Serializer):
+class PlaceholderPhotoDetailOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     url = serializers.URLField()
@@ -17,7 +17,7 @@ class PhotoDetailOutputSerializer(serializers.Serializer):
     album = serializers.IntegerField(source="album_id")
 
 
-class PhotoSearchOutputSerializer(serializers.Serializer):
+class PlaceholderPhotoSearchOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     url = serializers.URLField()
@@ -25,28 +25,28 @@ class PhotoSearchOutputSerializer(serializers.Serializer):
     album = serializers.IntegerField(source="album_id")
 
 
-class PhotoCreateInputSerializer(serializers.Serializer):
+class PlaceholderPhotoCreateInputSerializer(serializers.Serializer):
     title = serializers.CharField()
     url = serializers.URLField()
     thumbnail_url = serializers.URLField()
     album = serializers.IntegerField()
 
 
-class PhotoUpdateInputSerializer(serializers.Serializer):
+class PlaceholderPhotoUpdateInputSerializer(serializers.Serializer):
     title = serializers.CharField()
     url = serializers.URLField()
     thumbnail_url = serializers.URLField()
     album = serializers.IntegerField()
 
 
-class PhotoPartialUpdateInputSerializer(serializers.Serializer):
+class PlaceholderPhotoPartialUpdateInputSerializer(serializers.Serializer):
     title = serializers.CharField(required=False)
     url = serializers.URLField(required=False)
     thumbnail_url = serializers.URLField(required=False)
     album = serializers.IntegerField(required=False)
 
 
-class PhotoFilterOutputSerializer(serializers.Serializer):
+class PlaceholderPhotoFilterOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     url = serializers.URLField()
@@ -54,7 +54,7 @@ class PhotoFilterOutputSerializer(serializers.Serializer):
     album = serializers.IntegerField(source="album_id")
 
 
-class PhotoFilterInputSerializer(serializers.Serializer):
+class PlaceholderPhotoFilterInputSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
     title = serializers.CharField(required=False)
     url = serializers.URLField(required=False)
@@ -62,6 +62,6 @@ class PhotoFilterInputSerializer(serializers.Serializer):
     album = serializers.IntegerField(required=False)
 
 
-class PhotoStatsOutputSerializer(serializers.Serializer):
+class PlaceholderPhotoStatsOutputSerializer(serializers.Serializer):
     album = serializers.IntegerField(source="album_id")
     count_photos = serializers.IntegerField()

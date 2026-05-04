@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 
-class UserListOutputSerializer(serializers.Serializer):
+class DummyUserListOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     first_name = serializers.CharField()
     last_name = serializers.CharField()
@@ -54,7 +54,7 @@ class UserListOutputSerializer(serializers.Serializer):
     role = serializers.CharField()
 
 
-class UserDetailOutputSerializer(serializers.Serializer):
+class DummyUserDetailOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     first_name = serializers.CharField()
     last_name = serializers.CharField()
@@ -107,7 +107,7 @@ class UserDetailOutputSerializer(serializers.Serializer):
     role = serializers.CharField()
 
 
-class UserSearchOutputSerializer(serializers.Serializer):
+class DummyUserSearchOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     first_name = serializers.CharField()
     last_name = serializers.CharField()
@@ -160,7 +160,7 @@ class UserSearchOutputSerializer(serializers.Serializer):
     role = serializers.CharField()
 
 
-class UserCreateInputSerializer(serializers.Serializer):
+class DummyUserCreateInputSerializer(serializers.Serializer):
     first_name = serializers.CharField()
     last_name = serializers.CharField()
     maiden_name = serializers.CharField()
@@ -212,7 +212,7 @@ class UserCreateInputSerializer(serializers.Serializer):
     role = serializers.CharField()
 
 
-class UserUpdateInputSerializer(serializers.Serializer):
+class DummyUserUpdateInputSerializer(serializers.Serializer):
     first_name = serializers.CharField()
     last_name = serializers.CharField()
     maiden_name = serializers.CharField()
@@ -264,7 +264,7 @@ class UserUpdateInputSerializer(serializers.Serializer):
     role = serializers.CharField()
 
 
-class UserPartialUpdateInputSerializer(serializers.Serializer):
+class DummyUserPartialUpdateInputSerializer(serializers.Serializer):
     first_name = serializers.CharField(required=False)
     last_name = serializers.CharField(required=False)
     maiden_name = serializers.CharField(required=False)
@@ -316,7 +316,7 @@ class UserPartialUpdateInputSerializer(serializers.Serializer):
     role = serializers.CharField(required=False)
 
 
-class UserFilterOutputSerializer(serializers.Serializer):
+class DummyUserFilterOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     first_name = serializers.CharField()
     last_name = serializers.CharField()
@@ -369,7 +369,7 @@ class UserFilterOutputSerializer(serializers.Serializer):
     role = serializers.CharField()
 
 
-class UserFilterInputSerializer(serializers.Serializer):
+class DummyUserFilterInputSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
     first_name = serializers.CharField(required=False)
     last_name = serializers.CharField(required=False)
@@ -422,47 +422,47 @@ class UserFilterInputSerializer(serializers.Serializer):
     role = serializers.CharField(required=False)
 
 
-class UserRoleGroupSerializer(serializers.Serializer):
+class DummyUserRoleGroupSerializer(serializers.Serializer):
     role = serializers.CharField()
     count_users = serializers.IntegerField()
 
 
-class UserCompanyStateGroupSerializer(serializers.Serializer):
+class DummyUserCompanyStateGroupSerializer(serializers.Serializer):
     company_state = serializers.CharField()
     count_users = serializers.IntegerField()
 
 
-class UserCompanyDepartmentGroupSerializer(serializers.Serializer):
+class DummyUserCompanyDepartmentGroupSerializer(serializers.Serializer):
     company_department = serializers.CharField()
     count_users = serializers.IntegerField()
 
 
-class UserBankCardTypeGroupSerializer(serializers.Serializer):
+class DummyUserBankCardTypeGroupSerializer(serializers.Serializer):
     bank_card_type = serializers.CharField()
     count_users = serializers.IntegerField()
 
 
-class UserUniversityGroupSerializer(serializers.Serializer):
+class DummyUserUniversityGroupSerializer(serializers.Serializer):
     university = serializers.CharField()
     count_users = serializers.IntegerField()
 
 
-class UserStateGroupSerializer(serializers.Serializer):
+class DummyUserStateGroupSerializer(serializers.Serializer):
     state = serializers.CharField()
     count_users = serializers.IntegerField()
 
 
-class UserBloodGroupGroupSerializer(serializers.Serializer):
+class DummyUserBloodGroupGroupSerializer(serializers.Serializer):
     blood_group = serializers.CharField()
     count_users = serializers.IntegerField()
 
 
-class UserGenderGroupSerializer(serializers.Serializer):
+class DummyUserGenderGroupSerializer(serializers.Serializer):
     gender = serializers.CharField()
     count_users = serializers.IntegerField()
 
 
-class UserOtherGroupSerializer(serializers.Serializer):
+class DummyUserOtherGroupSerializer(serializers.Serializer):
     min_age = serializers.IntegerField()
     max_age = serializers.IntegerField()
     avg_age = serializers.FloatField()
@@ -474,13 +474,13 @@ class UserOtherGroupSerializer(serializers.Serializer):
     avg_weight = serializers.FloatField()
 
 
-class UserStatsOutputSerializer(serializers.Serializer):
-    role_group = UserRoleGroupSerializer(many=True)
-    company_state_group = UserCompanyStateGroupSerializer(many=True)
-    company_department_group = UserCompanyDepartmentGroupSerializer(many=True)
-    bank_card_type_group = UserBankCardTypeGroupSerializer(many=True)
-    university_group = UserUniversityGroupSerializer(many=True)
-    state_group = UserStateGroupSerializer(many=True)
-    blood_group_group = UserBloodGroupGroupSerializer(many=True)
-    gender_group = UserGenderGroupSerializer(many=True)
-    other_group = UserOtherGroupSerializer()
+class DummyUserStatsOutputSerializer(serializers.Serializer):
+    role_group = DummyUserRoleGroupSerializer(many=True)
+    company_state_group = DummyUserCompanyStateGroupSerializer(many=True)
+    company_department_group = DummyUserCompanyDepartmentGroupSerializer(many=True)
+    bank_card_type_group = DummyUserBankCardTypeGroupSerializer(many=True)
+    university_group = DummyUserUniversityGroupSerializer(many=True)
+    state_group = DummyUserStateGroupSerializer(many=True)
+    blood_group_group = DummyUserBloodGroupGroupSerializer(many=True)
+    gender_group = DummyUserGenderGroupSerializer(many=True)
+    other_group = DummyUserOtherGroupSerializer()

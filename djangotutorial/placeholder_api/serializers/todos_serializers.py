@@ -1,60 +1,60 @@
 from rest_framework import serializers
 
 
-class TodoListOutputSerializer(serializers.Serializer):
+class PlaceholderTodoListOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     completed = serializers.BooleanField()
     user = serializers.IntegerField(source="user_id")
 
 
-class TodoDetailOutputSerializer(serializers.Serializer):
+class PlaceholderTodoDetailOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     completed = serializers.BooleanField()
     user = serializers.IntegerField(source="user_id")
 
 
-class TodoSearchOutputSerializer(serializers.Serializer):
+class PlaceholderTodoSearchOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     completed = serializers.BooleanField()
     user = serializers.IntegerField(source="user_id")
 
 
-class TodoCreateInputSerializer(serializers.Serializer):
+class PlaceholderTodoCreateInputSerializer(serializers.Serializer):
     title = serializers.CharField()
     completed = serializers.BooleanField()
     user = serializers.IntegerField()
 
 
-class TodoUpdateInputSerializer(serializers.Serializer):
+class PlaceholderTodoUpdateInputSerializer(serializers.Serializer):
     title = serializers.CharField()
     completed = serializers.BooleanField()
     user = serializers.IntegerField()
 
 
-class TodoPartialUpdateInputSerializer(serializers.Serializer):
+class PlaceholderTodoPartialUpdateInputSerializer(serializers.Serializer):
     title = serializers.CharField(required=False)
     completed = serializers.BooleanField(required=False)
     user = serializers.IntegerField(required=False)
 
 
-class TodoFilterOutputSerializer(serializers.Serializer):
+class PlaceholderTodoFilterOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     completed = serializers.BooleanField()
     user = serializers.IntegerField(source="user_id")
 
 
-class TodoFilterInputSerializer(serializers.Serializer):
+class PlaceholderTodoFilterInputSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
     title = serializers.CharField(required=False)
     completed = serializers.BooleanField(required=False)
     user = serializers.IntegerField(required=False)
 
 
-class TodoStatsOutputSerializer(serializers.Serializer):
+class PlaceholderTodoStatsOutputSerializer(serializers.Serializer):
     user = serializers.IntegerField(source="user_id")
     count_todos = serializers.IntegerField()
     count_completed = serializers.IntegerField()

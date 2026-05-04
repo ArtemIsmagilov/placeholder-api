@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 
-class ProductListOutputSerializer(serializers.Serializer):
+class DummyProductListOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     description = serializers.CharField()
@@ -29,7 +29,7 @@ class ProductListOutputSerializer(serializers.Serializer):
     thumbnail = serializers.URLField()
 
 
-class ProductDetailOutputSerializer(serializers.Serializer):
+class DummyProductDetailOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     description = serializers.CharField()
@@ -57,7 +57,7 @@ class ProductDetailOutputSerializer(serializers.Serializer):
     thumbnail = serializers.URLField()
 
 
-class ProductSearchOutputSerializer(serializers.Serializer):
+class DummyProductSearchOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     description = serializers.CharField()
@@ -85,7 +85,7 @@ class ProductSearchOutputSerializer(serializers.Serializer):
     thumbnail = serializers.URLField()
 
 
-class ProductCreateInputSerializer(serializers.Serializer):
+class DummyProductCreateInputSerializer(serializers.Serializer):
     title = serializers.CharField()
     description = serializers.CharField()
     category = serializers.CharField()
@@ -112,7 +112,7 @@ class ProductCreateInputSerializer(serializers.Serializer):
     thumbnail = serializers.URLField()
 
 
-class ProductUpdateInputSerializer(serializers.Serializer):
+class DummyProductUpdateInputSerializer(serializers.Serializer):
     title = serializers.CharField()
     description = serializers.CharField()
     category = serializers.CharField()
@@ -139,7 +139,7 @@ class ProductUpdateInputSerializer(serializers.Serializer):
     thumbnail = serializers.URLField()
 
 
-class ProductPartialUpdateInputSerializer(serializers.Serializer):
+class DummyProductPartialUpdateInputSerializer(serializers.Serializer):
     title = serializers.CharField(required=False)
     description = serializers.CharField(required=False)
     category = serializers.CharField(required=False)
@@ -166,7 +166,7 @@ class ProductPartialUpdateInputSerializer(serializers.Serializer):
     thumbnail = serializers.URLField(required=False)
 
 
-class ProductFilterOutputSerializer(serializers.Serializer):
+class DummyProductFilterOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     description = serializers.CharField()
@@ -194,7 +194,7 @@ class ProductFilterOutputSerializer(serializers.Serializer):
     thumbnail = serializers.URLField()
 
 
-class ProductFilterInputSerializer(serializers.Serializer):
+class DummyProductFilterInputSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
     title = serializers.CharField(required=False)
     description = serializers.CharField(required=False)
@@ -222,7 +222,7 @@ class ProductFilterInputSerializer(serializers.Serializer):
     thumbnail = serializers.URLField(required=False)
 
 
-class ProductStatsOutputSerializer(serializers.Serializer):
+class DummyProductStatsOutputSerializer(serializers.Serializer):
     category = serializers.CharField()
     count_products = serializers.IntegerField()
     avg_price = serializers.FloatField()

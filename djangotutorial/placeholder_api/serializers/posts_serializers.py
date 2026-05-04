@@ -1,59 +1,59 @@
 from rest_framework import serializers
 
 
-class PostListOutputSerializer(serializers.Serializer):
+class PlaceholderPostListOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     body = serializers.CharField()
     user = serializers.IntegerField(source="user_id")
 
 
-class PostDetailOutputSerializer(serializers.Serializer):
+class PlaceholderPostDetailOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     body = serializers.CharField()
     user = serializers.IntegerField(source="user_id")
 
 
-class PostSearchOutputSerializer(serializers.Serializer):
+class PlaceholderPostSearchOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     body = serializers.CharField()
     user = serializers.IntegerField(source="user_id")
 
 
-class PostCreateInputSerializer(serializers.Serializer):
+class PlaceholderPostCreateInputSerializer(serializers.Serializer):
     title = serializers.CharField()
     body = serializers.CharField()
     user = serializers.IntegerField()
 
 
-class PostUpdateInputSerializer(serializers.Serializer):
+class PlaceholderPostUpdateInputSerializer(serializers.Serializer):
     title = serializers.CharField()
     body = serializers.CharField()
     user = serializers.IntegerField()
 
 
-class PostPartialUpdateInputSerializer(serializers.Serializer):
+class PlaceholderPostPartialUpdateInputSerializer(serializers.Serializer):
     title = serializers.CharField(required=False)
     body = serializers.CharField(required=False)
     user = serializers.IntegerField(required=False)
 
 
-class PostFilterOutputSerializer(serializers.Serializer):
+class PlaceholderPostFilterOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     body = serializers.CharField()
     user = serializers.IntegerField(source="user_id")
 
 
-class PostFilterInputSerializer(serializers.Serializer):
+class PlaceholderPostFilterInputSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
     title = serializers.CharField(required=False)
     body = serializers.CharField(required=False)
     user = serializers.IntegerField(required=False)
 
 
-class PostStatsOutputSerializer(serializers.Serializer):
+class PlaceholderPostStatsOutputSerializer(serializers.Serializer):
     user = serializers.IntegerField(source="user_id")
     count_posts = serializers.IntegerField()

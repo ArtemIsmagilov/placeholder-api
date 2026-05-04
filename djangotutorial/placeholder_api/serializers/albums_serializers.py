@@ -1,51 +1,51 @@
 from rest_framework import serializers
 
 
-class AlbumListOutputSerializer(serializers.Serializer):
+class PlaceholderAlbumListOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     user = serializers.IntegerField(source="user_id")
 
 
-class AlbumDetailOutputSerializer(serializers.Serializer):
+class PlaceholderAlbumDetailOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     user = serializers.IntegerField(source="user_id")
 
 
-class AlbumSearchOutputSerializer(serializers.Serializer):
+class PlaceholderAlbumSearchOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     user = serializers.IntegerField(source="user_id")
 
 
-class AlbumCreateInputSerializer(serializers.Serializer):
+class PlaceholderAlbumCreateInputSerializer(serializers.Serializer):
     title = serializers.CharField()
     user = serializers.IntegerField()
 
 
-class AlbumUpdateInputSerializer(serializers.Serializer):
+class PlaceholderAlbumUpdateInputSerializer(serializers.Serializer):
     title = serializers.CharField()
     user = serializers.IntegerField()
 
 
-class AlbumPartialUpdateInputSerializer(serializers.Serializer):
+class PlaceholderAlbumPartialUpdateInputSerializer(serializers.Serializer):
     title = serializers.CharField(required=False)
     user = serializers.IntegerField(required=False)
 
 
-class AlbumFilterOutputSerializer(serializers.Serializer):
+class PlaceholderAlbumFilterOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     user = serializers.IntegerField(source="user_id")
 
 
-class AlbumFilterInputSerializer(serializers.Serializer):
+class PlaceholderAlbumFilterInputSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
     title = serializers.CharField(required=False)
     user = serializers.IntegerField(required=False)
 
 
-class AlbumStatsOutputSerializer(serializers.Serializer):
+class PlaceholderAlbumStatsOutputSerializer(serializers.Serializer):
     user = serializers.IntegerField(source="user_id")
     count_albums = serializers.IntegerField()

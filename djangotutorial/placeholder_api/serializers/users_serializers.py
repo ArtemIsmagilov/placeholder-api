@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 
-class UserListOutputSerializer(serializers.Serializer):
+class PlaceholderUserListOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     name = serializers.CharField()
     username = serializers.CharField()
@@ -12,7 +12,7 @@ class UserListOutputSerializer(serializers.Serializer):
     company = serializers.CharField()
 
 
-class UserDetailOutputSerializer(serializers.Serializer):
+class PlaceholderUserDetailOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     name = serializers.CharField()
     username = serializers.CharField()
@@ -23,7 +23,7 @@ class UserDetailOutputSerializer(serializers.Serializer):
     company = serializers.CharField()
 
 
-class UserSearchOutputSerializer(serializers.Serializer):
+class PlaceholderUserSearchOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     name = serializers.CharField()
     username = serializers.CharField()
@@ -34,7 +34,7 @@ class UserSearchOutputSerializer(serializers.Serializer):
     company = serializers.CharField()
 
 
-class UserCreateInputSerializer(serializers.Serializer):
+class PlaceholderUserCreateInputSerializer(serializers.Serializer):
     name = serializers.CharField()
     username = serializers.CharField()
     email = serializers.EmailField()
@@ -44,7 +44,7 @@ class UserCreateInputSerializer(serializers.Serializer):
     company = serializers.CharField()
 
 
-class UserUpdateInputSerializer(serializers.Serializer):
+class PlaceholderUserUpdateInputSerializer(serializers.Serializer):
     name = serializers.CharField()
     username = serializers.CharField()
     email = serializers.EmailField()
@@ -54,7 +54,7 @@ class UserUpdateInputSerializer(serializers.Serializer):
     company = serializers.CharField()
 
 
-class UserPartialUpdateInputSerializer(serializers.Serializer):
+class PlaceholderUserPartialUpdateInputSerializer(serializers.Serializer):
     name = serializers.CharField(required=False)
     username = serializers.CharField(required=False)
     email = serializers.EmailField(required=False)
@@ -64,7 +64,7 @@ class UserPartialUpdateInputSerializer(serializers.Serializer):
     company = serializers.CharField(required=False)
 
 
-class UserFilterOutputSerializer(serializers.Serializer):
+class PlaceholderUserFilterOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     name = serializers.CharField()
     username = serializers.CharField()
@@ -75,7 +75,7 @@ class UserFilterOutputSerializer(serializers.Serializer):
     company = serializers.CharField()
 
 
-class UserFilterInputSerializer(serializers.Serializer):
+class PlaceholderUserFilterInputSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
     name = serializers.CharField(required=False)
     username = serializers.CharField(required=False)
@@ -86,6 +86,6 @@ class UserFilterInputSerializer(serializers.Serializer):
     company = serializers.CharField(required=False)
 
 
-class UserStatsOutputSerializer(serializers.Serializer):
+class PlaceholderUserStatsOutputSerializer(serializers.Serializer):
     company = serializers.CharField()
     count_users = serializers.IntegerField()

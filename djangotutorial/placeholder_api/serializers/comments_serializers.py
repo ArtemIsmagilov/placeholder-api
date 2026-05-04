@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 
-class CommentListOutputSerializer(serializers.Serializer):
+class PlaceholderCommentListOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     name = serializers.CharField()
     email = serializers.EmailField()
@@ -9,7 +9,7 @@ class CommentListOutputSerializer(serializers.Serializer):
     post = serializers.IntegerField(source="post_id")
 
 
-class CommentDetailOutputSerializer(serializers.Serializer):
+class PlaceholderCommentDetailOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     name = serializers.CharField()
     email = serializers.EmailField()
@@ -17,7 +17,7 @@ class CommentDetailOutputSerializer(serializers.Serializer):
     post = serializers.IntegerField(source="post_id")
 
 
-class CommentSearchOutputSerializer(serializers.Serializer):
+class PlaceholderCommentSearchOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     name = serializers.CharField()
     email = serializers.EmailField()
@@ -25,28 +25,28 @@ class CommentSearchOutputSerializer(serializers.Serializer):
     post = serializers.IntegerField(source="post_id")
 
 
-class CommentCreateInputSerializer(serializers.Serializer):
+class PlaceholderCommentCreateInputSerializer(serializers.Serializer):
     name = serializers.CharField()
     email = serializers.EmailField()
     body = serializers.CharField()
     post = serializers.IntegerField()
 
 
-class CommentUpdateInputSerializer(serializers.Serializer):
+class PlaceholderCommentUpdateInputSerializer(serializers.Serializer):
     name = serializers.CharField()
     email = serializers.EmailField()
     body = serializers.CharField()
     post = serializers.IntegerField()
 
 
-class CommentPartialUpdateInputSerializer(serializers.Serializer):
+class PlaceholderCommentPartialUpdateInputSerializer(serializers.Serializer):
     name = serializers.CharField(required=False)
     email = serializers.EmailField(required=False)
     body = serializers.CharField(required=False)
     post = serializers.IntegerField(required=False)
 
 
-class CommentFilterOutputSerializer(serializers.Serializer):
+class PlaceholderCommentFilterOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     name = serializers.CharField()
     email = serializers.EmailField()
@@ -54,7 +54,7 @@ class CommentFilterOutputSerializer(serializers.Serializer):
     post = serializers.IntegerField(source="post_id")
 
 
-class CommentFilterInputSerializer(serializers.Serializer):
+class PlaceholderCommentFilterInputSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
     name = serializers.CharField(required=False)
     email = serializers.EmailField(required=False)
@@ -62,6 +62,6 @@ class CommentFilterInputSerializer(serializers.Serializer):
     post = serializers.IntegerField(required=False)
 
 
-class CommentStatsOutputSerializer(serializers.Serializer):
+class PlaceholderCommentStatsOutputSerializer(serializers.Serializer):
     post = serializers.IntegerField(source="post_id")
     count_comments = serializers.IntegerField()

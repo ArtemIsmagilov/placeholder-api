@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 
-class PostListOutputSerializer(serializers.Serializer):
+class DummyPostListOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     body = serializers.CharField()
@@ -12,7 +12,7 @@ class PostListOutputSerializer(serializers.Serializer):
     user = serializers.IntegerField(source="user_id")
 
 
-class PostDetailOutputSerializer(serializers.Serializer):
+class DummyPostDetailOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     body = serializers.CharField()
@@ -23,7 +23,7 @@ class PostDetailOutputSerializer(serializers.Serializer):
     user = serializers.IntegerField(source="user_id")
 
 
-class PostSearchOutputSerializer(serializers.Serializer):
+class DummyPostSearchOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     body = serializers.CharField()
@@ -34,7 +34,7 @@ class PostSearchOutputSerializer(serializers.Serializer):
     user = serializers.IntegerField(source="user_id")
 
 
-class PostCreateInputSerializer(serializers.Serializer):
+class DummyPostCreateInputSerializer(serializers.Serializer):
     title = serializers.CharField()
     body = serializers.CharField()
     tags = serializers.CharField()
@@ -44,7 +44,7 @@ class PostCreateInputSerializer(serializers.Serializer):
     user = serializers.IntegerField()
 
 
-class PostUpdateInputSerializer(serializers.Serializer):
+class DummyPostUpdateInputSerializer(serializers.Serializer):
     title = serializers.CharField()
     body = serializers.CharField()
     tags = serializers.CharField()
@@ -54,7 +54,7 @@ class PostUpdateInputSerializer(serializers.Serializer):
     user = serializers.IntegerField()
 
 
-class PostPartialUpdateInputSerializer(serializers.Serializer):
+class DummyPostPartialUpdateInputSerializer(serializers.Serializer):
     title = serializers.CharField(required=False)
     body = serializers.CharField(required=False)
     tags = serializers.CharField(required=False)
@@ -64,7 +64,7 @@ class PostPartialUpdateInputSerializer(serializers.Serializer):
     user = serializers.IntegerField(required=False)
 
 
-class PostFilterOutputSerializer(serializers.Serializer):
+class DummyPostFilterOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField()
     body = serializers.CharField()
@@ -75,7 +75,7 @@ class PostFilterOutputSerializer(serializers.Serializer):
     user = serializers.IntegerField(source="user_id")
 
 
-class PostFilterInputSerializer(serializers.Serializer):
+class DummyPostFilterInputSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
     title = serializers.CharField(required=False)
     body = serializers.CharField(required=False)
@@ -86,7 +86,7 @@ class PostFilterInputSerializer(serializers.Serializer):
     user = serializers.IntegerField(required=False)
 
 
-class PostStatsOutputSerializer(serializers.Serializer):
+class DummyPostStatsOutputSerializer(serializers.Serializer):
     user_id = serializers.IntegerField()
     count_posts = serializers.IntegerField()
     sum_views = serializers.IntegerField()

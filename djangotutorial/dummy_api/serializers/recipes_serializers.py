@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 
-class RecipeListOutputSerializer(serializers.Serializer):
+class DummyRecipeListOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     name = serializers.CharField()
     ingredients = serializers.CharField()
@@ -20,7 +20,7 @@ class RecipeListOutputSerializer(serializers.Serializer):
     user = serializers.IntegerField(source="user_id")
 
 
-class RecipeDetailOutputSerializer(serializers.Serializer):
+class DummyRecipeDetailOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     name = serializers.CharField()
     ingredients = serializers.CharField()
@@ -39,7 +39,7 @@ class RecipeDetailOutputSerializer(serializers.Serializer):
     user = serializers.IntegerField(source="user_id")
 
 
-class RecipeSearchOutputSerializer(serializers.Serializer):
+class DummyRecipeSearchOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     name = serializers.CharField()
     ingredients = serializers.CharField()
@@ -58,7 +58,7 @@ class RecipeSearchOutputSerializer(serializers.Serializer):
     user = serializers.IntegerField(source="user_id")
 
 
-class RecipeCreateInputSerializer(serializers.Serializer):
+class DummyRecipeCreateInputSerializer(serializers.Serializer):
     name = serializers.CharField()
     ingredients = serializers.CharField()
     instructions = serializers.CharField()
@@ -76,7 +76,7 @@ class RecipeCreateInputSerializer(serializers.Serializer):
     user = serializers.IntegerField()
 
 
-class RecipeUpdateInputSerializer(serializers.Serializer):
+class DummyRecipeUpdateInputSerializer(serializers.Serializer):
     name = serializers.CharField()
     ingredients = serializers.CharField()
     instructions = serializers.CharField()
@@ -94,7 +94,7 @@ class RecipeUpdateInputSerializer(serializers.Serializer):
     user = serializers.IntegerField()
 
 
-class RecipePartialUpdateInputSerializer(serializers.Serializer):
+class DummyRecipePartialUpdateInputSerializer(serializers.Serializer):
     name = serializers.CharField(required=False)
     ingredients = serializers.CharField(required=False)
     instructions = serializers.CharField(required=False)
@@ -112,7 +112,7 @@ class RecipePartialUpdateInputSerializer(serializers.Serializer):
     user = serializers.IntegerField(required=False)
 
 
-class RecipeFilterOutputSerializer(serializers.Serializer):
+class DummyRecipeFilterOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     name = serializers.CharField()
     ingredients = serializers.CharField()
@@ -131,7 +131,7 @@ class RecipeFilterOutputSerializer(serializers.Serializer):
     user = serializers.IntegerField(source="user_id")
 
 
-class RecipeFilterInputSerializer(serializers.Serializer):
+class DummyRecipeFilterInputSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
     name = serializers.CharField(required=False)
     ingredients = serializers.CharField(required=False)
@@ -150,7 +150,7 @@ class RecipeFilterInputSerializer(serializers.Serializer):
     user = serializers.IntegerField(required=False)
 
 
-class RecipeStatsOutputSerializer(serializers.Serializer):
+class DummyRecipeStatsOutputSerializer(serializers.Serializer):
     difficulty = serializers.CharField()
     cuisine = serializers.CharField()
     min_prep_time_minutes = serializers.IntegerField()

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 
-class UserProfileSerializer(serializers.Serializer):
+class DummyUserProfileSerializer(serializers.Serializer):
     first_name = serializers.CharField()
     last_name = serializers.CharField()
     maiden_name = serializers.CharField()
@@ -53,12 +53,12 @@ class UserProfileSerializer(serializers.Serializer):
     role = serializers.CharField()
 
 
-class TodoProfileSerializer(serializers.Serializer):
+class DummyTodoProfileSerializer(serializers.Serializer):
     title = serializers.CharField()
     completed = serializers.BooleanField()
 
 
-class RecipeProfileSerializer(serializers.Serializer):
+class DummyRecipeProfileSerializer(serializers.Serializer):
     name = serializers.CharField()
     ingredients = serializers.CharField()
     instructions = serializers.CharField()
@@ -75,13 +75,13 @@ class RecipeProfileSerializer(serializers.Serializer):
     meal_type = serializers.CharField()
 
 
-class ReviewProfileSerializer(serializers.Serializer):
+class DummyReviewProfileSerializer(serializers.Serializer):
     rating = serializers.IntegerField()
     comment = serializers.CharField()
     date = serializers.DateTimeField()
 
 
-class ProductProfileSerializer(serializers.Serializer):
+class DummyProductProfileSerializer(serializers.Serializer):
     title = serializers.CharField()
     description = serializers.CharField()
     category = serializers.CharField()
@@ -108,29 +108,29 @@ class ProductProfileSerializer(serializers.Serializer):
     thumbnail = serializers.URLField()
 
 
-class CartProfileSerializer(serializers.Serializer):
-    products = ProductProfileSerializer(many=True)
+class DummyCartProfileSerializer(serializers.Serializer):
+    products = DummyProductProfileSerializer(many=True)
 
 
-class CommentProfileSerializer(serializers.Serializer):
+class DummyCommentProfileSerializer(serializers.Serializer):
     body = serializers.CharField()
     likes = serializers.IntegerField()
 
 
-class PostProfileSerializer(serializers.Serializer):
+class DummyPostProfileSerializer(serializers.Serializer):
     title = serializers.CharField()
     body = serializers.CharField()
     tags = serializers.CharField()
     likes = serializers.IntegerField()
     dislikes = serializers.IntegerField()
     views = serializers.IntegerField()
-    comments = CommentProfileSerializer(many=True)
+    comments = DummyCommentProfileSerializer(many=True)
 
 
-class ProfileOutputSerializer(serializers.Serializer):
-    user_info = UserProfileSerializer()
-    todos = TodoProfileSerializer(many=True)
-    recipes = RecipeProfileSerializer(many=True)
-    reviews = ReviewProfileSerializer(many=True)
-    carts = CartProfileSerializer(many=True)
-    posts = PostProfileSerializer(many=True)
+class DummyProfileOutputSerializer(serializers.Serializer):
+    user_info = DummyUserProfileSerializer()
+    todos = DummyTodoProfileSerializer(many=True)
+    recipes = DummyRecipeProfileSerializer(many=True)
+    reviews = DummyReviewProfileSerializer(many=True)
+    carts = DummyCartProfileSerializer(many=True)
+    posts = DummyPostProfileSerializer(many=True)

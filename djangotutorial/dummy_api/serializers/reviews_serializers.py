@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 
-class ReviewListOutputSerializer(serializers.Serializer):
+class DummyReviewListOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     rating = serializers.IntegerField()
     comment = serializers.CharField()
@@ -10,7 +10,7 @@ class ReviewListOutputSerializer(serializers.Serializer):
     user = serializers.IntegerField(source="user_id")
 
 
-class ReviewDetailOutputSerializer(serializers.Serializer):
+class DummyReviewDetailOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     rating = serializers.IntegerField()
     comment = serializers.CharField()
@@ -19,7 +19,7 @@ class ReviewDetailOutputSerializer(serializers.Serializer):
     user = serializers.IntegerField(source="user_id")
 
 
-class ReviewSearchOutputSerializer(serializers.Serializer):
+class DummyReviewSearchOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     rating = serializers.IntegerField()
     comment = serializers.CharField()
@@ -28,7 +28,7 @@ class ReviewSearchOutputSerializer(serializers.Serializer):
     user = serializers.IntegerField(source="user_id")
 
 
-class ReviewCreateInputSerializer(serializers.Serializer):
+class DummyReviewCreateInputSerializer(serializers.Serializer):
     rating = serializers.IntegerField()
     comment = serializers.CharField()
     date = serializers.DateTimeField()
@@ -36,7 +36,7 @@ class ReviewCreateInputSerializer(serializers.Serializer):
     user = serializers.IntegerField()
 
 
-class ReviewUpdateInputSerializer(serializers.Serializer):
+class DummyReviewUpdateInputSerializer(serializers.Serializer):
     rating = serializers.IntegerField()
     comment = serializers.CharField()
     date = serializers.DateTimeField()
@@ -44,7 +44,7 @@ class ReviewUpdateInputSerializer(serializers.Serializer):
     user = serializers.IntegerField()
 
 
-class ReviewPartialUpdateInputSerializer(serializers.Serializer):
+class DummyReviewPartialUpdateInputSerializer(serializers.Serializer):
     rating = serializers.IntegerField(required=False)
     comment = serializers.CharField(required=False)
     date = serializers.DateTimeField(required=False)
@@ -52,7 +52,7 @@ class ReviewPartialUpdateInputSerializer(serializers.Serializer):
     user = serializers.IntegerField(required=False)
 
 
-class ReviewFilterOutputSerializer(serializers.Serializer):
+class DummyReviewFilterOutputSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     rating = serializers.IntegerField()
     comment = serializers.CharField()
@@ -61,7 +61,7 @@ class ReviewFilterOutputSerializer(serializers.Serializer):
     user = serializers.IntegerField(source="user_id")
 
 
-class ReviewFilterInputSerializer(serializers.Serializer):
+class DummyReviewFilterInputSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
     rating = serializers.IntegerField(required=False)
     comment = serializers.CharField(required=False)
@@ -70,7 +70,7 @@ class ReviewFilterInputSerializer(serializers.Serializer):
     user = serializers.IntegerField(required=False)
 
 
-class ReviewStatsOutputSerializer(serializers.Serializer):
+class DummyReviewStatsOutputSerializer(serializers.Serializer):
     count_reviews = serializers.IntegerField()
     avg_rating = serializers.FloatField()
     count_unique_products = serializers.IntegerField()
