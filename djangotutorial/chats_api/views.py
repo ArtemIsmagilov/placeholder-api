@@ -246,7 +246,9 @@ def chats_list(request: Request) -> Response:
         page_size = 10
 
     paginator = Pagination()
-    page = paginator.paginate_queryset(Chat.objects.prefetch_related("users").order_by("id").all(), request)
+    page = paginator.paginate_queryset(
+        Chat.objects.prefetch_related("users").order_by("id").all(), request
+    )
     cs = ChatsChatListOutputSerializer(page, many=True)
     return paginator.get_paginated_response(cs.data)
 
@@ -603,7 +605,9 @@ def messages_delete(request: Request, pk: int) -> Response:
 @api_view(["GET"])
 def profile(request: Request, pk: int) -> Response:
     user = get_object_or_404(
-        User.objects.prefetch_related("chat_set__users", "chat_set__message_set__author"),
+        User.objects.prefetch_related(
+            "chat_set__users", "chat_set__message_set__author"
+        ),
         id=pk,
     )
 
