@@ -5,42 +5,74 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Chat',
+            name="Chat",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
             ],
         ),
         migrations.CreateModel(
-            name='User',
+            name="User",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('username', models.CharField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("username", models.CharField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Message',
+            name="Message",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('text', models.CharField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('chat', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='chats_api.chat')),
-                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='chats_api.user')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("text", models.CharField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "chat",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="chats_api.chat"
+                    ),
+                ),
+                (
+                    "author",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="chats_api.user"
+                    ),
+                ),
             ],
         ),
         migrations.AddField(
-            model_name='chat',
-            name='users',
-            field=models.ManyToManyField(to='chats_api.user'),
+            model_name="chat",
+            name="users",
+            field=models.ManyToManyField(to="chats_api.user"),
         ),
     ]

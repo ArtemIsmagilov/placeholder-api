@@ -43,6 +43,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("placeholder_api/", include("placeholder_api.urls")),
     path("dummy_api/", include("dummy_api.urls")),
+    path("chats_api/", include("chats_api.urls")),
 ]
 
 if "test" not in sys.argv and settings.DEBUG:

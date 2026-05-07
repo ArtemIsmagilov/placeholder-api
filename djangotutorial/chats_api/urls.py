@@ -1,0 +1,45 @@
+from django.urls import path
+from chats_api import views
+
+urlpatterns = [
+    path("users_list", views.users_list, name="users_list"),
+    path("users_detail/<int:pk>", views.users_detail, name="users_detail"),
+    path("users_search", views.users_search, name="users_search"),
+    path("users_create", views.users_create, name="users_create"),
+    path("users_update/<int:pk>", views.users_update, name="users_update"),
+    path(
+        "users_partial_update/<int:pk>",
+        views.users_partial_update,
+        name="users_partial_update",
+    ),
+    path("users_filter", views.users_filter, name="users_filter"),
+    path("users_delete/<int:pk>", views.users_delete, name="users_delete"),
+    path("users_stats", views.users_stats, name="users_stats"),
+    path("chats_list", views.chats_list, name="chats_list"),
+    path("chats_detail/<int:pk>", views.chats_detail, name="chats_detail"),
+    path("chats_search", views.chats_search, name="chats_search"),
+    path("chats_create", views.chats_create, name="chats_create"),
+    path("chats_update/<int:pk>", views.chats_update, name="chats_update"),
+    path(
+        "chats_partial_update/<int:pk>",
+        views.chats_partial_update,
+        name="chats_partial_update",
+    ),
+    path("chats_filter", views.chats_filter, name="chats_filter"),
+    path("chats_delete/<int:pk>", views.chats_delete, name="chats_delete"),
+    path("chats_stats", views.chats_stats, name="chats_stats"),
+    path("messages_list", views.messages_list, name="messages_list"),
+    path("messages_detail/<int:pk>", views.messages_detail, name="messages_detail"),
+    path("messages_search", views.messages_search, name="messages_search"),
+    path("messages_create", views.messages_create, name="messages_create"),
+    path("messages_update/<int:pk>", views.messages_update, name="messages_update"),
+    path(
+        "messages_partial_update/<int:pk>",
+        views.messages_partial_update,
+        name="messages_partial_update",
+    ),
+    path("messages_filter", views.messages_filter, name="messages_filter"),
+    path("messages_delete/<int:pk>", views.messages_delete, name="messages_delete"),
+    path("messages_stats", views.messages_stats, name="messages_stats"),
+    path("profile/<int:pk>", views.profile, name="profile"),
+]
