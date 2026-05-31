@@ -2,6 +2,13 @@
 
 - Создать проект API как [jsonplaceholder](https://jsonplaceholder.typicode.com) или [dummyjson](https://dummyjson.com/) на Django и DRF.
 
+## Доступные приложения API
+- chats_api
+- dummy_api
+- placeholder_api
+- tasks_api
+
+
 ## Метрики производительности
 - ![metrics](https://github.com/ArtemIsmagilov/placeholder-api/actions/runs/24561334193/attempts/1#summary-71810444885)
 
@@ -21,7 +28,7 @@
 - Запускаем проект
   ```bash
   python manage.py migrate
-  python manage.py loaddata f.json d.json
+  python manage.py loaddata chats.json dummy.json placeholder.json tasks.json
   python manage.py runserver
   ```
 - Запускаем тесты
