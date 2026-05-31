@@ -31,6 +31,7 @@ AUTH_TOKEN = "65012222a2b880dd8927560043375a2cc86e1357da4df04d37744db20fbb4cad"
 
 ALLOWED_HOSTS = ["127.0.0.1"]
 
+THROTTLE = False
 
 # Application definition
 
@@ -148,3 +149,13 @@ if "test" not in sys.argv and DEBUG:
 if DEBUG:
     INSTALLED_APPS.append("zeal")
     MIDDLEWARE.append("zeal.middleware.zeal_middleware")
+
+if THROTTLE:
+    REST_FRAMEWORK.update(
+        {
+            "DEFAULT_THROTTLE_CLASSES": [
+                "rest_framework.throttling.AnonRateThrottle",
+            ],
+            "DEFAULT_THROTTLE_RATES": {"anon": "1/s"},
+        }
+    )
