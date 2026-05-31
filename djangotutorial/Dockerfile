@@ -1,9 +1,9 @@
 FROM python:alpine
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/
 WORKDIR /app
 COPY . .
 ENV DEBUG="False"
-RUN pip install uv && \
-  uv venv && \
+RUN uv venv && \
   uv pip install -r pyproject.toml --extra prod && \
   uv run python manage.py migrate && \
   uv run python manage.py loaddata chats.json dummy.json placeholder.json tasks.json
