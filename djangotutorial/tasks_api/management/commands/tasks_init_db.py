@@ -45,7 +45,9 @@ class Command(BaseCommand):
         categories = [Category(name=f"Category {i}") for i in range(5)]
         Category.objects.bulk_create(categories)
 
-        roles = [Role(name=name) for name in ["Admin", "Manager", "Developer", "Viewer"]]
+        roles = [
+            Role(name=name) for name in ["Admin", "Manager", "Developer", "Viewer"]
+        ]
         Role.objects.bulk_create(roles)
 
         groups = [Group(name=name) for name in ["Alpha", "Beta", "Gamma"]]
@@ -81,11 +83,15 @@ class Command(BaseCommand):
                 subject=f"Task {i}",
                 description=f"Description for task {i}",
                 start_date=f"2025-01-{i % 28 + 1:02d}",
-                due_date=f"2025-02-{i % 28 + 1:02d}" if random.choice([True, False]) else None,
+                due_date=f"2025-02-{i % 28 + 1:02d}"
+                if random.choice([True, False])
+                else None,
                 is_private=random.choice([True, False]),
                 done_percent=random.randint(0, 100),
                 closed_on=None,
-                spent_days=random.randint(1, 10) if random.choice([True, False]) else None,
+                spent_days=random.randint(1, 10)
+                if random.choice([True, False])
+                else None,
                 estimated_days=random.randint(1, 15),
                 category=random.choice(categories),
                 assigned_to=random.choice(users),

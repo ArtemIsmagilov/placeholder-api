@@ -2,7 +2,18 @@ from django.test import TestCase, Client
 from django.conf import settings
 import jsonschema
 
-from .models import Status, Priority, Category, Role, Group, Project, User, Task, News, Comment
+from .models import (
+    Status,
+    Priority,
+    Category,
+    Role,
+    Group,
+    Project,
+    User,
+    Task,
+    News,
+    Comment,
+)
 
 
 class TasksApiTestCase(TestCase):
@@ -925,9 +936,7 @@ class TasksApiTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_projects_filter(self):
-        response = self.client.get(
-            "/tasks_api/projects_filter", query_params={"id": 1}
-        )
+        response = self.client.get("/tasks_api/projects_filter", query_params={"id": 1})
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["count"], 1)
         self.assertIsNone(
@@ -1664,9 +1673,7 @@ class TasksApiTestCase(TestCase):
         )
 
     def test_news_search(self):
-        response = self.client.get(
-            "/tasks_api/news_search", query_params={"q": "News"}
-        )
+        response = self.client.get("/tasks_api/news_search", query_params={"q": "News"})
         self.assertEqual(response.status_code, 200)
         self.assertIsNone(
             jsonschema.validate(
@@ -1838,7 +1845,13 @@ class TasksApiTestCase(TestCase):
                             "some_news": {"type": "number"},
                             "created_on": {"type": "string"},
                         },
-                        "required": ["id", "content", "author", "some_news", "created_on"],
+                        "required": [
+                            "id",
+                            "content",
+                            "author",
+                            "some_news",
+                            "created_on",
+                        ],
                     },
                 },
             )
@@ -1883,7 +1896,13 @@ class TasksApiTestCase(TestCase):
                             "some_news": {"type": "number"},
                             "created_on": {"type": "string"},
                         },
-                        "required": ["id", "content", "author", "some_news", "created_on"],
+                        "required": [
+                            "id",
+                            "content",
+                            "author",
+                            "some_news",
+                            "created_on",
+                        ],
                     },
                 },
             )
@@ -1959,7 +1978,13 @@ class TasksApiTestCase(TestCase):
                             "some_news": {"type": "number"},
                             "created_on": {"type": "string"},
                         },
-                        "required": ["id", "content", "author", "some_news", "created_on"],
+                        "required": [
+                            "id",
+                            "content",
+                            "author",
+                            "some_news",
+                            "created_on",
+                        ],
                     },
                 },
             )
@@ -1996,7 +2021,13 @@ class TasksApiTestCase(TestCase):
                                 "mail": {"type": "string"},
                                 "admin": {"type": "boolean"},
                             },
-                            "required": ["login", "firstname", "lastname", "mail", "admin"],
+                            "required": [
+                                "login",
+                                "firstname",
+                                "lastname",
+                                "mail",
+                                "admin",
+                            ],
                         },
                         "tasks": {
                             "type": "array",
@@ -2008,7 +2039,12 @@ class TasksApiTestCase(TestCase):
                                     "description": {"type": "string"},
                                     "done_percent": {"type": "number"},
                                 },
-                                "required": ["id", "subject", "description", "done_percent"],
+                                "required": [
+                                    "id",
+                                    "subject",
+                                    "description",
+                                    "done_percent",
+                                ],
                             },
                         },
                         "news": {

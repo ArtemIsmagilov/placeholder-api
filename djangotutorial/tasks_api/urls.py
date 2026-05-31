@@ -16,30 +16,42 @@ urlpatterns = [
     path("statuses_delete/<int:pk>", views.statuses_delete, name="statuses_delete"),
     path("statuses_stats", views.statuses_stats, name="statuses_stats"),
     path("priorities_list", views.priorities_list, name="priorities_list"),
-    path("priorities_detail/<int:pk>", views.priorities_detail, name="priorities_detail"),
+    path(
+        "priorities_detail/<int:pk>", views.priorities_detail, name="priorities_detail"
+    ),
     path("priorities_search", views.priorities_search, name="priorities_search"),
     path("priorities_create", views.priorities_create, name="priorities_create"),
-    path("priorities_update/<int:pk>", views.priorities_update, name="priorities_update"),
+    path(
+        "priorities_update/<int:pk>", views.priorities_update, name="priorities_update"
+    ),
     path(
         "priorities_partial_update/<int:pk>",
         views.priorities_partial_update,
         name="priorities_partial_update",
     ),
     path("priorities_filter", views.priorities_filter, name="priorities_filter"),
-    path("priorities_delete/<int:pk>", views.priorities_delete, name="priorities_delete"),
+    path(
+        "priorities_delete/<int:pk>", views.priorities_delete, name="priorities_delete"
+    ),
     path("priorities_stats", views.priorities_stats, name="priorities_stats"),
     path("categories_list", views.categories_list, name="categories_list"),
-    path("categories_detail/<int:pk>", views.categories_detail, name="categories_detail"),
+    path(
+        "categories_detail/<int:pk>", views.categories_detail, name="categories_detail"
+    ),
     path("categories_search", views.categories_search, name="categories_search"),
     path("categories_create", views.categories_create, name="categories_create"),
-    path("categories_update/<int:pk>", views.categories_update, name="categories_update"),
+    path(
+        "categories_update/<int:pk>", views.categories_update, name="categories_update"
+    ),
     path(
         "categories_partial_update/<int:pk>",
         views.categories_partial_update,
         name="categories_partial_update",
     ),
     path("categories_filter", views.categories_filter, name="categories_filter"),
-    path("categories_delete/<int:pk>", views.categories_delete, name="categories_delete"),
+    path(
+        "categories_delete/<int:pk>", views.categories_delete, name="categories_delete"
+    ),
     path("categories_stats", views.categories_stats, name="categories_stats"),
     path("roles_list", views.roles_list, name="roles_list"),
     path("roles_detail/<int:pk>", views.roles_detail, name="roles_detail"),
@@ -81,17 +93,29 @@ urlpatterns = [
     path("projects_delete/<int:pk>", views.projects_delete, name="projects_delete"),
     path("projects_stats", views.projects_stats, name="projects_stats"),
     path("tasks_users_list", views.tasks_users_list, name="tasks_users_list"),
-    path("tasks_users_detail/<int:pk>", views.tasks_users_detail, name="tasks_users_detail"),
+    path(
+        "tasks_users_detail/<int:pk>",
+        views.tasks_users_detail,
+        name="tasks_users_detail",
+    ),
     path("tasks_users_search", views.tasks_users_search, name="tasks_users_search"),
     path("tasks_users_create", views.tasks_users_create, name="tasks_users_create"),
-    path("tasks_users_update/<int:pk>", views.tasks_users_update, name="tasks_users_update"),
+    path(
+        "tasks_users_update/<int:pk>",
+        views.tasks_users_update,
+        name="tasks_users_update",
+    ),
     path(
         "tasks_users_partial_update/<int:pk>",
         views.tasks_users_partial_update,
         name="tasks_users_partial_update",
     ),
     path("tasks_users_filter", views.tasks_users_filter, name="tasks_users_filter"),
-    path("tasks_users_delete/<int:pk>", views.tasks_users_delete, name="tasks_users_delete"),
+    path(
+        "tasks_users_delete/<int:pk>",
+        views.tasks_users_delete,
+        name="tasks_users_delete",
+    ),
     path("tasks_users_stats", views.tasks_users_stats, name="tasks_users_stats"),
     path("tasks_list", views.tasks_list, name="tasks_list"),
     path("tasks_detail/<int:pk>", views.tasks_detail, name="tasks_detail"),

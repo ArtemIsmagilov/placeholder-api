@@ -13,7 +13,18 @@ from drf_spectacular.utils import (
 )
 
 from mysite.base_permissions import TokenPermission
-from .models import Status, Priority, Category, Role, Group, Project, User, Task, News, Comment
+from .models import (
+    Status,
+    Priority,
+    Category,
+    Role,
+    Group,
+    Project,
+    User,
+    Task,
+    News,
+    Comment,
+)
 from .serializers.status_serializers import (
     TasksStatusSearchOutputSerializer,
     TasksStatusListOutputSerializer,
@@ -1056,7 +1067,10 @@ def projects_search(request: Request) -> Response:
         queryset = Project.objects.order_by("id")
     else:
         queryset = Project.objects.filter(
-            Q(id__icontains=q) | Q(identifier__icontains=q) | Q(name__icontains=q) | Q(description__icontains=q)
+            Q(id__icontains=q)
+            | Q(identifier__icontains=q)
+            | Q(name__icontains=q)
+            | Q(description__icontains=q)
         ).order_by("id")
 
     paginator = Pagination()
@@ -1139,9 +1153,13 @@ def projects_partial_update(request: Request, pk: int) -> Response:
     parameters=[
         OpenApiParameter(name="page", description="Filter by page", type=int),
         OpenApiParameter(name="id", description="Filter by id", type=int),
-        OpenApiParameter(name="identifier", description="Filter by identifier", type=str),
+        OpenApiParameter(
+            name="identifier", description="Filter by identifier", type=str
+        ),
         OpenApiParameter(name="name", description="Filter by name", type=str),
-        OpenApiParameter(name="is_public", description="Filter by is_public", type=bool),
+        OpenApiParameter(
+            name="is_public", description="Filter by is_public", type=bool
+        ),
     ],
 )
 @api_view(["GET"])
@@ -1447,9 +1465,7 @@ def tasks_search(request: Request) -> Response:
         queryset = Task.objects.order_by("id")
     else:
         queryset = Task.objects.filter(
-            Q(id__icontains=q)
-            | Q(subject__icontains=q)
-            | Q(description__icontains=q)
+            Q(id__icontains=q) | Q(subject__icontains=q) | Q(description__icontains=q)
         ).order_by("id")
 
     paginator = Pagination()
@@ -1555,9 +1571,13 @@ def tasks_partial_update(request: Request, pk: int) -> Response:
         OpenApiParameter(name="page", description="Filter by page", type=int),
         OpenApiParameter(name="id", description="Filter by id", type=int),
         OpenApiParameter(name="subject", description="Filter by subject", type=str),
-        OpenApiParameter(name="is_private", description="Filter by is_private", type=bool),
+        OpenApiParameter(
+            name="is_private", description="Filter by is_private", type=bool
+        ),
         OpenApiParameter(name="category", description="Filter by category", type=int),
-        OpenApiParameter(name="assigned_to", description="Filter by assigned_to", type=int),
+        OpenApiParameter(
+            name="assigned_to", description="Filter by assigned_to", type=int
+        ),
         OpenApiParameter(name="author", description="Filter by author", type=int),
         OpenApiParameter(name="priority", description="Filter by priority", type=int),
         OpenApiParameter(name="status", description="Filter by status", type=int),
@@ -1994,9 +2014,7 @@ def comments_delete(request: Request, pk: int) -> Response:
 @api_view(["GET"])
 def profile(request: Request, pk: int) -> Response:
     user = get_object_or_404(
-        User.objects.prefetch_related(
-            "assigned_tasks", "news_set", "comment_set"
-        ),
+        User.objects.prefetch_related("assigned_tasks", "news_set", "comment_set"),
         id=pk,
     )
 

@@ -1,6 +1,17 @@
 from django.contrib import admin
 
-from .models import Status, Priority, Category, Role, Group, Project, User, Task, News, Comment
+from .models import (
+    Status,
+    Priority,
+    Category,
+    Role,
+    Group,
+    Project,
+    User,
+    Task,
+    News,
+    Comment,
+)
 
 
 admin.site.register(Status)
