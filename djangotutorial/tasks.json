@@ -1,0 +1,1269 @@
+[
+{
+  "model": "tasks_api.status",
+  "pk": 1,
+  "fields": {
+    "name": "New",
+    "is_close": false,
+    "description": "Task just created"
+  }
+},
+{
+  "model": "tasks_api.status",
+  "pk": 2,
+  "fields": {
+    "name": "In Progress",
+    "is_close": false,
+    "description": "Task is being worked on"
+  }
+},
+{
+  "model": "tasks_api.status",
+  "pk": 3,
+  "fields": {
+    "name": "Done",
+    "is_close": true,
+    "description": "Task completed"
+  }
+},
+{
+  "model": "tasks_api.status",
+  "pk": 4,
+  "fields": {
+    "name": "Closed",
+    "is_close": true,
+    "description": "Task closed"
+  }
+},
+{
+  "model": "tasks_api.priority",
+  "pk": 1,
+  "fields": {
+    "name": "Low",
+    "active": true
+  }
+},
+{
+  "model": "tasks_api.priority",
+  "pk": 2,
+  "fields": {
+    "name": "Medium",
+    "active": true
+  }
+},
+{
+  "model": "tasks_api.priority",
+  "pk": 3,
+  "fields": {
+    "name": "High",
+    "active": true
+  }
+},
+{
+  "model": "tasks_api.priority",
+  "pk": 4,
+  "fields": {
+    "name": "Critical",
+    "active": true
+  }
+},
+{
+  "model": "tasks_api.category",
+  "pk": 1,
+  "fields": {
+    "name": "Category 0"
+  }
+},
+{
+  "model": "tasks_api.category",
+  "pk": 2,
+  "fields": {
+    "name": "Category 1"
+  }
+},
+{
+  "model": "tasks_api.category",
+  "pk": 3,
+  "fields": {
+    "name": "Category 2"
+  }
+},
+{
+  "model": "tasks_api.category",
+  "pk": 4,
+  "fields": {
+    "name": "Category 3"
+  }
+},
+{
+  "model": "tasks_api.category",
+  "pk": 5,
+  "fields": {
+    "name": "Category 4"
+  }
+},
+{
+  "model": "tasks_api.role",
+  "pk": 1,
+  "fields": {
+    "name": "Admin"
+  }
+},
+{
+  "model": "tasks_api.role",
+  "pk": 2,
+  "fields": {
+    "name": "Manager"
+  }
+},
+{
+  "model": "tasks_api.role",
+  "pk": 3,
+  "fields": {
+    "name": "Developer"
+  }
+},
+{
+  "model": "tasks_api.role",
+  "pk": 4,
+  "fields": {
+    "name": "Viewer"
+  }
+},
+{
+  "model": "tasks_api.group",
+  "pk": 1,
+  "fields": {
+    "name": "Alpha"
+  }
+},
+{
+  "model": "tasks_api.group",
+  "pk": 2,
+  "fields": {
+    "name": "Beta"
+  }
+},
+{
+  "model": "tasks_api.group",
+  "pk": 3,
+  "fields": {
+    "name": "Gamma"
+  }
+},
+{
+  "model": "tasks_api.project",
+  "pk": 1,
+  "fields": {
+    "identifier": "PRJ-0",
+    "name": "Project 0",
+    "description": "Description for project 0",
+    "is_public": false,
+    "created_on": "2026-05-31T12:57:15.766Z",
+    "updated_on": "2026-05-31T12:57:15.766Z",
+    "parent": null
+  }
+},
+{
+  "model": "tasks_api.project",
+  "pk": 2,
+  "fields": {
+    "identifier": "PRJ-1",
+    "name": "Project 1",
+    "description": "Description for project 1",
+    "is_public": true,
+    "created_on": "2026-05-31T12:57:15.766Z",
+    "updated_on": "2026-05-31T12:57:15.766Z",
+    "parent": null
+  }
+},
+{
+  "model": "tasks_api.project",
+  "pk": 3,
+  "fields": {
+    "identifier": "PRJ-2",
+    "name": "Project 2",
+    "description": "Description for project 2",
+    "is_public": true,
+    "created_on": "2026-05-31T12:57:15.766Z",
+    "updated_on": "2026-05-31T12:57:15.766Z",
+    "parent": null
+  }
+},
+{
+  "model": "tasks_api.project",
+  "pk": 4,
+  "fields": {
+    "identifier": "PRJ-3",
+    "name": "Project 3",
+    "description": "Description for project 3",
+    "is_public": false,
+    "created_on": "2026-05-31T12:57:15.766Z",
+    "updated_on": "2026-05-31T12:57:15.767Z",
+    "parent": null
+  }
+},
+{
+  "model": "tasks_api.project",
+  "pk": 5,
+  "fields": {
+    "identifier": "PRJ-4",
+    "name": "Project 4",
+    "description": "Description for project 4",
+    "is_public": false,
+    "created_on": "2026-05-31T12:57:15.766Z",
+    "updated_on": "2026-05-31T12:57:15.767Z",
+    "parent": null
+  }
+},
+{
+  "model": "tasks_api.user",
+  "pk": 1,
+  "fields": {
+    "login": "user0",
+    "admin": true,
+    "firstname": "First0",
+    "lastname": "Last0",
+    "mail": "user0@example.com",
+    "created_on": "2026-05-31T12:57:15.788Z",
+    "updated_on": "2026-05-31T12:57:15.788Z",
+    "role": 4,
+    "group": 3
+  }
+},
+{
+  "model": "tasks_api.user",
+  "pk": 2,
+  "fields": {
+    "login": "user1",
+    "admin": true,
+    "firstname": "First1",
+    "lastname": "Last1",
+    "mail": "user1@example.com",
+    "created_on": "2026-05-31T12:57:15.788Z",
+    "updated_on": "2026-05-31T12:57:15.788Z",
+    "role": 2,
+    "group": 3
+  }
+},
+{
+  "model": "tasks_api.user",
+  "pk": 3,
+  "fields": {
+    "login": "user2",
+    "admin": true,
+    "firstname": "First2",
+    "lastname": "Last2",
+    "mail": "user2@example.com",
+    "created_on": "2026-05-31T12:57:15.788Z",
+    "updated_on": "2026-05-31T12:57:15.788Z",
+    "role": 4,
+    "group": 3
+  }
+},
+{
+  "model": "tasks_api.user",
+  "pk": 4,
+  "fields": {
+    "login": "user3",
+    "admin": false,
+    "firstname": "First3",
+    "lastname": "Last3",
+    "mail": "user3@example.com",
+    "created_on": "2026-05-31T12:57:15.788Z",
+    "updated_on": "2026-05-31T12:57:15.788Z",
+    "role": 4,
+    "group": 1
+  }
+},
+{
+  "model": "tasks_api.user",
+  "pk": 5,
+  "fields": {
+    "login": "user4",
+    "admin": false,
+    "firstname": "First4",
+    "lastname": "Last4",
+    "mail": "user4@example.com",
+    "created_on": "2026-05-31T12:57:15.788Z",
+    "updated_on": "2026-05-31T12:57:15.788Z",
+    "role": 2,
+    "group": 3
+  }
+},
+{
+  "model": "tasks_api.user",
+  "pk": 6,
+  "fields": {
+    "login": "user5",
+    "admin": false,
+    "firstname": "First5",
+    "lastname": "Last5",
+    "mail": "user5@example.com",
+    "created_on": "2026-05-31T12:57:15.788Z",
+    "updated_on": "2026-05-31T12:57:15.788Z",
+    "role": 2,
+    "group": 2
+  }
+},
+{
+  "model": "tasks_api.user",
+  "pk": 7,
+  "fields": {
+    "login": "user6",
+    "admin": true,
+    "firstname": "First6",
+    "lastname": "Last6",
+    "mail": "user6@example.com",
+    "created_on": "2026-05-31T12:57:15.788Z",
+    "updated_on": "2026-05-31T12:57:15.788Z",
+    "role": 3,
+    "group": 3
+  }
+},
+{
+  "model": "tasks_api.user",
+  "pk": 8,
+  "fields": {
+    "login": "user7",
+    "admin": false,
+    "firstname": "First7",
+    "lastname": "Last7",
+    "mail": "user7@example.com",
+    "created_on": "2026-05-31T12:57:15.788Z",
+    "updated_on": "2026-05-31T12:57:15.788Z",
+    "role": 2,
+    "group": 1
+  }
+},
+{
+  "model": "tasks_api.user",
+  "pk": 9,
+  "fields": {
+    "login": "user8",
+    "admin": false,
+    "firstname": "First8",
+    "lastname": "Last8",
+    "mail": "user8@example.com",
+    "created_on": "2026-05-31T12:57:15.788Z",
+    "updated_on": "2026-05-31T12:57:15.788Z",
+    "role": 2,
+    "group": 2
+  }
+},
+{
+  "model": "tasks_api.user",
+  "pk": 10,
+  "fields": {
+    "login": "user9",
+    "admin": true,
+    "firstname": "First9",
+    "lastname": "Last9",
+    "mail": "user9@example.com",
+    "created_on": "2026-05-31T12:57:15.788Z",
+    "updated_on": "2026-05-31T12:57:15.788Z",
+    "role": 4,
+    "group": 2
+  }
+},
+{
+  "model": "tasks_api.task",
+  "pk": 1,
+  "fields": {
+    "subject": "Task 0",
+    "description": "Description for task 0",
+    "start_date": "2025-01-01",
+    "due_date": null,
+    "is_private": true,
+    "created_on": "2026-05-31T12:57:15.811Z",
+    "updated_on": "2026-05-31T12:57:15.811Z",
+    "done_percent": 44,
+    "closed_on": null,
+    "spent_days": 6,
+    "estimated_days": 8,
+    "parent": null,
+    "category": 1,
+    "assigned_to": 9,
+    "author": 6,
+    "priority": 4,
+    "status": 3,
+    "project": 2
+  }
+},
+{
+  "model": "tasks_api.task",
+  "pk": 2,
+  "fields": {
+    "subject": "Task 1",
+    "description": "Description for task 1",
+    "start_date": "2025-01-02",
+    "due_date": null,
+    "is_private": false,
+    "created_on": "2026-05-31T12:57:15.811Z",
+    "updated_on": "2026-05-31T12:57:15.811Z",
+    "done_percent": 49,
+    "closed_on": null,
+    "spent_days": null,
+    "estimated_days": 4,
+    "parent": null,
+    "category": 4,
+    "assigned_to": 5,
+    "author": 6,
+    "priority": 3,
+    "status": 1,
+    "project": 5
+  }
+},
+{
+  "model": "tasks_api.task",
+  "pk": 3,
+  "fields": {
+    "subject": "Task 2",
+    "description": "Description for task 2",
+    "start_date": "2025-01-03",
+    "due_date": "2025-02-03",
+    "is_private": true,
+    "created_on": "2026-05-31T12:57:15.811Z",
+    "updated_on": "2026-05-31T12:57:15.811Z",
+    "done_percent": 77,
+    "closed_on": null,
+    "spent_days": 4,
+    "estimated_days": 15,
+    "parent": null,
+    "category": 3,
+    "assigned_to": 10,
+    "author": 5,
+    "priority": 4,
+    "status": 3,
+    "project": 5
+  }
+},
+{
+  "model": "tasks_api.task",
+  "pk": 4,
+  "fields": {
+    "subject": "Task 3",
+    "description": "Description for task 3",
+    "start_date": "2025-01-04",
+    "due_date": null,
+    "is_private": true,
+    "created_on": "2026-05-31T12:57:15.811Z",
+    "updated_on": "2026-05-31T12:57:15.811Z",
+    "done_percent": 23,
+    "closed_on": null,
+    "spent_days": 7,
+    "estimated_days": 5,
+    "parent": null,
+    "category": 5,
+    "assigned_to": 7,
+    "author": 5,
+    "priority": 4,
+    "status": 2,
+    "project": 4
+  }
+},
+{
+  "model": "tasks_api.task",
+  "pk": 5,
+  "fields": {
+    "subject": "Task 4",
+    "description": "Description for task 4",
+    "start_date": "2025-01-05",
+    "due_date": null,
+    "is_private": true,
+    "created_on": "2026-05-31T12:57:15.811Z",
+    "updated_on": "2026-05-31T12:57:15.811Z",
+    "done_percent": 79,
+    "closed_on": null,
+    "spent_days": null,
+    "estimated_days": 6,
+    "parent": null,
+    "category": 4,
+    "assigned_to": 3,
+    "author": 4,
+    "priority": 3,
+    "status": 4,
+    "project": 4
+  }
+},
+{
+  "model": "tasks_api.task",
+  "pk": 6,
+  "fields": {
+    "subject": "Task 5",
+    "description": "Description for task 5",
+    "start_date": "2025-01-06",
+    "due_date": null,
+    "is_private": false,
+    "created_on": "2026-05-31T12:57:15.811Z",
+    "updated_on": "2026-05-31T12:57:15.811Z",
+    "done_percent": 35,
+    "closed_on": null,
+    "spent_days": null,
+    "estimated_days": 11,
+    "parent": null,
+    "category": 2,
+    "assigned_to": 9,
+    "author": 10,
+    "priority": 2,
+    "status": 3,
+    "project": 4
+  }
+},
+{
+  "model": "tasks_api.task",
+  "pk": 7,
+  "fields": {
+    "subject": "Task 6",
+    "description": "Description for task 6",
+    "start_date": "2025-01-07",
+    "due_date": null,
+    "is_private": false,
+    "created_on": "2026-05-31T12:57:15.811Z",
+    "updated_on": "2026-05-31T12:57:15.811Z",
+    "done_percent": 78,
+    "closed_on": null,
+    "spent_days": null,
+    "estimated_days": 7,
+    "parent": null,
+    "category": 4,
+    "assigned_to": 10,
+    "author": 3,
+    "priority": 1,
+    "status": 1,
+    "project": 4
+  }
+},
+{
+  "model": "tasks_api.task",
+  "pk": 8,
+  "fields": {
+    "subject": "Task 7",
+    "description": "Description for task 7",
+    "start_date": "2025-01-08",
+    "due_date": null,
+    "is_private": false,
+    "created_on": "2026-05-31T12:57:15.811Z",
+    "updated_on": "2026-05-31T12:57:15.811Z",
+    "done_percent": 63,
+    "closed_on": null,
+    "spent_days": 6,
+    "estimated_days": 1,
+    "parent": null,
+    "category": 2,
+    "assigned_to": 10,
+    "author": 5,
+    "priority": 3,
+    "status": 2,
+    "project": 2
+  }
+},
+{
+  "model": "tasks_api.task",
+  "pk": 9,
+  "fields": {
+    "subject": "Task 8",
+    "description": "Description for task 8",
+    "start_date": "2025-01-09",
+    "due_date": null,
+    "is_private": false,
+    "created_on": "2026-05-31T12:57:15.811Z",
+    "updated_on": "2026-05-31T12:57:15.811Z",
+    "done_percent": 48,
+    "closed_on": null,
+    "spent_days": 3,
+    "estimated_days": 13,
+    "parent": null,
+    "category": 1,
+    "assigned_to": 3,
+    "author": 3,
+    "priority": 3,
+    "status": 3,
+    "project": 4
+  }
+},
+{
+  "model": "tasks_api.task",
+  "pk": 10,
+  "fields": {
+    "subject": "Task 9",
+    "description": "Description for task 9",
+    "start_date": "2025-01-10",
+    "due_date": null,
+    "is_private": true,
+    "created_on": "2026-05-31T12:57:15.811Z",
+    "updated_on": "2026-05-31T12:57:15.811Z",
+    "done_percent": 18,
+    "closed_on": null,
+    "spent_days": null,
+    "estimated_days": 7,
+    "parent": null,
+    "category": 4,
+    "assigned_to": 5,
+    "author": 1,
+    "priority": 2,
+    "status": 1,
+    "project": 2
+  }
+},
+{
+  "model": "tasks_api.task",
+  "pk": 11,
+  "fields": {
+    "subject": "Task 10",
+    "description": "Description for task 10",
+    "start_date": "2025-01-11",
+    "due_date": null,
+    "is_private": true,
+    "created_on": "2026-05-31T12:57:15.811Z",
+    "updated_on": "2026-05-31T12:57:15.811Z",
+    "done_percent": 88,
+    "closed_on": null,
+    "spent_days": 1,
+    "estimated_days": 15,
+    "parent": null,
+    "category": 2,
+    "assigned_to": 7,
+    "author": 5,
+    "priority": 4,
+    "status": 3,
+    "project": 4
+  }
+},
+{
+  "model": "tasks_api.task",
+  "pk": 12,
+  "fields": {
+    "subject": "Task 11",
+    "description": "Description for task 11",
+    "start_date": "2025-01-12",
+    "due_date": null,
+    "is_private": false,
+    "created_on": "2026-05-31T12:57:15.811Z",
+    "updated_on": "2026-05-31T12:57:15.811Z",
+    "done_percent": 5,
+    "closed_on": null,
+    "spent_days": 9,
+    "estimated_days": 7,
+    "parent": null,
+    "category": 1,
+    "assigned_to": 2,
+    "author": 3,
+    "priority": 4,
+    "status": 4,
+    "project": 5
+  }
+},
+{
+  "model": "tasks_api.task",
+  "pk": 13,
+  "fields": {
+    "subject": "Task 12",
+    "description": "Description for task 12",
+    "start_date": "2025-01-13",
+    "due_date": null,
+    "is_private": true,
+    "created_on": "2026-05-31T12:57:15.811Z",
+    "updated_on": "2026-05-31T12:57:15.811Z",
+    "done_percent": 73,
+    "closed_on": null,
+    "spent_days": null,
+    "estimated_days": 7,
+    "parent": null,
+    "category": 3,
+    "assigned_to": 2,
+    "author": 7,
+    "priority": 2,
+    "status": 3,
+    "project": 3
+  }
+},
+{
+  "model": "tasks_api.task",
+  "pk": 14,
+  "fields": {
+    "subject": "Task 13",
+    "description": "Description for task 13",
+    "start_date": "2025-01-14",
+    "due_date": null,
+    "is_private": false,
+    "created_on": "2026-05-31T12:57:15.811Z",
+    "updated_on": "2026-05-31T12:57:15.811Z",
+    "done_percent": 74,
+    "closed_on": null,
+    "spent_days": null,
+    "estimated_days": 13,
+    "parent": null,
+    "category": 4,
+    "assigned_to": 1,
+    "author": 6,
+    "priority": 2,
+    "status": 2,
+    "project": 3
+  }
+},
+{
+  "model": "tasks_api.task",
+  "pk": 15,
+  "fields": {
+    "subject": "Task 14",
+    "description": "Description for task 14",
+    "start_date": "2025-01-15",
+    "due_date": null,
+    "is_private": true,
+    "created_on": "2026-05-31T12:57:15.811Z",
+    "updated_on": "2026-05-31T12:57:15.811Z",
+    "done_percent": 88,
+    "closed_on": null,
+    "spent_days": null,
+    "estimated_days": 4,
+    "parent": null,
+    "category": 5,
+    "assigned_to": 8,
+    "author": 4,
+    "priority": 4,
+    "status": 3,
+    "project": 5
+  }
+},
+{
+  "model": "tasks_api.task",
+  "pk": 16,
+  "fields": {
+    "subject": "Task 15",
+    "description": "Description for task 15",
+    "start_date": "2025-01-16",
+    "due_date": null,
+    "is_private": false,
+    "created_on": "2026-05-31T12:57:15.811Z",
+    "updated_on": "2026-05-31T12:57:15.811Z",
+    "done_percent": 34,
+    "closed_on": null,
+    "spent_days": 7,
+    "estimated_days": 9,
+    "parent": null,
+    "category": 5,
+    "assigned_to": 2,
+    "author": 8,
+    "priority": 1,
+    "status": 4,
+    "project": 3
+  }
+},
+{
+  "model": "tasks_api.task",
+  "pk": 17,
+  "fields": {
+    "subject": "Task 16",
+    "description": "Description for task 16",
+    "start_date": "2025-01-17",
+    "due_date": null,
+    "is_private": true,
+    "created_on": "2026-05-31T12:57:15.811Z",
+    "updated_on": "2026-05-31T12:57:15.811Z",
+    "done_percent": 0,
+    "closed_on": null,
+    "spent_days": 8,
+    "estimated_days": 3,
+    "parent": null,
+    "category": 3,
+    "assigned_to": 8,
+    "author": 10,
+    "priority": 2,
+    "status": 1,
+    "project": 1
+  }
+},
+{
+  "model": "tasks_api.task",
+  "pk": 18,
+  "fields": {
+    "subject": "Task 17",
+    "description": "Description for task 17",
+    "start_date": "2025-01-18",
+    "due_date": null,
+    "is_private": false,
+    "created_on": "2026-05-31T12:57:15.811Z",
+    "updated_on": "2026-05-31T12:57:15.811Z",
+    "done_percent": 27,
+    "closed_on": null,
+    "spent_days": null,
+    "estimated_days": 11,
+    "parent": null,
+    "category": 5,
+    "assigned_to": 9,
+    "author": 10,
+    "priority": 4,
+    "status": 1,
+    "project": 4
+  }
+},
+{
+  "model": "tasks_api.task",
+  "pk": 19,
+  "fields": {
+    "subject": "Task 18",
+    "description": "Description for task 18",
+    "start_date": "2025-01-19",
+    "due_date": "2025-02-19",
+    "is_private": true,
+    "created_on": "2026-05-31T12:57:15.811Z",
+    "updated_on": "2026-05-31T12:57:15.811Z",
+    "done_percent": 74,
+    "closed_on": null,
+    "spent_days": null,
+    "estimated_days": 14,
+    "parent": null,
+    "category": 2,
+    "assigned_to": 8,
+    "author": 6,
+    "priority": 3,
+    "status": 4,
+    "project": 4
+  }
+},
+{
+  "model": "tasks_api.task",
+  "pk": 20,
+  "fields": {
+    "subject": "Task 19",
+    "description": "Description for task 19",
+    "start_date": "2025-01-20",
+    "due_date": null,
+    "is_private": true,
+    "created_on": "2026-05-31T12:57:15.811Z",
+    "updated_on": "2026-05-31T12:57:15.811Z",
+    "done_percent": 35,
+    "closed_on": null,
+    "spent_days": 2,
+    "estimated_days": 15,
+    "parent": null,
+    "category": 4,
+    "assigned_to": 6,
+    "author": 10,
+    "priority": 4,
+    "status": 4,
+    "project": 3
+  }
+},
+{
+  "model": "tasks_api.news",
+  "pk": 1,
+  "fields": {
+    "title": "News 0",
+    "summary": "Summary for news 0",
+    "description": "Full description of news item 0",
+    "created_on": "2026-05-31T12:57:15.838Z",
+    "project": 5,
+    "author": 3
+  }
+},
+{
+  "model": "tasks_api.news",
+  "pk": 2,
+  "fields": {
+    "title": "News 1",
+    "summary": "Summary for news 1",
+    "description": "Full description of news item 1",
+    "created_on": "2026-05-31T12:57:15.838Z",
+    "project": 4,
+    "author": 1
+  }
+},
+{
+  "model": "tasks_api.news",
+  "pk": 3,
+  "fields": {
+    "title": "News 2",
+    "summary": "Summary for news 2",
+    "description": "Full description of news item 2",
+    "created_on": "2026-05-31T12:57:15.838Z",
+    "project": 5,
+    "author": 5
+  }
+},
+{
+  "model": "tasks_api.news",
+  "pk": 4,
+  "fields": {
+    "title": "News 3",
+    "summary": "Summary for news 3",
+    "description": "Full description of news item 3",
+    "created_on": "2026-05-31T12:57:15.838Z",
+    "project": 3,
+    "author": 9
+  }
+},
+{
+  "model": "tasks_api.news",
+  "pk": 5,
+  "fields": {
+    "title": "News 4",
+    "summary": "Summary for news 4",
+    "description": "Full description of news item 4",
+    "created_on": "2026-05-31T12:57:15.838Z",
+    "project": 1,
+    "author": 4
+  }
+},
+{
+  "model": "tasks_api.news",
+  "pk": 6,
+  "fields": {
+    "title": "News 5",
+    "summary": "Summary for news 5",
+    "description": "Full description of news item 5",
+    "created_on": "2026-05-31T12:57:15.838Z",
+    "project": 5,
+    "author": 10
+  }
+},
+{
+  "model": "tasks_api.news",
+  "pk": 7,
+  "fields": {
+    "title": "News 6",
+    "summary": "Summary for news 6",
+    "description": "Full description of news item 6",
+    "created_on": "2026-05-31T12:57:15.838Z",
+    "project": 3,
+    "author": 6
+  }
+},
+{
+  "model": "tasks_api.news",
+  "pk": 8,
+  "fields": {
+    "title": "News 7",
+    "summary": "Summary for news 7",
+    "description": "Full description of news item 7",
+    "created_on": "2026-05-31T12:57:15.838Z",
+    "project": 1,
+    "author": 5
+  }
+},
+{
+  "model": "tasks_api.news",
+  "pk": 9,
+  "fields": {
+    "title": "News 8",
+    "summary": "Summary for news 8",
+    "description": "Full description of news item 8",
+    "created_on": "2026-05-31T12:57:15.838Z",
+    "project": 5,
+    "author": 4
+  }
+},
+{
+  "model": "tasks_api.news",
+  "pk": 10,
+  "fields": {
+    "title": "News 9",
+    "summary": "Summary for news 9",
+    "description": "Full description of news item 9",
+    "created_on": "2026-05-31T12:57:15.838Z",
+    "project": 1,
+    "author": 1
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 1,
+  "fields": {
+    "content": "Comment 0 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 10,
+    "some_news": 7
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 2,
+  "fields": {
+    "content": "Comment 1 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 4,
+    "some_news": 10
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 3,
+  "fields": {
+    "content": "Comment 2 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 3,
+    "some_news": 7
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 4,
+  "fields": {
+    "content": "Comment 3 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 5,
+    "some_news": 7
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 5,
+  "fields": {
+    "content": "Comment 4 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 3,
+    "some_news": 5
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 6,
+  "fields": {
+    "content": "Comment 5 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 4,
+    "some_news": 7
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 7,
+  "fields": {
+    "content": "Comment 6 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 4,
+    "some_news": 8
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 8,
+  "fields": {
+    "content": "Comment 7 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 3,
+    "some_news": 4
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 9,
+  "fields": {
+    "content": "Comment 8 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 8,
+    "some_news": 3
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 10,
+  "fields": {
+    "content": "Comment 9 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 5,
+    "some_news": 6
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 11,
+  "fields": {
+    "content": "Comment 10 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 10,
+    "some_news": 3
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 12,
+  "fields": {
+    "content": "Comment 11 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 10,
+    "some_news": 2
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 13,
+  "fields": {
+    "content": "Comment 12 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 4,
+    "some_news": 9
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 14,
+  "fields": {
+    "content": "Comment 13 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 8,
+    "some_news": 3
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 15,
+  "fields": {
+    "content": "Comment 14 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 7,
+    "some_news": 8
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 16,
+  "fields": {
+    "content": "Comment 15 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 10,
+    "some_news": 5
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 17,
+  "fields": {
+    "content": "Comment 16 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 10,
+    "some_news": 2
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 18,
+  "fields": {
+    "content": "Comment 17 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 7,
+    "some_news": 7
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 19,
+  "fields": {
+    "content": "Comment 18 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 1,
+    "some_news": 5
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 20,
+  "fields": {
+    "content": "Comment 19 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 2,
+    "some_news": 9
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 21,
+  "fields": {
+    "content": "Comment 20 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 9,
+    "some_news": 9
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 22,
+  "fields": {
+    "content": "Comment 21 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 5,
+    "some_news": 6
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 23,
+  "fields": {
+    "content": "Comment 22 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 10,
+    "some_news": 2
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 24,
+  "fields": {
+    "content": "Comment 23 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 6,
+    "some_news": 1
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 25,
+  "fields": {
+    "content": "Comment 24 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 5,
+    "some_news": 4
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 26,
+  "fields": {
+    "content": "Comment 25 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 9,
+    "some_news": 5
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 27,
+  "fields": {
+    "content": "Comment 26 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 7,
+    "some_news": 10
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 28,
+  "fields": {
+    "content": "Comment 27 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 6,
+    "some_news": 7
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 29,
+  "fields": {
+    "content": "Comment 28 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 3,
+    "some_news": 10
+  }
+},
+{
+  "model": "tasks_api.comment",
+  "pk": 30,
+  "fields": {
+    "content": "Comment 29 about something",
+    "created_on": "2026-05-31T12:57:15.862Z",
+    "author": 1,
+    "some_news": 10
+  }
+}
+]

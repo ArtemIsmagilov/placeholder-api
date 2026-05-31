@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "placeholder_api.apps.PlaceholderApiConfig",
     "dummy_api.apps.DummyApiConfig",
     "chats_api.apps.ChatsApiConfig",
+    "tasks_api.apps.TasksApiConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

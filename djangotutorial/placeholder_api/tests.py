@@ -6,7 +6,7 @@ from .models import Comment, Todo, Album, User, Photo, Post
 
 
 class PlaceholderApiTestCase(TestCase):
-    fixtures = ["f.json"]
+    fixtures = ["placeholder.json"]
     client = Client()
 
     def test_comments(self):

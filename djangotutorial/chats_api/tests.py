@@ -6,7 +6,7 @@ from .models import User, Chat, Message
 
 
 class ChatsApiTestCase(TestCase):
-    fixtures = ["h.json"]
+    fixtures = ["chats.json"]
     client = Client()
 
     def test_users(self):

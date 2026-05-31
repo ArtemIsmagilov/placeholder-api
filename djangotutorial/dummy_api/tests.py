@@ -16,7 +16,7 @@ from dummy_api.models import (
 
 
 class DummyApiTestCase(TestCase):
-    fixtures = ["d.json"]
+    fixtures = ["dummy.json"]
     client = Client()
 
     def test_users(self):
@@ -652,6 +652,36 @@ class DummyApiTestCase(TestCase):
             headers={"AUTH-TOKEN": settings.AUTH_TOKEN},
         )
         self.assertEqual(response.status_code, 200)
+
+    def test_users_create_forbidden(self):
+        response = self.client.post(
+            "/dummy_api/users_create",
+            {"username": "newuser"},
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 403)
+
+    def test_users_update_forbidden(self):
+        response = self.client.put(
+            "/dummy_api/users_update/1",
+            {"username": "updated"},
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 403)
+
+    def test_users_partial_update_forbidden(self):
+        response = self.client.patch(
+            "/dummy_api/users_partial_update/1",
+            {"username": "patched"},
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 403)
+
+    def test_users_delete_forbidden(self):
+        response = self.client.delete(
+            "/dummy_api/users_delete/1",
+        )
+        self.assertEqual(response.status_code, 403)
 
     def test_todos_list(self):
         response = self.client.get("/dummy_api/todos_list")
